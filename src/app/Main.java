@@ -4,10 +4,20 @@ import app.matrix.DirectedGraphMatrixCreator;
 import app.matrix.MatrixPrinter;
 import app.matrix.RandomMatrixCreator;
 import app.matrix.UndirectedGraphMatrixCreator;
+import app.model.Node;
+import app.painter.GraphFrame;
 
 public class Main {
 
     public static void main(String[] args) {
+        testPainter();
+    }
+
+    private static void testPainter() {
+        GraphFrame graphFrame = new GraphFrame("Graph");
+    }
+
+    private static void testMatrices() {
         int n1 = 3;
         int n2 = 1;
         int n3 = 1;
