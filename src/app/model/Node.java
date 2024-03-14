@@ -1,5 +1,7 @@
 package app.model;
 
+import static java.lang.String.format;
+
 public class Node {
     private Integer value;
     private Integer x;
@@ -27,6 +29,11 @@ public class Node {
 
     public Integer getSIZE() {
         return SIZE;
+    }
+
+    @Override
+    public String toString() {
+        return format("value = %d, x = %d, y = %d", value, x, y);
     }
 }
 

@@ -11,6 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         testPainter();
+//        System.out.println(11/2);
     }
 
     private static void testPainter() {

@@ -1,5 +1,6 @@
 package app.painter;
 
+import app.graph.GraphCreator;
 import app.model.Node;
 
 import javax.swing.*;
@@ -22,9 +23,17 @@ public class GraphFrame extends JFrame {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        nodePainter.paintNode(g, new Node(1, 100, 100));
+        paintNodes(g, GraphCreator.createVerticesArray(11));
+//        nodePainter.paintNode(g, new Node(1, 100, 100));
 //        nodePainter.paintNode(g);
 //        linePainter.paintLine(g);
 
+    }
+
+    private void paintNodes(Graphics g, Node[] nodes) {
+        for (Node node : nodes) {
+            System.out.println(node);
+            nodePainter.paintNode(g, node);
+        }
     }
 }
