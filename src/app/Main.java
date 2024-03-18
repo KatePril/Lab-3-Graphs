@@ -10,12 +10,13 @@ import app.painter.GraphFrame;
 public class Main {
 
     public static void main(String[] args) {
-        testPainter();
+        testMatrices();
+//        testPainter();
 //        System.out.println(11/2);
     }
 
-    private static void testPainter() {
-        GraphFrame graphFrame = new GraphFrame("Graph");
+    private static void testPainter(Integer[][] graphMatrix) {
+        GraphFrame graphFrame = new GraphFrame("Graph", graphMatrix);
     }
 
     private static void testMatrices() {
@@ -34,9 +35,13 @@ public class Main {
         MatrixPrinter<Integer> integerMatrixPrinter = new MatrixPrinter<>();
         integerMatrixPrinter.printMatrix(intMatrix);
 
+
+
         System.out.println();
 
         Integer[][] undirectedMatrix = new UndirectedGraphMatrixCreator(intMatrix).getGraphMatrix();
         integerMatrixPrinter.printMatrix(undirectedMatrix);
+
+        testPainter(undirectedMatrix);
     }
 }
