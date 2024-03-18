@@ -1,4 +1,4 @@
-package app.matrix;
+package app.model.matrix;
 
 import java.util.Random;
 

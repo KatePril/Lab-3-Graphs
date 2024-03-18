@@ -1,7 +1,7 @@
-package app.graph;
+package app.model.graph;
 
-import app.graph.utils.Direction;
-import app.model.Node;
+import app.model.graph.utils.Direction;
+import app.entity.Node;
 
 public class GraphCreator {
     public static Node[] createVerticesArray(int n) {

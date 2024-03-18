@@ -1,11 +1,10 @@
 package app;
 
-import app.matrix.DirectedGraphMatrixCreator;
-import app.matrix.MatrixPrinter;
-import app.matrix.RandomMatrixCreator;
-import app.matrix.UndirectedGraphMatrixCreator;
-import app.model.Node;
-import app.painter.GraphFrame;
+import app.model.matrix.DirectedGraphMatrixCreator;
+import app.view.matrix.MatrixPrinter;
+import app.model.matrix.RandomMatrixCreator;
+import app.model.matrix.UndirectedGraphMatrixCreator;
+import app.view.graph.GraphFrame;
 
 public class Main {
 
@@ -16,7 +15,7 @@ public class Main {
     }
 
     private static void testPainter(Integer[][] graphMatrix) {
-        GraphFrame graphFrame = new GraphFrame("Graph", graphMatrix);
+        GraphFrame graphFrame = new GraphFrame("Graph", graphMatrix, false);
     }
 
     private static void testMatrices() {

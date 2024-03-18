@@ -1,4 +1,4 @@
-package app.matrix;
+package app.view.matrix;
 
 public class MatrixPrinter<T> {
     public void printMatrix(T[][] matrix) {

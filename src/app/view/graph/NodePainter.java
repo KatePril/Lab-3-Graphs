@@ -1,6 +1,6 @@
-package app.painter;
+package app.view.graph;
 
-import app.model.Node;
+import app.entity.Node;
 
 import java.awt.*;
 

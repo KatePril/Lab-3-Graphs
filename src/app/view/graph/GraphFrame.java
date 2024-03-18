@@ -1,7 +1,7 @@
-package app.painter;
+package app.view.graph;
 
-import app.graph.GraphCreator;
-import app.model.Node;
+import app.model.graph.GraphCreator;
+import app.entity.Node;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,12 +13,16 @@ public class GraphFrame extends JFrame {
     private UndirectedLinePainter linePainter;
 
 
-    public GraphFrame(String title, Integer[][] graphMatrix) throws HeadlessException {
+    public GraphFrame(String title, Integer[][] graphMatrix, boolean ifDirected) throws HeadlessException {
         super(title);
 
         this.graphMatrix = graphMatrix;
 
-        linePainter = new UndirectedLinePainter(graphMatrix.length);
+        if (ifDirected) {
+            linePainter = new DirectedLinePainter(graphMatrix.length);
+        } else {
+            linePainter = new UndirectedLinePainter(graphMatrix.length);
+        }
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);

@@ -1,7 +1,7 @@
-package app.painter;
+package app.view.graph;
 
-import app.graph.utils.Direction;
-import app.model.Node;
+import app.model.graph.utils.Direction;
+import app.entity.Node;
 
 import java.awt.*;
 import java.util.Random;
