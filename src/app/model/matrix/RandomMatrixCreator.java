@@ -11,10 +11,6 @@ public class RandomMatrixCreator {
         scalarMultiply(calculateK());
     }
 
-    private int calculateVerticesNumber(int n) {
-        return 10 + n;
-    }
-
     private Double calculateK() {
         return 1.0 - Constants.n3 * 0.02 - Constants.n4 * 0.005 - 0.25;
     }

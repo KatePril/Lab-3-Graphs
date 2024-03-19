@@ -2,6 +2,7 @@ package app.view.graph;
 
 import app.model.graph.utils.Direction;
 import app.entity.Node;
+import app.view.graph.utils.ArrowDirection;
 
 import java.awt.*;
 import java.util.Random;
@@ -35,7 +36,7 @@ public class UndirectedLinePainter {
         }
     }
 
-    protected void paintCycleLine(Graphics g, Node node) {
+    protected int[] paintCycleLine(Graphics g, Node node) {
         int len = 30;
         int x1 = node.getX() + node.getSIZE()/2;
         int y1 = node.getY();
@@ -50,10 +51,10 @@ public class UndirectedLinePainter {
         g.drawLine(x1, y1, x2, y2);
         g.drawLine(x2, y2, x3, y3);
         g.drawLine(x3, y3, x1, y1);
-
+        return new int[] {x3, y3, x1, y1, ArrowDirection.NO_DIRECTION.val};
     }
 
-    protected void paintLineAvoidingMiddle(Graphics g, Node nodeOne, Node nodeTwo) {
+    protected int[] paintLineAvoidingMiddle(Graphics g, Node nodeOne, Node nodeTwo) {
         int x1 = nodeOne.getX() + nodeOne.getSIZE()/2;
         int x2 = nodeTwo.getX() + nodeTwo.getSIZE()/2;
         int y1 = nodeOne.getY() + nodeOne.getSIZE();
@@ -77,9 +78,15 @@ public class UndirectedLinePainter {
         g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
+
+        if (x2 < x1) {
+            return new int[]{x3, y3, x2, y2, ArrowDirection.DOWN.val};
+        } else {
+            return new int[]{x3, y3, x2, y2, ArrowDirection.UP.val};
+        }
     }
 
-    protected void paintLineDistOneX(Graphics g, Node nodeOne, Node nodeTwo) { // fix edge from 2 to 7
+    protected int[] paintLineDistOneX(Graphics g, Node nodeOne, Node nodeTwo) { // fix edge from 2 to 7
         int x1, x2, y1, y2;
         if (nodeOne.getY().equals(nodeTwo.getY())) {
             if (nodeOne.getX() < nodeTwo.getX()) {
@@ -109,9 +116,15 @@ public class UndirectedLinePainter {
 
         g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
         g.drawLine(x1, y1, x2, y2);
+
+        if (x2 > x1) {
+            return new int[]{x1, y1, x2, y2, ArrowDirection.DOWN.val};
+        } else {
+            return new int[]{x1, y1, x2, y2, ArrowDirection.UP.val};
+        }
     }
 
-    protected void paintLineDistOneY(Graphics g, Node nodeOne, Node nodeTwo) {
+    protected int[] paintLineDistOneY(Graphics g, Node nodeOne, Node nodeTwo) {
         int x1, x2, y1, y2;
 
         x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
@@ -132,9 +145,15 @@ public class UndirectedLinePainter {
 
         g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
         g.drawLine(x1, y1, x2, y2);
+
+        if (x2 > x1) {
+            return new int[]{x1, y1, x2, y2, ArrowDirection.DOWN.val};
+        } else {
+            return new int[]{x1, y1, x2, y2, ArrowDirection.UP.val};
+        }
     }
 
-    protected void paintSameXLine(Graphics g, Node nodeOne, Node nodeTwo) {
+    protected int[] paintSameXLine(Graphics g, Node nodeOne, Node nodeTwo) {
         int x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
         int x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
         int y1 = nodeOne.getY();
@@ -151,9 +170,15 @@ public class UndirectedLinePainter {
         g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
+
+        if (x2 > x1) {
+            return new int[]{x3, y3, x2, y2, ArrowDirection.DOWN.val};
+        } else {
+            return new int[]{x3, y3, x2, y2, ArrowDirection.UP.val};
+        }
     }
 
-    protected void paintSameYLine(Graphics g, Node nodeOne, Node nodeTwo) {
+    protected int[] paintSameYLine(Graphics g, Node nodeOne, Node nodeTwo) {
         int x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
         int x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
         int y1 = nodeOne.getY();
@@ -170,9 +195,15 @@ public class UndirectedLinePainter {
         g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
+
+        if (x2 > x1) {
+            return new int[]{x3, y3, x2, y2, ArrowDirection.DOWN.val};
+        } else {
+            return new int[]{x3, y3, x2, y2, ArrowDirection.UP.val};
+        }
     }
 
-    protected void paintFreeConditionLine(Graphics g, Node nodeOne, Node nodeTwo) {
+    protected int[] paintFreeConditionLine(Graphics g, Node nodeOne, Node nodeTwo) {
         int x1, x2, y1, y2;
 
         x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
@@ -200,5 +231,11 @@ public class UndirectedLinePainter {
         g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
+
+        if (x2 > x1) {
+            return new int[]{x3, y3, x2, y2, ArrowDirection.DOWN.val};
+        } else {
+            return new int[]{x3, y3, x2, y2, ArrowDirection.UP.val};
+        }
     }
 }
