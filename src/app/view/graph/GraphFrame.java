@@ -26,8 +26,6 @@ public class GraphFrame extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        setResizable(false);
         setVisible(true);
     }
 

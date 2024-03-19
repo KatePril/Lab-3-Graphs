@@ -1,24 +1,22 @@
 package app.model.matrix;
 
+import app.utils.Constants;
+
 import java.util.Random;
 
 public class RandomMatrixCreator {
-    private final int n;
     private Double[][] matrix;
-    public RandomMatrixCreator(int n1, int n2, int n3, int n4) {
-        n = calculateVerticesNumber(n3);
-        matrix = generateRandomMatrix(n, calculateSeed(n1, n2, n3, n4));
-        double k = calculateK(n3, n4);
-        System.out.println(k);
-        scalarMultiply(k);
+    public RandomMatrixCreator(int n) {
+        matrix = generateRandomMatrix(n, calculateSeed(Constants.n1, Constants.n2, Constants.n3, Constants.n4));
+        scalarMultiply(calculateK());
     }
 
     private int calculateVerticesNumber(int n) {
         return 10 + n;
     }
 
-    private Double calculateK(int n3, int n4) {
-        return 1.0 - n3 * 0.02 - n4 * 0.005 - 0.25;
+    private Double calculateK() {
+        return 1.0 - Constants.n3 * 0.02 - Constants.n4 * 0.005 - 0.25;
     }
     
     private int calculateSeed(int ...ns) {
@@ -48,10 +46,6 @@ public class RandomMatrixCreator {
                 matrix[i][j] *= k;
             }
         }
-    }
-
-    public int getN() {
-        return n;
     }
 
     public Double[][] getMatrix() {
