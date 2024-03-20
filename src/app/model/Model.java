@@ -4,6 +4,7 @@ import app.model.matrix.DirectedGraphMatrixCreator;
 import app.model.matrix.RandomMatrixCreator;
 import app.model.matrix.UndirectedGraphMatrixCreator;
 import app.utils.Constants;
+import app.view.View;
 
 public class Model {
     private final int n;
@@ -15,6 +16,8 @@ public class Model {
         this.n = calculateVerticesNumber();
         matrix = new RandomMatrixCreator(this.n).getMatrix();
 
+        View<Double> v = new View();
+        v.printMatrix("random matrix", matrix);
         directedGraphMatrix = createDirectedGraphMatrix();
         undirectedGraphMatrix = createUndirectedGraphMatrix();
     }

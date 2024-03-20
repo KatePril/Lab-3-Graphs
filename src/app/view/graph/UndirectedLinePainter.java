@@ -2,10 +2,11 @@ package app.view.graph;
 
 import app.model.graph.utils.Direction;
 import app.entity.Node;
-import app.view.graph.utils.ArrowDirection;
+import app.view.graph.utils.Arrow;
 
 import java.awt.*;
 import java.util.Random;
+import java.util.RandomAccess;
 
 public class UndirectedLinePainter {
 
@@ -16,27 +17,29 @@ public class UndirectedLinePainter {
         this.middleIndicator = len / 2;
     }
 
-    public void paintLine(Graphics g, Node nodeOne, Node nodeTwo) {
+    public void paintLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
         g.setColor(new Color(0, 75, 18));
+
+        System.out.printf("nodeOne = %d, nodeTwo = %d\n arrow = %s\n", nodeOne.getValue(), nodeTwo.getValue(), arrow.name());
         if (nodeOne.getValue().equals(nodeTwo.getValue())) {
-            paintCycleLine(g, nodeOne);
+            paintCycleLine(g, nodeOne, arrow);
         } else if (Math.abs(nodeOne.getY() - nodeTwo.getY()) == Direction.DOWN.y) {
-            paintLineDistOneY(g, nodeOne, nodeTwo);
+            paintLineDistOneY(g, nodeOne, nodeTwo, arrow);
         } else if (Math.abs(nodeOne.getValue() - nodeTwo.getValue()) == middleIndicator) {
-            paintLineAvoidingMiddle(g, nodeOne, nodeTwo);
+            paintLineAvoidingMiddle(g, nodeOne, nodeTwo, arrow);
         } else if (Math.abs(nodeOne.getX() - nodeTwo.getX()) == Direction.RIGHT.x
                 || Math.abs(nodeOne.getX() - nodeTwo.getX()) == Math.abs(Direction.FIRST_LEFT.x)) {
-            paintLineDistOneX(g, nodeOne, nodeTwo);
+            paintLineDistOneX(g, nodeOne, nodeTwo, arrow);
         } else if (nodeOne.getX().equals(nodeTwo.getX())) {
-            paintSameXLine(g, nodeOne, nodeTwo);
+            paintSameXLine(g, nodeOne, nodeTwo, arrow);
         } else if (nodeOne.getY().equals(nodeTwo.getY())) {
-            paintSameYLine(g, nodeOne, nodeTwo);
+            paintSameYLine(g, nodeOne, nodeTwo, arrow);
         } else {
-            paintFreeConditionLine(g, nodeOne, nodeTwo);
+            paintFreeConditionLine(g, nodeOne, nodeTwo, arrow);
         }
     }
 
-    protected int[] paintCycleLine(Graphics g, Node node) {
+    protected void paintCycleLine(Graphics g, Node node, Arrow arrow) {
         int len = 30;
         int x1 = node.getX() + node.getSIZE()/2;
         int y1 = node.getY();
@@ -51,10 +54,13 @@ public class UndirectedLinePainter {
         g.drawLine(x1, y1, x2, y2);
         g.drawLine(x2, y2, x3, y3);
         g.drawLine(x3, y3, x1, y1);
-        return new int[] {x3, y3, x1, y1, ArrowDirection.NO_DIRECTION.val};
+
+        if (arrow != Arrow.NONE) {
+            drawArrow(g, x3, y3, x1, y1);
+        }
     }
 
-    protected int[] paintLineAvoidingMiddle(Graphics g, Node nodeOne, Node nodeTwo) {
+    protected void paintLineAvoidingMiddle(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
         int x1 = nodeOne.getX() + nodeOne.getSIZE()/2;
         int x2 = nodeTwo.getX() + nodeTwo.getSIZE()/2;
         int y1 = nodeOne.getY() + nodeOne.getSIZE();
@@ -79,14 +85,15 @@ public class UndirectedLinePainter {
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
 
-        if (x2 < x1) {
-            return new int[]{x3, y3, x2, y2, ArrowDirection.DOWN.val};
-        } else {
-            return new int[]{x3, y3, x2, y2, ArrowDirection.UP.val};
+        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x3, y3, x1, y1);
+        }
+        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x3, y3, x2, y2);
         }
     }
 
-    protected int[] paintLineDistOneX(Graphics g, Node nodeOne, Node nodeTwo) { // fix edge from 2 to 7
+    protected void paintLineDistOneX(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) { // fix edge from 2 to 7
         int x1, x2, y1, y2;
         if (nodeOne.getY().equals(nodeTwo.getY())) {
             if (nodeOne.getX() < nodeTwo.getX()) {
@@ -117,14 +124,15 @@ public class UndirectedLinePainter {
         g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
         g.drawLine(x1, y1, x2, y2);
 
-        if (x2 > x1) {
-            return new int[]{x1, y1, x2, y2, ArrowDirection.DOWN.val};
-        } else {
-            return new int[]{x1, y1, x2, y2, ArrowDirection.UP.val};
+        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x2, y2, x1, y1);
+        }
+        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x1, y1, x2, y2);
         }
     }
 
-    protected int[] paintLineDistOneY(Graphics g, Node nodeOne, Node nodeTwo) {
+    protected void paintLineDistOneY(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
         int x1, x2, y1, y2;
 
         x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
@@ -146,14 +154,15 @@ public class UndirectedLinePainter {
         g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
         g.drawLine(x1, y1, x2, y2);
 
-        if (x2 > x1) {
-            return new int[]{x1, y1, x2, y2, ArrowDirection.DOWN.val};
-        } else {
-            return new int[]{x1, y1, x2, y2, ArrowDirection.UP.val};
+        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x2, y2, x1, y1);
+        }
+        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x1, y1, x2, y2);
         }
     }
 
-    protected int[] paintSameXLine(Graphics g, Node nodeOne, Node nodeTwo) {
+    protected void paintSameXLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
         int x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
         int x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
         int y1 = nodeOne.getY();
@@ -168,17 +177,20 @@ public class UndirectedLinePainter {
         }
 
         g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
+
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
 
-        if (x2 > x1) {
-            return new int[]{x3, y3, x2, y2, ArrowDirection.DOWN.val};
-        } else {
-            return new int[]{x3, y3, x2, y2, ArrowDirection.UP.val};
+        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x3, y3, x1, y1);
         }
+        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x3, y3, x2, y2);
+        }
+
     }
 
-    protected int[] paintSameYLine(Graphics g, Node nodeOne, Node nodeTwo) {
+    protected void paintSameYLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
         int x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
         int x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
         int y1 = nodeOne.getY();
@@ -196,14 +208,15 @@ public class UndirectedLinePainter {
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
 
-        if (x2 > x1) {
-            return new int[]{x3, y3, x2, y2, ArrowDirection.DOWN.val};
-        } else {
-            return new int[]{x3, y3, x2, y2, ArrowDirection.UP.val};
+        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x3, y3, x1, y1);
+        }
+        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x3, y3, x2, y2);
         }
     }
 
-    protected int[] paintFreeConditionLine(Graphics g, Node nodeOne, Node nodeTwo) {
+    protected void paintFreeConditionLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
         int x1, x2, y1, y2;
 
         x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
@@ -232,10 +245,57 @@ public class UndirectedLinePainter {
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
 
-        if (x2 > x1) {
-            return new int[]{x3, y3, x2, y2, ArrowDirection.DOWN.val};
-        } else {
-            return new int[]{x3, y3, x2, y2, ArrowDirection.UP.val};
+        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x3, y3, x1, y1);
         }
+        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x3, y3, x2, y2);
+        }
+    }
+
+        private void drawArrow(Graphics g, int x1, int y1, int x2, int y2) { // {}
+        int arrowLen = 30;
+        double angle;
+        if (x2 - x1 == 0) {
+            angle = 90.0;
+        } else {
+            double slope = (double) (y2 - y1) / (x2 - x1);
+            angle = Math.toDegrees(Math.atan(slope));
+        }
+        System.out.printf("angle = %f\n", angle);
+        double fi = Math.PI * (180.0 - angle) / 180.0;
+        int lx,ly,rx,ry;
+        ly = (int) (y2 + arrowLen * Math.sin(fi + 0.3));
+        ry = (int) (y2 + arrowLen * Math.sin(fi - 0.3));
+        if (angle == 0) {
+            System.out.println("case 1");
+            if (x1 > x2) {
+                lx = (int) (x2 - arrowLen * Math.cos(fi + 0.3));
+                rx = (int) (x2 - arrowLen * Math.cos(fi - 0.3));
+            } else {
+                lx = (int) (x2 + arrowLen * Math.cos(fi + 0.3));
+                rx = (int) (x2 + arrowLen * Math.cos(fi - 0.3));
+            }
+
+        } else {
+            System.out.println("case 2");
+            lx = (int) (x2 - arrowLen * Math.cos(fi + 0.3));
+            rx = (int) (x2 - arrowLen * Math.cos(fi - 0.3));
+        }
+//        if (coordinates[4] == Arrow.UP.val) {
+//            lx = (int) (coordinates[2] - 15 * Math.cos(fi + 0.3));
+//            rx = (int) (coordinates[2] - 15 * Math.cos(fi - 0.3));
+//            ly = (int) (coordinates[3] + 15 * Math.sin(fi + 0.3));
+//            ry = (int) (coordinates[3] + 15 * Math.sin(fi - 0.3));
+////            ly = (int) (coordinates[3] - 15 * Math.sin(fi + 0.3));
+////            ry = (int) (coordinates[3] - 15 * Math.sin(fi - 0.3));
+////            g.drawLine(rx, ry, coordinates[2], coordinates[3]);
+////            g.drawLine(coordinates[2], coordinates[3], lx, ly);
+//        } else {
+
+//        }
+        g.drawLine(rx, ry, x2, y2);
+        g.drawLine(x2, y2, lx, ly);
+
     }
 }
