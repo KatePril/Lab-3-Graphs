@@ -260,15 +260,15 @@ public class UndirectedLinePainter {
             angle = 90.0;
         } else {
             double slope = (double) (y2 - y1) / (x2 - x1);
+//            angle = Math.abs(Math.toDegrees(Math.atan(slope)));
             angle = Math.toDegrees(Math.atan(slope));
         }
         System.out.printf("angle = %f\n", angle);
         double fi = Math.PI * (180.0 - angle) / 180.0;
         int lx,ly,rx,ry;
-        ly = (int) (y2 + arrowLen * Math.sin(fi + 0.3));
-        ry = (int) (y2 + arrowLen * Math.sin(fi - 0.3));
         if (angle == 0) {
-            System.out.println("case 1");
+            ly = (int) (y2 + arrowLen * Math.sin(fi + 0.3));
+            ry = (int) (y2 + arrowLen * Math.sin(fi - 0.3));
             if (x1 > x2) {
                 lx = (int) (x2 - arrowLen * Math.cos(fi + 0.3));
                 rx = (int) (x2 - arrowLen * Math.cos(fi - 0.3));
@@ -277,8 +277,14 @@ public class UndirectedLinePainter {
                 rx = (int) (x2 + arrowLen * Math.cos(fi - 0.3));
             }
 
+        } else if (angle > 0) {
+            ly = (int) (y2 - arrowLen * Math.sin(fi + 0.3));
+            ry = (int) (y2 - arrowLen * Math.sin(fi - 0.3));
+            lx = (int) (x2 + arrowLen * Math.cos(fi + 0.3));
+            rx = (int) (x2 + arrowLen * Math.cos(fi - 0.3));
         } else {
-            System.out.println("case 2");
+            ly = (int) (y2 + arrowLen * Math.sin(fi + 0.3));
+            ry = (int) (y2 + arrowLen * Math.sin(fi - 0.3));
             lx = (int) (x2 - arrowLen * Math.cos(fi + 0.3));
             rx = (int) (x2 - arrowLen * Math.cos(fi - 0.3));
         }
