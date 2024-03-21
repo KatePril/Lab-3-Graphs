@@ -6,11 +6,10 @@ import app.view.graph.utils.Arrow;
 
 import java.awt.*;
 import java.util.Random;
-import java.util.RandomAccess;
 
 public class UndirectedLinePainter {
 
-    private int middleIndicator;
+    private final int middleIndicator;
     private final Random colorGenerator = new Random();
 
     public UndirectedLinePainter(int len) {
@@ -18,9 +17,6 @@ public class UndirectedLinePainter {
     }
 
     public void paintLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
-        g.setColor(new Color(0, 75, 18));
-
-        System.out.printf("\nnodeOne = %d, nodeTwo = %d\n arrow = %s\n", nodeOne.getValue(), nodeTwo.getValue(), arrow.name());
         if (nodeOne.getValue().equals(nodeTwo.getValue())) {
             paintCycleLine(g, nodeOne, arrow);
         } else if (Math.abs(nodeOne.getY() - nodeTwo.getY()) == Direction.DOWN.y) {
@@ -41,9 +37,9 @@ public class UndirectedLinePainter {
 
     protected void paintCycleLine(Graphics g, Node node, Arrow arrow) {
         int len = 30;
+
         int x1 = node.getX() + node.getSIZE()/2;
         int y1 = node.getY();
-
         int x2 = x1 - len;
         int y2 = y1 - len;
 
@@ -93,7 +89,7 @@ public class UndirectedLinePainter {
         }
     }
 
-    protected void paintLineDistOneX(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) { // fix edge from 2 to 7
+    protected void paintLineDistOneX(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
         int x1, x2, y1, y2;
         if (nodeOne.getY().equals(nodeTwo.getY())) {
             if (nodeOne.getX() < nodeTwo.getX()) {
@@ -141,15 +137,10 @@ public class UndirectedLinePainter {
         if (nodeOne.getY() < nodeTwo.getY()) {
             y1 = nodeOne.getY() + nodeOne.getSIZE();
             y2 = nodeTwo.getY();
-//            System.out.println("case 1:");
         } else {
             y1 = nodeOne.getY();
             y2 = nodeTwo.getY() + nodeTwo.getSIZE();
-//            System.out.println("case 2:");
         }
-
-//        System.out.printf("nodeOne = %d, nodeTwo = %d\n", nodeOne.getValue(), nodeTwo.getValue());
-//        System.out.printf("x1 = %d, y1 = %d, x2 = %d, y2 = %d\n", x1, y1, x2, y2);
 
         g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
         g.drawLine(x1, y1, x2, y2);
@@ -171,7 +162,7 @@ public class UndirectedLinePainter {
         int x3 = nodeOne.getX() - 50;
         int y3;
         if (y1 < y2) {
-            y3 = nodeOne.getY() + (Math.abs(nodeOne.getY() - nodeTwo.getY()) / 2);
+            y3 = nodeOne.getY() + (Math.abs(nodeOne.getY() - nodeTwo.getY()) / 2); // replace nodeOne.getY() with y1 same with y2
         } else {
             y3 = nodeTwo.getY() + (Math.abs(nodeOne.getY() - nodeTwo.getY()) / 2);
         }
@@ -237,10 +228,6 @@ public class UndirectedLinePainter {
             y3 = nodeTwo.getY() + (Math.abs(nodeOne.getY() - nodeTwo.getY()) / 2);
         }
 
-        System.out.printf("nodeOne = %d, nodeTwo = %d\n", nodeOne.getValue(), nodeTwo.getValue());
-        System.out.printf("x1 = %d, y1 = %d, x2 = %d, y2 = %d\n", x1, y1, x2, y2);
-        System.out.printf("x3 = %d, y3 = %d\n", x3, y3);
-
         g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
@@ -254,73 +241,44 @@ public class UndirectedLinePainter {
     }
 
     private void drawArrow(Graphics g, int x1, int y1, int x2, int y2, Arrow arrow) {
-        System.out.println("Enter");
-        System.out.printf("arrow = %s\n", arrow.name());// {}
         int arrowLen = 30;
         double angle;
         if (x2 - x1 == 0) {
             angle = 90.0;
         } else {
             double slope = (double) (y2 - y1) / (x2 - x1);
-//            angle = Math.abs(Math.toDegrees(Math.atan(slope)));
             angle = Math.toDegrees(Math.atan(slope));
         }
-        System.out.printf("angle = %f\n", angle);
         double fi = Math.PI * (180.0 - angle) / 180.0;
-        int lx,ly,rx,ry;
-        if (angle == 0) {
-            ly = (int) (y2 + arrowLen * Math.sin(fi + 0.3));
-            ry = (int) (y2 + arrowLen * Math.sin(fi - 0.3));
-            if (x1 > x2) {
-                lx = (int) (x2 - arrowLen * Math.cos(fi + 0.3));
-                rx = (int) (x2 - arrowLen * Math.cos(fi - 0.3));
+
+        int xCoefficient, yCoefficient;
+
+        if (rotateArrow(arrow, angle)) {
+            yCoefficient = -1;
+            xCoefficient = 1;
+        } else {
+            yCoefficient = 1;
+            if (angle == 0) {
+                xCoefficient = x1 > x2 ? -1 : 1;
             } else {
-                lx = (int) (x2 + arrowLen * Math.cos(fi + 0.3));
-                rx = (int) (x2 + arrowLen * Math.cos(fi - 0.3));
+                xCoefficient = -1;
             }
-
         }
-        else if (arrow.equals(Arrow.VERTEX_TWO)) {
-            ly = (int) (y2 - arrowLen * Math.sin(fi + 0.3));
-            ry = (int) (y2 - arrowLen * Math.sin(fi - 0.3));
-            lx = (int) (x2 + arrowLen * Math.cos(fi + 0.3));
-            rx = (int) (x2 + arrowLen * Math.cos(fi - 0.3));
-            if ((angle < 60 && angle > 45) || (angle > -11 && angle < 15) || (angle > -45 && angle < -30)) {
-                ly = (int) (y2 + arrowLen * Math.sin(fi + 0.3));
-                ry = (int) (y2 + arrowLen * Math.sin(fi - 0.3));
-                lx = (int) (x2 - arrowLen * Math.cos(fi + 0.3));
-                rx = (int) (x2 - arrowLen * Math.cos(fi - 0.3));
-            }
 
-        }
-        else if (arrow.equals(Arrow.VERTEX_ONE) && (angle < -30 || (angle > -26 && angle < -16) || (angle > -15 && angle < 0))) {
-            ly = (int) (y2 - arrowLen * Math.sin(fi + 0.3));
-            ry = (int) (y2 - arrowLen * Math.sin(fi - 0.3));
-            lx = (int) (x2 + arrowLen * Math.cos(fi + 0.3));
-            rx = (int) (x2 + arrowLen * Math.cos(fi - 0.3));
-        }
-        else {
-            ly = (int) (y2 + arrowLen * Math.sin(fi + 0.3));
-            ry = (int) (y2 + arrowLen * Math.sin(fi - 0.3));
-            lx = (int) (x2 - arrowLen * Math.cos(fi + 0.3));
-            rx = (int) (x2 - arrowLen * Math.cos(fi - 0.3));
-        }
-//        if (coordinates[4] == Arrow.UP.val) {
-//            lx = (int) (coordinates[2] - 15 * Math.cos(fi + 0.3));
-//            rx = (int) (coordinates[2] - 15 * Math.cos(fi - 0.3));
-//            ly = (int) (coordinates[3] + 15 * Math.sin(fi + 0.3));
-//            ry = (int) (coordinates[3] + 15 * Math.sin(fi - 0.3));
-////            ly = (int) (coordinates[3] - 15 * Math.sin(fi + 0.3));
-////            ry = (int) (coordinates[3] - 15 * Math.sin(fi - 0.3));
-////            g.drawLine(rx, ry, coordinates[2], coordinates[3]);
-////            g.drawLine(coordinates[2], coordinates[3], lx, ly);
-//        } else {
+        int ly = (int) (y2 + yCoefficient * arrowLen * Math.sin(fi + 0.3));
+        int ry = (int) (y2 + yCoefficient * arrowLen * Math.sin(fi - 0.3));
+        int lx = (int) (x2 + xCoefficient * arrowLen * Math.cos(fi + 0.3));
+        int rx = (int) (x2 + xCoefficient * arrowLen * Math.cos(fi - 0.3));
 
-//        }
-
-        System.out.printf("px = %d, py = %d\nrx = %d, ry = %d\nlx = %d, ly = %d\n", x2, y2, rx, ry, lx, ly);
         g.drawLine(rx, ry, x2, y2);
         g.drawLine(x2, y2, lx, ly);
 
+    }
+
+    private boolean rotateArrow(Arrow arrow, double angle) {
+        return (arrow.equals(Arrow.VERTEX_TWO) &&
+                !((angle < 60 && angle > 45) || (angle > -11 && angle < 15) || (angle > -45 && angle < -30)))
+                || arrow.equals(Arrow.VERTEX_ONE)
+                && (angle < -30 || (angle > -26 && angle < -16) || (angle > -15 && angle < 0));
     }
 }
