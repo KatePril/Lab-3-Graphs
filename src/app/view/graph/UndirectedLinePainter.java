@@ -20,7 +20,7 @@ public class UndirectedLinePainter {
     public void paintLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
         g.setColor(new Color(0, 75, 18));
 
-        System.out.printf("nodeOne = %d, nodeTwo = %d\n arrow = %s\n", nodeOne.getValue(), nodeTwo.getValue(), arrow.name());
+        System.out.printf("\nnodeOne = %d, nodeTwo = %d\n arrow = %s\n", nodeOne.getValue(), nodeTwo.getValue(), arrow.name());
         if (nodeOne.getValue().equals(nodeTwo.getValue())) {
             paintCycleLine(g, nodeOne, arrow);
         } else if (Math.abs(nodeOne.getY() - nodeTwo.getY()) == Direction.DOWN.y) {
@@ -56,7 +56,7 @@ public class UndirectedLinePainter {
         g.drawLine(x3, y3, x1, y1);
 
         if (arrow != Arrow.NONE) {
-            drawArrow(g, x3, y3, x1, y1);
+            drawArrow(g, x3, y3, x1, y1, Arrow.BOTH_VERTICES);
         }
     }
 
@@ -86,10 +86,10 @@ public class UndirectedLinePainter {
         g.drawLine(x3, y3, x2, y2);
 
         if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x1, y1);
+            drawArrow(g, x3, y3, x1, y1, Arrow.VERTEX_ONE);
         }
         if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x2, y2);
+            drawArrow(g, x3, y3, x2, y2, Arrow.VERTEX_TWO);
         }
     }
 
@@ -125,10 +125,10 @@ public class UndirectedLinePainter {
         g.drawLine(x1, y1, x2, y2);
 
         if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x2, y2, x1, y1);
+            drawArrow(g, x2, y2, x1, y1, Arrow.VERTEX_ONE);
         }
         if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x1, y1, x2, y2);
+            drawArrow(g, x1, y1, x2, y2, Arrow.VERTEX_TWO);
         }
     }
 
@@ -155,10 +155,10 @@ public class UndirectedLinePainter {
         g.drawLine(x1, y1, x2, y2);
 
         if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x2, y2, x1, y1);
+            drawArrow(g, x2, y2, x1, y1, Arrow.VERTEX_ONE);
         }
         if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x1, y1, x2, y2);
+            drawArrow(g, x1, y1, x2, y2, Arrow.VERTEX_TWO);
         }
     }
 
@@ -182,10 +182,10 @@ public class UndirectedLinePainter {
         g.drawLine(x3, y3, x2, y2);
 
         if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x1, y1);
+            drawArrow(g, x3, y3, x1, y1, Arrow.VERTEX_ONE);
         }
         if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x2, y2);
+            drawArrow(g, x3, y3, x2, y2, Arrow.VERTEX_TWO);
         }
 
     }
@@ -209,10 +209,10 @@ public class UndirectedLinePainter {
         g.drawLine(x3, y3, x2, y2);
 
         if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x1, y1);
+            drawArrow(g, x3, y3, x1, y1, Arrow.VERTEX_ONE);
         }
         if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x2, y2);
+            drawArrow(g, x3, y3, x2, y2, Arrow.VERTEX_TWO);
         }
     }
 
@@ -246,14 +246,16 @@ public class UndirectedLinePainter {
         g.drawLine(x3, y3, x2, y2);
 
         if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x1, y1);
+            drawArrow(g, x3, y3, x1, y1, Arrow.VERTEX_ONE);
         }
         if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x2, y2);
+            drawArrow(g, x3, y3, x2, y2, Arrow.VERTEX_TWO);
         }
     }
 
-        private void drawArrow(Graphics g, int x1, int y1, int x2, int y2) { // {}
+    private void drawArrow(Graphics g, int x1, int y1, int x2, int y2, Arrow arrow) {
+        System.out.println("Enter");
+        System.out.printf("arrow = %s\n", arrow.name());// {}
         int arrowLen = 30;
         double angle;
         if (x2 - x1 == 0) {
@@ -277,12 +279,27 @@ public class UndirectedLinePainter {
                 rx = (int) (x2 + arrowLen * Math.cos(fi - 0.3));
             }
 
-        } else if (angle > 0) {
+        }
+        else if (arrow.equals(Arrow.VERTEX_TWO)) {
             ly = (int) (y2 - arrowLen * Math.sin(fi + 0.3));
             ry = (int) (y2 - arrowLen * Math.sin(fi - 0.3));
             lx = (int) (x2 + arrowLen * Math.cos(fi + 0.3));
             rx = (int) (x2 + arrowLen * Math.cos(fi - 0.3));
-        } else {
+            if ((angle < 60 && angle > 45) || (angle > -11 && angle < 15) || (angle > -45 && angle < -30)) {
+                ly = (int) (y2 + arrowLen * Math.sin(fi + 0.3));
+                ry = (int) (y2 + arrowLen * Math.sin(fi - 0.3));
+                lx = (int) (x2 - arrowLen * Math.cos(fi + 0.3));
+                rx = (int) (x2 - arrowLen * Math.cos(fi - 0.3));
+            }
+
+        }
+        else if (arrow.equals(Arrow.VERTEX_ONE) && (angle < -30 || (angle > -26 && angle < -16) || (angle > -15 && angle < 0))) {
+            ly = (int) (y2 - arrowLen * Math.sin(fi + 0.3));
+            ry = (int) (y2 - arrowLen * Math.sin(fi - 0.3));
+            lx = (int) (x2 + arrowLen * Math.cos(fi + 0.3));
+            rx = (int) (x2 + arrowLen * Math.cos(fi - 0.3));
+        }
+        else {
             ly = (int) (y2 + arrowLen * Math.sin(fi + 0.3));
             ry = (int) (y2 + arrowLen * Math.sin(fi - 0.3));
             lx = (int) (x2 - arrowLen * Math.cos(fi + 0.3));
@@ -300,6 +317,8 @@ public class UndirectedLinePainter {
 //        } else {
 
 //        }
+
+        System.out.printf("px = %d, py = %d\nrx = %d, ry = %d\nlx = %d, ly = %d\n", x2, y2, rx, ry, lx, ly);
         g.drawLine(rx, ry, x2, y2);
         g.drawLine(x2, y2, lx, ly);
 

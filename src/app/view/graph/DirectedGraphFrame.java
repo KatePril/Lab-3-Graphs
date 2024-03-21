@@ -19,12 +19,12 @@ public class DirectedGraphFrame extends UndirectedGraphFrame{
                     if (graphMatrix[j][i] == 1) {
                         linePainter.paintLine(g, nodes[i], nodes[j], Arrow.BOTH_VERTICES);
                     } else {
-                        linePainter.paintLine(g, nodes[i], nodes[j], Arrow.VERTEX_ONE);
+                        linePainter.paintLine(g, nodes[i], nodes[j], Arrow.VERTEX_TWO);
                     }
                     continue;
                 }
                 if (graphMatrix[j][i] == 1) {
-                    linePainter.paintLine(g, nodes[i], nodes[j], Arrow.VERTEX_TWO);
+                    linePainter.paintLine(g, nodes[i], nodes[j], Arrow.VERTEX_ONE);
                 }
             }
             k++;
