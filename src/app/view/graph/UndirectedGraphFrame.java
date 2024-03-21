@@ -11,7 +11,7 @@ public class UndirectedGraphFrame extends JFrame {
 
     private Integer[][] graphMatrix;
     private NodePainter nodePainter = new NodePainter();
-    protected UndirectedLinePainter linePainter;
+    protected LinePainter linePainter;
 
 
     public UndirectedGraphFrame(String title, Integer[][] graphMatrix) throws HeadlessException {
@@ -19,7 +19,7 @@ public class UndirectedGraphFrame extends JFrame {
 
         this.graphMatrix = graphMatrix;
 
-        linePainter = new UndirectedLinePainter(graphMatrix.length);
+        linePainter = new LinePainter(graphMatrix.length);
 
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

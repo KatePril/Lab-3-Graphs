@@ -7,12 +7,12 @@ import app.view.graph.utils.Arrow;
 import java.awt.*;
 import java.util.Random;
 
-public class UndirectedLinePainter {
+public class LinePainter {
 
     private final int middleIndicator;
     private final Random colorGenerator = new Random();
 
-    public UndirectedLinePainter(int len) {
+    public LinePainter(int len) {
         this.middleIndicator = len / 2;
     }
 
@@ -35,7 +35,7 @@ public class UndirectedLinePainter {
         }
     }
 
-    protected void paintCycleLine(Graphics g, Node node, Arrow arrow) {
+    private void paintCycleLine(Graphics g, Node node, Arrow arrow) {
         int len = 30;
 
         int x1 = node.getX() + node.getSIZE()/2;
@@ -44,19 +44,18 @@ public class UndirectedLinePainter {
         int y2 = y1 - len;
 
         int x3 = x1 + len;
-        int y3 = y1 - len;
 
-        g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
+        g.setColor(getRandomColor());
         g.drawLine(x1, y1, x2, y2);
-        g.drawLine(x2, y2, x3, y3);
-        g.drawLine(x3, y3, x1, y1);
+        g.drawLine(x2, y2, x3, y2);
+        g.drawLine(x3, y2, x1, y1);
 
         if (arrow != Arrow.NONE) {
-            drawArrow(g, x3, y3, x1, y1, Arrow.BOTH_VERTICES);
+            drawArrow(g, x3, y2, x1, y1, Arrow.BOTH_VERTICES);
         }
     }
 
-    protected void paintLineAvoidingMiddle(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
+    private void paintLineAvoidingMiddle(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
         int x1 = nodeOne.getX() + nodeOne.getSIZE()/2;
         int x2 = nodeTwo.getX() + nodeTwo.getSIZE()/2;
         int y1 = nodeOne.getY() + nodeOne.getSIZE();
@@ -77,19 +76,11 @@ public class UndirectedLinePainter {
             y3 = nodeTwo.getY() + (Math.abs(nodeOne.getY() - nodeTwo.getY()) / 2) - distY;
         }
 
-        g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
-        g.drawLine(x1, y1, x3, y3);
-        g.drawLine(x3, y3, x2, y2);
 
-        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x1, y1, Arrow.VERTEX_ONE);
-        }
-        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x2, y2, Arrow.VERTEX_TWO);
-        }
+        drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y3);
     }
 
-    protected void paintLineDistOneX(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
+    private void paintLineDistOneX(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
         int x1, x2, y1, y2;
         if (nodeOne.getY().equals(nodeTwo.getY())) {
             if (nodeOne.getX() < nodeTwo.getX()) {
@@ -117,18 +108,10 @@ public class UndirectedLinePainter {
             }
         }
 
-        g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
-        g.drawLine(x1, y1, x2, y2);
-
-        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x2, y2, x1, y1, Arrow.VERTEX_ONE);
-        }
-        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x1, y1, x2, y2, Arrow.VERTEX_TWO);
-        }
+        drawStraightLine(g, arrow, x1, y1, x2, y2);
     }
 
-    protected void paintLineDistOneY(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
+    private void paintLineDistOneY(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
         int x1, x2, y1, y2;
 
         x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
@@ -142,7 +125,59 @@ public class UndirectedLinePainter {
             y2 = nodeTwo.getY() + nodeTwo.getSIZE();
         }
 
-        g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
+        drawStraightLine(g, arrow, x1, y1, x2, y2);
+    }
+
+    private void paintSameXLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
+        int x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
+        int x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
+        int y1 = nodeOne.getY();
+        int y2 = nodeTwo.getY();
+
+        int x3 = nodeOne.getX() - 50;
+        int y3 = calculateY3(nodeOne.getY(), nodeTwo.getY());
+
+        drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y3);
+    }
+
+    private void paintSameYLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
+        int x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
+        int x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
+        int y1 = nodeOne.getY();
+        int y2 = nodeTwo.getY();
+
+        int x3 = (Math.abs(nodeOne.getX() - nodeTwo.getX()) / 2) + Math.min(nodeOne.getX(), nodeTwo.getX());
+        int y3 = nodeOne.getY() - 50;
+
+        drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y3);
+    }
+
+    private void paintFreeConditionLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
+        int x1, x2, y1, y2;
+
+        x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
+        x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
+        y1 = nodeOne.getY() + nodeOne.getSIZE();
+        y2 = nodeTwo.getY();
+
+        int x3;
+
+        if (x1 < x2) {
+            x3 = nodeOne.getX() + (Math.abs(nodeOne.getX() - nodeTwo.getX()) / 2) - 40;
+        } else {
+            x3 = nodeTwo.getX() + (Math.abs(nodeOne.getX() - nodeTwo.getX()) / 2) + 80;
+        }
+        int y3 = calculateY3(nodeOne.getY(), nodeTwo.getY());
+
+        drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y3);
+    }
+
+    private int calculateY3(int y1, int y2) {
+        return (Math.abs(y1 - y2) / 2) + (Math.min(y1, y2));
+    }
+
+    private void drawStraightLine(Graphics g, Arrow arrow, int x1, int y1, int x2, int y2) {
+        g.setColor(getRandomColor());
         g.drawLine(x1, y1, x2, y2);
 
         if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
@@ -153,82 +188,8 @@ public class UndirectedLinePainter {
         }
     }
 
-    protected void paintSameXLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
-        int x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
-        int x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
-        int y1 = nodeOne.getY();
-        int y2 = nodeTwo.getY();
-
-        int x3 = nodeOne.getX() - 50;
-        int y3;
-        if (y1 < y2) {
-            y3 = nodeOne.getY() + (Math.abs(nodeOne.getY() - nodeTwo.getY()) / 2); // replace nodeOne.getY() with y1 same with y2
-        } else {
-            y3 = nodeTwo.getY() + (Math.abs(nodeOne.getY() - nodeTwo.getY()) / 2);
-        }
-
-        g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
-
-        g.drawLine(x1, y1, x3, y3);
-        g.drawLine(x3, y3, x2, y2);
-
-        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x1, y1, Arrow.VERTEX_ONE);
-        }
-        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x2, y2, Arrow.VERTEX_TWO);
-        }
-
-    }
-
-    protected void paintSameYLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
-        int x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
-        int x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
-        int y1 = nodeOne.getY();
-        int y2 = nodeTwo.getY();
-
-        int x3;
-        if (x1 < x2) {
-            x3 = nodeOne.getX() + (Math.abs(nodeOne.getX() - nodeTwo.getX()) / 2);
-        } else {
-            x3 = nodeTwo.getX() + (Math.abs(nodeOne.getX() - nodeTwo.getX()) / 2);
-        }
-        int y3 = nodeOne.getY() - 50;
-
-        g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
-        g.drawLine(x1, y1, x3, y3);
-        g.drawLine(x3, y3, x2, y2);
-
-        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x1, y1, Arrow.VERTEX_ONE);
-        }
-        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x2, y2, Arrow.VERTEX_TWO);
-        }
-    }
-
-    protected void paintFreeConditionLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
-        int x1, x2, y1, y2;
-
-        x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
-        x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
-        y1 = nodeOne.getY() + nodeOne.getSIZE();
-        y2 = nodeTwo.getY();
-
-        int x3, y3;
-
-        if (x1 < x2) {
-            x3 = nodeOne.getX() + (Math.abs(nodeOne.getX() - nodeTwo.getX()) / 2) - 40;
-        } else {
-            x3 = nodeTwo.getX() + (Math.abs(nodeOne.getX() - nodeTwo.getX()) / 2) + 80;
-        }
-        if (y1 < y2) {
-            y3 = nodeOne.getY() + (Math.abs(nodeOne.getY() - nodeTwo.getY()) / 2);
-        } else {
-            y3 = nodeTwo.getY() + (Math.abs(nodeOne.getY() - nodeTwo.getY()) / 2);
-        }
-
-        g.setColor(new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256)));
+    private void  drawPolygonalLine(Graphics g, Arrow arrow, int x1, int y1, int x2, int y2, int x3, int y3) {
+        g.setColor(getRandomColor());
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
 
@@ -280,5 +241,9 @@ public class UndirectedLinePainter {
                 !((angle < 60 && angle > 45) || (angle > -11 && angle < 15) || (angle > -45 && angle < -30)))
                 || arrow.equals(Arrow.VERTEX_ONE)
                 && (angle < -30 || (angle > -26 && angle < -16) || (angle > -15 && angle < 0));
+    }
+
+    private Color getRandomColor() {
+        return new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256));
     }
 }
