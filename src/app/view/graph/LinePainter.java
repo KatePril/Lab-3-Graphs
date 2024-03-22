@@ -17,6 +17,8 @@ public class LinePainter {
     }
 
     public void paintLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
+        g.setColor(getRandomColor());
+
         if (nodeOne.getValue().equals(nodeTwo.getValue())) {
             paintCycleLine(g, nodeOne, arrow);
         } else if (Math.abs(nodeOne.getY() - nodeTwo.getY()) == Direction.DOWN.y) {
@@ -45,7 +47,6 @@ public class LinePainter {
 
         int x3 = x1 + len;
 
-        g.setColor(getRandomColor());
         g.drawLine(x1, y1, x2, y2);
         g.drawLine(x2, y2, x3, y2);
         g.drawLine(x3, y2, x1, y1);
@@ -56,8 +57,8 @@ public class LinePainter {
     }
 
     private void paintLineAvoidingMiddle(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
-        int x1 = nodeOne.getX() + nodeOne.getSIZE()/2;
-        int x2 = nodeTwo.getX() + nodeTwo.getSIZE()/2;
+        int x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
+        int x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
         int y1 = nodeOne.getY() + nodeOne.getSIZE();
         int y2 = nodeTwo.getY();
 
@@ -71,18 +72,17 @@ public class LinePainter {
             x3 = nodeTwo.getX() + (Math.abs(nodeOne.getX() - nodeTwo.getX()) / 2) + distX;
         }
         if (y1 < y2) {
-            y3 = nodeOne.getY() + (Math.abs(nodeOne.getY() - nodeTwo.getY()) / 2) + distY;
+            y3 = nodeOne.getY() + (Math.abs(nodeOne.getY() - y2) / 2) + distY;
         } else {
-            y3 = nodeTwo.getY() + (Math.abs(nodeOne.getY() - nodeTwo.getY()) / 2) - distY;
+            y3 = y2 + (Math.abs(nodeOne.getY() - y2) / 2) - distY;
         }
-
 
         drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y3);
     }
 
     private void paintLineDistOneX(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
-        int x1, x2, y1, y2;
         if (nodeOne.getY().equals(nodeTwo.getY())) {
+            int x1, x2, y1, y2;
             if (nodeOne.getX() < nodeTwo.getX()) {
                 x1 = nodeOne.getX() + nodeOne.getSIZE();
                 x2 = nodeTwo.getX();
@@ -92,31 +92,20 @@ public class LinePainter {
                 x2 = nodeOne.getX();
             }
 
-            y1 = nodeOne.getY() + (nodeOne.getSIZE() / 2);
-            y2 = nodeTwo.getY() + (nodeOne.getSIZE() / 2);
+            y1 = nodeOne.getY() + nodeOne.getSIZE() / 2;
+            y2 = nodeTwo.getY() + nodeOne.getSIZE() / 2;
 
+            drawStraightLine(g, arrow, x1, y1, x2, y2);
         } else {
-            x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
-            x2 = nodeTwo.getX() + nodeOne.getSIZE() / 2;
-
-            if (nodeOne.getY() < nodeTwo.getY()) {
-                y1 = nodeOne.getY() + (nodeOne.getSIZE());
-                y2 = nodeTwo.getY();
-            } else {
-                y1 = nodeOne.getY();
-                y2 = nodeTwo.getY() + nodeTwo.getSIZE();
-            }
+            paintLineDistOneY(g, nodeOne, nodeTwo, arrow);
         }
-
-        drawStraightLine(g, arrow, x1, y1, x2, y2);
     }
 
     private void paintLineDistOneY(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
-        int x1, x2, y1, y2;
+        int x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
+        int x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
 
-        x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
-        x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
-
+        int y1, y2;
         if (nodeOne.getY() < nodeTwo.getY()) {
             y1 = nodeOne.getY() + nodeOne.getSIZE();
             y2 = nodeTwo.getY();
@@ -153,15 +142,12 @@ public class LinePainter {
     }
 
     private void paintFreeConditionLine(Graphics g, Node nodeOne, Node nodeTwo, Arrow arrow) {
-        int x1, x2, y1, y2;
-
-        x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
-        x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
-        y1 = nodeOne.getY() + nodeOne.getSIZE();
-        y2 = nodeTwo.getY();
+        int x1 = nodeOne.getX() + nodeOne.getSIZE() / 2;
+        int x2 = nodeTwo.getX() + nodeTwo.getSIZE() / 2;
+        int y1 = nodeOne.getY() + nodeOne.getSIZE();
+        int y2 = nodeTwo.getY();
 
         int x3;
-
         if (x1 < x2) {
             x3 = nodeOne.getX() + (Math.abs(nodeOne.getX() - nodeTwo.getX()) / 2) - 40;
         } else {
@@ -177,7 +163,6 @@ public class LinePainter {
     }
 
     private void drawStraightLine(Graphics g, Arrow arrow, int x1, int y1, int x2, int y2) {
-        g.setColor(getRandomColor());
         g.drawLine(x1, y1, x2, y2);
 
         executeDrawArrow(g, arrow, Arrow.VERTEX_ONE, x2, y2, x1, y1);
@@ -185,7 +170,6 @@ public class LinePainter {
     }
 
     private void  drawPolygonalLine(Graphics g, Arrow arrow, int x1, int y1, int x2, int y2, int x3, int y3) {
-        g.setColor(getRandomColor());
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
 
@@ -211,7 +195,6 @@ public class LinePainter {
         double fi = Math.PI * (180.0 - angle) / 180.0;
 
         int xCoefficient, yCoefficient;
-
         if (rotateArrow(arrow, angle)) {
             yCoefficient = -1;
             xCoefficient = 1;
@@ -231,7 +214,6 @@ public class LinePainter {
 
         g.drawLine(rx, ry, x2, y2);
         g.drawLine(x2, y2, lx, ly);
-
     }
 
     private boolean rotateArrow(Arrow arrow, double angle) {
