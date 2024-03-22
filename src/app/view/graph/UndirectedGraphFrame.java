@@ -21,7 +21,6 @@ public class UndirectedGraphFrame extends JFrame {
 
         linePainter = new LinePainter(graphMatrix.length);
 
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
         setVisible(true);
@@ -38,7 +37,6 @@ public class UndirectedGraphFrame extends JFrame {
 
     private void paintNodes(Graphics g, Node[] nodes) {
         for (Node node : nodes) {
-            System.out.println(node);
             nodePainter.paintNode(g, node);
         }
     }

@@ -13,6 +13,5 @@ public class NodePainter {
         Font font = new Font("Calibry", Font.BOLD, 18);
         g.setFont(font);
         g.drawString(String.valueOf(node.getValue()), node.getX()+20, node.getY()+30);
-
     }
 }

@@ -1,11 +1,11 @@
 package app.model.graph.utils;
 
 public enum Direction {
-    FIRST_LEFT(-225 - 75, 0),
-    RIGHT(150 + 50, 0),
-    LEFT(-150 - 50, 0),
-    UP(0, -150 - 50),
-    DOWN(0, 150 + 50);
+    FIRST_LEFT(-300, 0),
+    RIGHT(200, 0),
+    LEFT(-200, 0),
+    UP(0, -200),
+    DOWN(0, 200);
 
     public final Integer x;
     public final Integer y;

@@ -134,8 +134,8 @@ public class LinePainter {
         int y1 = nodeOne.getY();
         int y2 = nodeTwo.getY();
 
-        int x3 = nodeOne.getX() - 50;
-        int y3 = calculateY3(nodeOne.getY(), nodeTwo.getY());
+        int x3 = nodeOne.getX() - nodeOne.getSIZE();
+        int y3 = calculateY3(y1, y2);
 
         drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y3);
     }
@@ -147,7 +147,7 @@ public class LinePainter {
         int y2 = nodeTwo.getY();
 
         int x3 = (Math.abs(nodeOne.getX() - nodeTwo.getX()) / 2) + Math.min(nodeOne.getX(), nodeTwo.getX());
-        int y3 = nodeOne.getY() - 50;
+        int y3 = y1 - nodeOne.getSIZE();
 
         drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y3);
     }
@@ -167,7 +167,7 @@ public class LinePainter {
         } else {
             x3 = nodeTwo.getX() + (Math.abs(nodeOne.getX() - nodeTwo.getX()) / 2) + 80;
         }
-        int y3 = calculateY3(nodeOne.getY(), nodeTwo.getY());
+        int y3 = calculateY3(nodeOne.getY(), y2);
 
         drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y3);
     }
@@ -180,12 +180,8 @@ public class LinePainter {
         g.setColor(getRandomColor());
         g.drawLine(x1, y1, x2, y2);
 
-        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x2, y2, x1, y1, Arrow.VERTEX_ONE);
-        }
-        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x1, y1, x2, y2, Arrow.VERTEX_TWO);
-        }
+        executeDrawArrow(g, arrow, Arrow.VERTEX_ONE, x2, y2, x1, y1);
+        executeDrawArrow(g, arrow, Arrow.VERTEX_TWO, x1, y1, x2, y2);
     }
 
     private void  drawPolygonalLine(Graphics g, Arrow arrow, int x1, int y1, int x2, int y2, int x3, int y3) {
@@ -193,11 +189,13 @@ public class LinePainter {
         g.drawLine(x1, y1, x3, y3);
         g.drawLine(x3, y3, x2, y2);
 
-        if (arrow.equals(Arrow.VERTEX_ONE) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x1, y1, Arrow.VERTEX_ONE);
-        }
-        if (arrow.equals(Arrow.VERTEX_TWO) || arrow.equals(Arrow.BOTH_VERTICES)) {
-            drawArrow(g, x3, y3, x2, y2, Arrow.VERTEX_TWO);
+        executeDrawArrow(g, arrow, Arrow.VERTEX_ONE, x3, y3, x1, y1);
+        executeDrawArrow(g, arrow, Arrow.VERTEX_TWO, x3, y3, x2, y2);
+    }
+
+    private void executeDrawArrow(Graphics g, Arrow arrow, Arrow checkArrow, int x1, int y1, int x2, int y2) {
+        if (arrow.equals(checkArrow) || arrow.equals(Arrow.BOTH_VERTICES)) {
+            drawArrow(g, x1, y1, x2, y2, checkArrow);
         }
     }
 

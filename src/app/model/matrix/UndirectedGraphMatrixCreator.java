@@ -1,7 +1,7 @@
 package app.model.matrix;
 
 public class UndirectedGraphMatrixCreator {
-    private Integer[][] directedMatrix;
+    private final Integer[][] directedMatrix;
     public UndirectedGraphMatrixCreator(Integer[][] directedMatrix) {
         this.directedMatrix = directedMatrix;
     }
