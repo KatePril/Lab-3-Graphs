@@ -5,4 +5,7 @@ public final class Constants {
     public final static int n2 = 1;
     public final static int n3 = 1;
     public final static int n4 = 9;
+
+    public final static int FRAME_WIDTH = 1200;
+    public final static int FRAME_HEIGHT = 800;
 }

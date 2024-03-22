@@ -2,12 +2,12 @@ package app.entity;
 
 import static java.lang.String.format;
 
-public class Node {
+public class Vertex {
     private Integer value;
     private Integer x;
     private Integer y;
 
-    public Node(Integer value, Integer x, Integer y) {
+    public Vertex(Integer value, Integer x, Integer y) {
         this.value = value;
         this.x = x;
         this.y = y;

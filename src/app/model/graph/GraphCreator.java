@@ -1,17 +1,18 @@
 package app.model.graph;
 
 import app.model.graph.utils.Direction;
-import app.entity.Node;
+import app.entity.Vertex;
+import app.utils.Constants;
 
 public class GraphCreator {
-    public static Node[] createVerticesArray(int n) {
-        Integer currentX = 600;
-        Integer currentY = 400;
+    public static Vertex[] createVerticesArray(int n) {
+        Integer currentX = Constants.FRAME_WIDTH / 2;
+        Integer currentY = Constants.FRAME_HEIGHT / 2;
         Direction direction = Direction.FIRST_LEFT;
 
-        Node[] nodes = new Node[n];
+        Vertex[] vertices = new Vertex[n];
         for (int i = n; i > 0; i--) {
-            nodes[i-1] = new Node(i, currentX, currentY);
+            vertices[i-1] = new Vertex(i, currentX, currentY);
             currentX += direction.x;
             currentY += direction.y;
 
@@ -26,7 +27,7 @@ public class GraphCreator {
             }
         }
 
-        return nodes;
+        return vertices;
     }
 
 }

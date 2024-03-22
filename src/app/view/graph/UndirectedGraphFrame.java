@@ -1,7 +1,8 @@
 package app.view.graph;
 
 import app.model.graph.GraphCreator;
-import app.entity.Node;
+import app.entity.Vertex;
+import app.utils.Constants;
 import app.view.graph.utils.Arrow;
 
 import javax.swing.*;
@@ -10,7 +11,7 @@ import java.awt.*;
 public class UndirectedGraphFrame extends JFrame {
 
     private Integer[][] graphMatrix;
-    private NodePainter nodePainter = new NodePainter();
+    private VertexPainter vertexPainter = new VertexPainter();
     protected LinePainter linePainter;
 
 
@@ -22,31 +23,31 @@ public class UndirectedGraphFrame extends JFrame {
         linePainter = new LinePainter(graphMatrix.length);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 800);
+        setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
         setVisible(true);
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        Node[] arr = GraphCreator.createVerticesArray(graphMatrix.length);
+        Vertex[] arr = GraphCreator.createVerticesArray(graphMatrix.length);
         paintNodes(g, arr);
         paintLines(g, arr, graphMatrix);
 
     }
 
-    private void paintNodes(Graphics g, Node[] nodes) {
-        for (Node node : nodes) {
-            nodePainter.paintNode(g, node);
+    private void paintNodes(Graphics g, Vertex[] vertices) {
+        for (Vertex vertex : vertices) {
+            vertexPainter.paintNode(g, vertex);
         }
     }
 
-    protected void paintLines(Graphics g, Node[] nodes, Integer[][] graphMatrix) {
+    protected void paintLines(Graphics g, Vertex[] vertices, Integer[][] graphMatrix) {
         int k = 0;
         for (int i = 0; i < graphMatrix.length; i++) {
             for (int j = k; j < graphMatrix[0].length; j++) {
                 if (graphMatrix[i][j] == 1) {
-                    linePainter.paintLine(g, nodes[i], nodes[j], Arrow.NONE);
+                    linePainter.paintLine(g, vertices[i], vertices[j], Arrow.NONE);
                 }
             }
             k++;
