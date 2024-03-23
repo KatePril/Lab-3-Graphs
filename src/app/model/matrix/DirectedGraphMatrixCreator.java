@@ -10,8 +10,10 @@ public class DirectedGraphMatrixCreator {
         Integer[][] graphMatrix = new Integer[randomMatrix.length][randomMatrix[0].length];
 
         for (int i = 0; i < randomMatrix.length; i++) {
+            Double[] tmpRandomArr = randomMatrix[i];
+            Integer[] tmpGraphMatrix = graphMatrix[i];
             for (int j = 0; j < randomMatrix[0].length; j++) {
-                graphMatrix[i][j] = replaceElementWithBool(randomMatrix[i][j]);
+                tmpGraphMatrix[j] = replaceElementWithBool(tmpRandomArr[j]);
             }
         }
 

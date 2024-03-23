@@ -1,6 +1,6 @@
 package app.model.graph;
 
-import app.model.graph.utils.Direction;
+import app.enums.Direction;
 import app.entity.Vertex;
 import app.utils.Constants;
 

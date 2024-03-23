@@ -1,4 +1,4 @@
-package app.view.graph.utils;
+package app.enums;
 
 public enum Arrow {
     NONE,

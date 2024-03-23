@@ -3,7 +3,7 @@ package app.view.graph;
 import app.model.graph.GraphCreator;
 import app.entity.Vertex;
 import app.utils.Constants;
-import app.view.graph.utils.Arrow;
+import app.enums.Arrow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,6 @@ public class UndirectedGraphFrame extends JFrame {
         super(title);
 
         this.graphMatrix = graphMatrix;
-
         linePainter = new LinePainter(graphMatrix.length);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,7 +32,6 @@ public class UndirectedGraphFrame extends JFrame {
         Vertex[] arr = GraphCreator.createVerticesArray(graphMatrix.length);
         paintNodes(g, arr);
         paintLines(g, arr, graphMatrix);
-
     }
 
     private void paintNodes(Graphics g, Vertex[] vertices) {
@@ -45,8 +43,9 @@ public class UndirectedGraphFrame extends JFrame {
     protected void paintLines(Graphics g, Vertex[] vertices, Integer[][] graphMatrix) {
         int k = 0;
         for (int i = 0; i < graphMatrix.length; i++) {
+            Integer[] tmpArr = graphMatrix[i];
             for (int j = k; j < graphMatrix[0].length; j++) {
-                if (graphMatrix[i][j] == 1) {
+                if (tmpArr[j] == 1) {
                     linePainter.paintLine(g, vertices[i], vertices[j], Arrow.NONE);
                 }
             }

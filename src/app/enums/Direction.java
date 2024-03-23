@@ -1,4 +1,4 @@
-package app.model.graph.utils;
+package app.enums;
 
 public enum Direction {
     FIRST_LEFT(-300, 0),

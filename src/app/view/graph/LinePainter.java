@@ -1,8 +1,8 @@
 package app.view.graph;
 
-import app.model.graph.utils.Direction;
+import app.enums.Direction;
 import app.entity.Vertex;
-import app.view.graph.utils.Arrow;
+import app.enums.Arrow;
 
 import java.awt.*;
 import java.util.Random;
@@ -44,7 +44,6 @@ public class LinePainter {
         int y1 = vertex.getY();
         int x2 = x1 - len;
         int y2 = y1 - len;
-
         int x3 = x1 + len;
 
         g.drawLine(x1, y1, x2, y2);
@@ -58,7 +57,7 @@ public class LinePainter {
 
     private void paintLineAvoidingMiddle(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
         int x1 = vertexOne.getX() + vertexOne.getSIZE() / 2;
-        int x2 = vertexTwo.getX() + vertexTwo.getSIZE()  / 2;
+        int x2 = vertexTwo.getX() + vertexTwo.getSIZE() / 2;
         int y1 = vertexOne.getY() + vertexOne.getSIZE();
         int y2 = vertexTwo.getY();
 
@@ -82,7 +81,7 @@ public class LinePainter {
 
     private void paintLineDistOneX(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
         if (vertexOne.getY().equals(vertexTwo.getY())) {
-            int x1, x2, y1, y2;
+            int x1, x2;
             if (vertexOne.getX() < vertexTwo.getX()) {
                 x1 = vertexOne.getX() + vertexOne.getSIZE();
                 x2 = vertexTwo.getX();
@@ -92,8 +91,8 @@ public class LinePainter {
                 x2 = vertexOne.getX();
             }
 
-            y1 = vertexOne.getY() + vertexOne.getSIZE() / 2;
-            y2 = vertexTwo.getY() + vertexOne.getSIZE() / 2;
+            int y1 = vertexOne.getY() + vertexOne.getSIZE() / 2;
+            int y2 = vertexTwo.getY() + vertexOne.getSIZE() / 2;
 
             drawStraightLine(g, arrow, x1, y1, x2, y2);
         } else {

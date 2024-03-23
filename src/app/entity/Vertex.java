@@ -6,14 +6,13 @@ public class Vertex {
     private Integer value;
     private Integer x;
     private Integer y;
+    private final Integer SIZE = 50;
 
     public Vertex(Integer value, Integer x, Integer y) {
         this.value = value;
         this.x = x;
         this.y = y;
     }
-
-    private final Integer SIZE = 50;
 
     public Integer getValue() {
         return value;

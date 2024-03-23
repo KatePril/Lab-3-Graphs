@@ -27,9 +27,9 @@ public class RandomMatrixCreator {
         Random generator = new Random(seed);
         Double[][] matrix = new Double[n][n];
 
-        for (int i = 0; i < matrix.length; i++) {
+        for (Double[] tmpArr : matrix) {
             for (int j = 0; j < matrix[0].length; j++) {
-                matrix[i][j] = generator.nextDouble(0, 2);
+                tmpArr[j] = generator.nextDouble(0, 2);
             }
         }
 
@@ -37,9 +37,9 @@ public class RandomMatrixCreator {
     }
 
     private void scalarMultiply(Double k) {
-        for (int i = 0; i < matrix.length; i++) {
+        for (Double[] tmpArr : matrix) {
             for (int j = 0; j < matrix[0].length; j++) {
-                matrix[i][j] *= k;
+                tmpArr[j] *= k;
             }
         }
     }

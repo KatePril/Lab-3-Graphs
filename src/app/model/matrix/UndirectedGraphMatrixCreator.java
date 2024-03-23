@@ -9,12 +9,14 @@ public class UndirectedGraphMatrixCreator {
     public Integer[][] getGraphMatrix() {
         Integer[][] graphMatrix = new Integer[directedMatrix.length][directedMatrix[0].length];
         for (int i = 0; i < graphMatrix.length; i++) {
+            Integer[] tmpGraphArr = graphMatrix[i];
+            Integer[] tmpDirectedArr = directedMatrix[i];
             for (int j = 0; j < graphMatrix[0].length; j++) {
-                if (directedMatrix[i][j] == 1) {
-                    graphMatrix[i][j] = 1;
+                if (tmpDirectedArr[j] == 1) {
+                    tmpGraphArr[j] = 1;
                     graphMatrix[j][i] = 1;
-                } else if (graphMatrix[i][j] == null)
-                    graphMatrix[i][j] = 0;
+                } else if (tmpGraphArr[j] == null)
+                    tmpGraphArr[j] = 0;
             }
         }
 
