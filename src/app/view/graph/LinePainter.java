@@ -19,30 +19,22 @@ public class LinePainter {
     public void paintLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
         g.setColor(getRandomColor());
 
-        System.out.printf("vertexOne = %d, vertexTwo = %d, arrow = %s\n", vertexOne.getValue(), vertexTwo.getValue(), arrow.name());
         if (vertexOne.getValue().equals(vertexTwo.getValue())) {
-            System.out.println("case 1");
             paintCycleLine(g, vertexOne, arrow);
         } else if (Math.abs(vertexOne.getY() - vertexTwo.getY()) == Direction.DOWN.y) {
-            System.out.println("case 2");
             paintLineDistOneY(g, vertexOne, vertexTwo, arrow);
         } else if (Math.abs(vertexOne.getValue() - vertexTwo.getValue()) == middleIndicator) {
-            System.out.println("case 3");
             paintLineAvoidingMiddle(g, vertexOne, vertexTwo, arrow);
         }
         else if (Math.abs(vertexOne.getX() - vertexTwo.getX()) == Direction.RIGHT.x
                 || Math.abs(vertexOne.getX() - vertexTwo.getX()) == Math.abs(Direction.FIRST_LEFT.x)) {
-            System.out.println("case 4");
             paintLineDistOneX(g, vertexOne, vertexTwo, arrow);
         }
         else if (vertexOne.getX().equals(vertexTwo.getX())) {
-            System.out.println("case 5");
             paintSameXLine(g, vertexOne, vertexTwo, arrow);
         } else if (vertexOne.getY().equals(vertexTwo.getY())) {
-            System.out.println("case 6");
             paintSameYLine(g, vertexOne, vertexTwo, arrow);
         } else {
-            System.out.println("case 7");
             paintFreeConditionLine(g, vertexOne, vertexTwo, arrow);
         }
     }
@@ -199,7 +191,7 @@ public class LinePainter {
             executeDrawArrow(g, arrow, Arrow.VERTEX_ONE, x3, y3, x1, y1);
             executeDrawArrow(g, arrow, Arrow.VERTEX_TWO, x3, y3, x2, y2);
         } else {
-            int dist = 15;
+            int dist = 17;
             g.drawLine(x1, y1, x3, y3 + dist);
             g.drawLine(x3, y3 + dist, x2, y2);
             executeDrawArrow(g, arrow, Arrow.VERTEX_ONE, x3, y3 + dist, x1, y1);
@@ -225,7 +217,6 @@ public class LinePainter {
             double slope = (double) (y2 - y1) / (x2 - x1);
             angle = Math.toDegrees(Math.atan(slope));
         }
-        System.out.printf("angle = %f, arrow = %s\n", angle, arrow.name());
         double fi = Math.PI * (180.0 - angle) / 180.0;
 
         int xCoefficient, yCoefficient;
