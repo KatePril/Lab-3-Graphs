@@ -8,9 +8,17 @@ public class Main {
         Controller controller = new Controller();
 
         controller.printUndirectedGraphMatrix();
-        controller.printDirectedGraphMatrix();
-
+        controller.calculateUndirectedGraphVerticesPower();
+        controller.findEndVertexUndirectedGraph();
         controller.drawUndirectedGraphMatrix();
+
+
+        System.out.println();
+
+
+        controller.printDirectedGraphMatrix();
+        controller.calculateDirectedGraphVerticesPower();
+        controller.findEndVertexDirectedGraph();
         controller.drawDirectedGraphMatrix();
 
     }

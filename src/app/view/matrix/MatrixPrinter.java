@@ -19,8 +19,4 @@ public class MatrixPrinter<T> {
             ++k;
         }
     }
-
-    public void printMatrixTitle(String title) {
-        System.out.println(title);
-    }
 }

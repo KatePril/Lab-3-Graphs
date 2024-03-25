@@ -12,7 +12,7 @@ public class RandomMatrixCreator {
     }
 
     private Double calculateK() {
-        return 1.0 - Constants.n3 * 0.02 - Constants.n4 * 0.005 - 0.25;
+        return 1.0 - Constants.n3 * 0.01 - Constants.n4 * 0.01 - 0.3;
     }
     
     private int calculateSeed(int ...ns) {

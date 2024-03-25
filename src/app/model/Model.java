@@ -1,30 +1,35 @@
 package app.model;
 
+import app.model.graphAnalysis.VertexCalculator;
 import app.model.matrix.DirectedGraphMatrixCreator;
 import app.model.matrix.RandomMatrixCreator;
 import app.model.matrix.UndirectedGraphMatrixCreator;
 import app.utils.Constants;
 
+import java.util.ArrayList;
+
 public class Model {
     private final int n;
-    private final Double[][] matrix;
-    private final Integer[][] directedGraphMatrix;
-    private final Integer[][] undirectedGraphMatrix;
+    private final GraphInformator undirectedGraph;
+    private final GraphInformator directedGraph;
 
     public Model() {
         this.n = calculateVerticesNumber();
-        matrix = new RandomMatrixCreator(this.n).getMatrix();
+//        matrix = ;
 
-        directedGraphMatrix = createDirectedGraphMatrix();
-        undirectedGraphMatrix = createUndirectedGraphMatrix();
+        Integer[][] directedGraphMatrix = createDirectedGraphMatrix(new RandomMatrixCreator(this.n).getMatrix());
+        Integer[][] undirectedGraphMatrix = createUndirectedGraphMatrix(directedGraphMatrix);
+
+        undirectedGraph = new GraphInformator(undirectedGraphMatrix, false);
+        directedGraph = new GraphInformator(directedGraphMatrix, true);
     }
 
-    private Integer[][] createDirectedGraphMatrix() {
+    private Integer[][] createDirectedGraphMatrix(Double[][] matrix) {
         DirectedGraphMatrixCreator directedGraphMatrixCreator = new DirectedGraphMatrixCreator(matrix);
         return directedGraphMatrixCreator.getGraphMatrix();
     }
 
-    private Integer[][] createUndirectedGraphMatrix() {
+    private Integer[][] createUndirectedGraphMatrix(Integer[][] directedGraphMatrix) {
         UndirectedGraphMatrixCreator undirectedGraphMatrixCreator = new UndirectedGraphMatrixCreator(directedGraphMatrix);
         return undirectedGraphMatrixCreator.getGraphMatrix();
     }
@@ -37,11 +42,12 @@ public class Model {
         return n;
     }
 
-    public Integer[][] getDirectedGraphMatrix() {
-        return directedGraphMatrix;
+
+    public GraphInformator getUndirectedGraph() {
+        return undirectedGraph;
     }
 
-    public Integer[][] getUndirectedGraphMatrix() {
-        return undirectedGraphMatrix;
+    public GraphInformator getDirectedGraph() {
+        return directedGraph;
     }
 }
