@@ -1,5 +1,6 @@
 package app.model.graphAnalysis;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -9,9 +10,6 @@ public final class VertexCalculator {
         Arrays.fill(verticesPower, 0);
 
         for (int i = 0; i < verticesPower.length; i++) {
-            if (verticesPower[i] == null) {
-                verticesPower[i] = 0;
-            }
             for (int j = 0; j < graphMatrix.length; j++) {
                 if (graphMatrix[i][j] == 1) {
                     if (i == j) {
@@ -27,6 +25,36 @@ public final class VertexCalculator {
             }
         }
         return verticesPower;
+    }
+
+    //вихідні дуги, які починаються з заданої вершини
+    public static Integer[] calculateVerticesPositivePower(Integer[][] graphMatrix) {
+        Integer[] positivePower = new Integer[graphMatrix.length];
+        Arrays.fill(positivePower, 0);
+        // спитати як рахувати петлі
+        for (int i = 0; i < positivePower.length; i++) {
+            for (int j = 0; j < positivePower.length; j++) {
+                if (graphMatrix[i][j] == 1)
+                    ++positivePower[i];
+            }
+        }
+
+        return positivePower;
+    }
+
+    // вхідні дуги, які закінчуються з заданої вершини
+    public static Integer[] calculateVerticesNegativePower(Integer[][] graphMatrix) {
+        Integer[] negativePower = new Integer[graphMatrix.length];
+        Arrays.fill(negativePower, 0);
+
+        for (int i = 0; i < negativePower.length; i++) {
+            for (int j = 0; j < negativePower.length; j++) {
+                if (graphMatrix[j][i] == 1)
+                    ++negativePower[i];
+            }
+        }
+
+        return negativePower;
     }
 
     public static ArrayList<Integer> calculateEndVertices(Integer[] vertices) {

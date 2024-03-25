@@ -6,20 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
         Controller controller = new Controller();
-
-        controller.printUndirectedGraphMatrix();
-        controller.calculateUndirectedGraphVerticesPower();
-        controller.findEndVertexUndirectedGraph();
-        controller.drawUndirectedGraphMatrix();
-
-
+        controller.displayUndirectedGraphInfo();
         System.out.println();
-
-
-        controller.printDirectedGraphMatrix();
-        controller.calculateDirectedGraphVerticesPower();
-        controller.findEndVertexDirectedGraph();
-        controller.drawDirectedGraphMatrix();
-
+        controller.displayDirectedGraphInfo();
     }
 }

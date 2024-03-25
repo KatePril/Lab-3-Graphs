@@ -4,13 +4,13 @@ import app.model.graphAnalysis.VertexCalculator;
 
 import java.util.ArrayList;
 
-public class GraphInformator {
+public class UndirectedGraphInformator {
     private final Integer[][] adjacencyMatrix;
     private final boolean ifDirected;
     private Integer[] verticesPower;
     private ArrayList<Integer> endVertices;
 
-    public GraphInformator(Integer[][] adjacencyMatrix, boolean ifDirected) {
+    public UndirectedGraphInformator(Integer[][] adjacencyMatrix, boolean ifDirected) {
         this.adjacencyMatrix = adjacencyMatrix;
         this.ifDirected = ifDirected;
 

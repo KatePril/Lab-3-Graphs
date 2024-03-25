@@ -1,27 +1,23 @@
 package app.model;
 
-import app.model.graphAnalysis.VertexCalculator;
 import app.model.matrix.DirectedGraphMatrixCreator;
 import app.model.matrix.RandomMatrixCreator;
 import app.model.matrix.UndirectedGraphMatrixCreator;
 import app.utils.Constants;
 
-import java.util.ArrayList;
-
 public class Model {
     private final int n;
-    private final GraphInformator undirectedGraph;
-    private final GraphInformator directedGraph;
+    private final UndirectedGraphInformator undirectedGraph;
+    private final DirectedGraphInformator directedGraph;
 
     public Model() {
         this.n = calculateVerticesNumber();
-//        matrix = ;
 
         Integer[][] directedGraphMatrix = createDirectedGraphMatrix(new RandomMatrixCreator(this.n).getMatrix());
         Integer[][] undirectedGraphMatrix = createUndirectedGraphMatrix(directedGraphMatrix);
 
-        undirectedGraph = new GraphInformator(undirectedGraphMatrix, false);
-        directedGraph = new GraphInformator(directedGraphMatrix, true);
+        undirectedGraph = new UndirectedGraphInformator(undirectedGraphMatrix, false);
+        directedGraph = new DirectedGraphInformator(directedGraphMatrix, true);
     }
 
     private Integer[][] createDirectedGraphMatrix(Double[][] matrix) {
@@ -43,11 +39,11 @@ public class Model {
     }
 
 
-    public GraphInformator getUndirectedGraph() {
+    public UndirectedGraphInformator getUndirectedGraph() {
         return undirectedGraph;
     }
 
-    public GraphInformator getDirectedGraph() {
+    public DirectedGraphInformator getDirectedGraph() {
         return directedGraph;
     }
 }
