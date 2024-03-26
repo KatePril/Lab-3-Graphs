@@ -9,6 +9,7 @@ public class UndirectedGraphInformator {
     private final boolean ifDirected;
     private Integer[] verticesPower;
     private ArrayList<Integer> endVertices;
+    private int graphRegularity;
 
     public UndirectedGraphInformator(Integer[][] adjacencyMatrix, boolean ifDirected) {
         this.adjacencyMatrix = adjacencyMatrix;
@@ -16,6 +17,7 @@ public class UndirectedGraphInformator {
 
         this.verticesPower = VertexCalculator.calculateVerticesPower(adjacencyMatrix, ifDirected);
         this.endVertices = VertexCalculator.calculateEndVertices(this.verticesPower);
+        this.graphRegularity = VertexCalculator.checkRegularity(this.verticesPower);
     }
 
     public Integer[][] getAdjacencyMatrix() {
@@ -32,5 +34,9 @@ public class UndirectedGraphInformator {
 
     public ArrayList<Integer> getEndVertices() {
         return endVertices;
+    }
+
+    public int getGraphRegularity() {
+        return graphRegularity;
     }
 }

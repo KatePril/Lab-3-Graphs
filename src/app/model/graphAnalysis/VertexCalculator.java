@@ -66,4 +66,12 @@ public final class VertexCalculator {
         }
         return endVertices;
     }
+
+    public static int checkRegularity(Integer[] verticesPower) {
+        for (int i = 1; i < verticesPower.length; i++) {
+            if (!verticesPower[0].equals(verticesPower[i]))
+                return -1;
+        }
+        return verticesPower[0];
+    }
 }

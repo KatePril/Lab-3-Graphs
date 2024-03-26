@@ -13,6 +13,8 @@ public class Controller {
         view.drawUndirectedGraph(model.getUndirectedGraph().getAdjacencyMatrix());
         //2.1
         view.printVertexPower(model.getUndirectedGraph().getVerticesPower(), "Power of vertices (undirected graph):");
+        //2.3
+        view.printGraphRegularity(model.getUndirectedGraph().getGraphRegularity());
         //2.4
         view.printEndVertices(model.getUndirectedGraph().getEndVertices(), "End vertices of undirected graph:");
 
@@ -27,7 +29,8 @@ public class Controller {
         //2.2
         view.printVertexPower(model.getDirectedGraph().getPositivePowerVertex(), "Positive power of vertices (directed graph):");
         view.printVertexPower(model.getDirectedGraph().getNegativePowerVertex(), "Negative power of vertices (directed graph):");
-
+        //2.3
+        view.printGraphRegularity(model.getDirectedGraph().getGraphRegularity());
         //2.4
         view.printEndVertices(model.getDirectedGraph().getEndVertices(), "End vertices of directed graph:");
 

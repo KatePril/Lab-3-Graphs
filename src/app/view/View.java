@@ -41,6 +41,13 @@ public class View<T> {
         }
     }
 
+    public void printGraphRegularity(int regularity) {
+        if (regularity == -1)
+            System.out.println("The graph is not regular");
+        else
+            System.out.printf("The graph is regular of power %d", regularity);
+    }
+
     private void printTitle(String title) {
         System.out.println(title);
     }
