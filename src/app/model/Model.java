@@ -1,6 +1,7 @@
 package app.model;
 
 import app.model.matrix.DirectedGraphMatrixCreator;
+import app.model.matrix.KGenerator;
 import app.model.matrix.RandomMatrixCreator;
 import app.model.matrix.UndirectedGraphMatrixCreator;
 import app.utils.Constants;
@@ -9,15 +10,19 @@ public class Model {
     private final int n;
     private final UndirectedGraphInformator undirectedGraph;
     private final DirectedGraphInformator directedGraph;
+    private final DirectedGraphInformator directedGraphTwo;
 
     public Model() {
         this.n = calculateVerticesNumber();
 
-        Integer[][] directedGraphMatrix = createDirectedGraphMatrix(new RandomMatrixCreator(this.n).getMatrix());
+        Integer[][] directedGraphMatrix = createDirectedGraphMatrix(new RandomMatrixCreator(this.n, KGenerator.getK1()).getMatrix());
         Integer[][] undirectedGraphMatrix = createUndirectedGraphMatrix(directedGraphMatrix);
 
         undirectedGraph = new UndirectedGraphInformator(undirectedGraphMatrix, false);
         directedGraph = new DirectedGraphInformator(directedGraphMatrix, true);
+
+        Integer[][] directedGraphMatrixTwo = createDirectedGraphMatrix(new RandomMatrixCreator(this.n, KGenerator.getK2()).getMatrix());
+        directedGraphTwo = new DirectedGraphInformator(directedGraphMatrixTwo, true);
     }
 
     private Integer[][] createDirectedGraphMatrix(Double[][] matrix) {
@@ -45,5 +50,9 @@ public class Model {
 
     public DirectedGraphInformator getDirectedGraph() {
         return directedGraph;
+    }
+
+    public DirectedGraphInformator getDirectedGraphTwo() {
+        return directedGraphTwo;
     }
 }

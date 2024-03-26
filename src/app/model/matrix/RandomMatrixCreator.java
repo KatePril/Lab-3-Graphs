@@ -6,13 +6,9 @@ import java.util.Random;
 
 public class RandomMatrixCreator {
     private Double[][] matrix;
-    public RandomMatrixCreator(int n) {
+    public RandomMatrixCreator(int n, Double k) {
         matrix = generateRandomMatrix(n, calculateSeed(Constants.n1, Constants.n2, Constants.n3, Constants.n4));
-        scalarMultiply(calculateK());
-    }
-
-    private Double calculateK() {
-        return 1.0 - Constants.n3 * 0.01 - Constants.n4 * 0.01 - 0.3;
+        scalarMultiply(k);
     }
     
     private int calculateSeed(int ...ns) {

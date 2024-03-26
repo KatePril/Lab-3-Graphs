@@ -9,5 +9,7 @@ public class Main {
         controller.displayUndirectedGraphInfo();
         System.out.println();
         controller.displayDirectedGraphInfo();
+        System.out.println();
+        controller.displayDirectedGraphTwoInfo();
     }
 }

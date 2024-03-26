@@ -8,7 +8,7 @@ public class Controller {
     private final View<Integer> view = new View<>();
 
     public void displayUndirectedGraphInfo() {
-        //1.1-2
+        //1.1-4
         view.printMatrix("Undirected graph matrix", model.getUndirectedGraph().getAdjacencyMatrix());
         view.drawUndirectedGraph(model.getUndirectedGraph().getAdjacencyMatrix());
         //2.1
@@ -17,11 +17,10 @@ public class Controller {
         view.printGraphRegularity(model.getUndirectedGraph().getGraphRegularity());
         //2.4
         view.printEndVertices(model.getUndirectedGraph().getEndVertices(), "End vertices of undirected graph:");
-
     }
 
     public void displayDirectedGraphInfo() {
-        //1.1-2
+        //1.1-4
         view.printMatrix("Directed graph matrix", model.getDirectedGraph().getAdjacencyMatrix());
         view.drawDirectedGraph(model.getDirectedGraph().getAdjacencyMatrix());
         //2.1
@@ -33,31 +32,14 @@ public class Controller {
         view.printGraphRegularity(model.getDirectedGraph().getGraphRegularity());
         //2.4
         view.printEndVertices(model.getDirectedGraph().getEndVertices(), "End vertices of directed graph:");
-
     }
 
-
-//    public void printUndirectedGraphMatrix() {
-//    }
-//
-//    public void printDirectedGraphMatrix() {
-//    }
-//
-//    public void drawUndirectedGraphMatrix() {
-//    }
-//
-//    public void drawDirectedGraphMatrix() {
-//    }
-//
-//    public void calculateUndirectedGraphVerticesPower() {
-//    }
-//
-//    public void calculateDirectedGraphVerticesPower() {
-//    }
-//
-//    public void findEndVertexUndirectedGraph() {
-//    }
-//
-//    public void findEndVertexDirectedGraph() {
-//    }
+    public void displayDirectedGraphTwoInfo() {
+        //1.1-4
+        view.printMatrix("Directed graph matrix №2", model.getDirectedGraphTwo().getAdjacencyMatrix());
+        view.drawDirectedGraph(model.getDirectedGraphTwo().getAdjacencyMatrix());
+        //4.1
+        view.printVertexPower(model.getDirectedGraphTwo().getPositivePowerVertex(), "Positive power of vertices (directed graph 2):");
+        view.printVertexPower(model.getDirectedGraphTwo().getNegativePowerVertex(), "Negative power of vertices (directed graph 2):");
+    }
 }
