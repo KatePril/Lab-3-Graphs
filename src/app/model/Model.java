@@ -1,9 +1,6 @@
 package app.model;
 
-import app.model.matrix.DirectedGraphMatrixCreator;
-import app.model.matrix.KGenerator;
-import app.model.matrix.RandomMatrixCreator;
-import app.model.matrix.UndirectedGraphMatrixCreator;
+import app.model.matrix.*;
 import app.utils.Constants;
 
 public class Model {
@@ -34,6 +31,8 @@ public class Model {
         UndirectedGraphMatrixCreator undirectedGraphMatrixCreator = new UndirectedGraphMatrixCreator(directedGraphMatrix);
         return undirectedGraphMatrixCreator.getGraphMatrix();
     }
+
+
 
     private int calculateVerticesNumber() {
         return 10 + Constants.n3;

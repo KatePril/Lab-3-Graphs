@@ -48,6 +48,15 @@ public class View<T> {
             System.out.printf("The graph is regular of power %d", regularity);
     }
 
+    public void printPaths(ArrayList<ArrayList<Integer>> paths, int ttl) {
+        printTitle(String.format("List of %d-step paths:", ttl));
+        for (ArrayList<Integer> path : paths) {
+            String[] arr = path.stream().map(el -> String.valueOf(el + 1)).toArray(String[]::new);
+            String output = String.join(" - ", arr);
+            System.out.println(output);
+        }
+    }
+
     private void printTitle(String title) {
         System.out.println(title);
     }
