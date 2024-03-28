@@ -1,7 +1,9 @@
 package app.controller;
 
 import app.model.Model;
+import app.model.matrix.MatrixCalculator;
 import app.view.View;
+import app.view.matrix.MatrixPrinter;
 
 public class Controller {
     private final Model model = new Model();
@@ -41,10 +43,19 @@ public class Controller {
         //4.1
         view.printVertexPower(model.getDirectedGraphTwo().getPositivePowerVertex(), "Positive power of vertices (directed graph 2):");
         view.printVertexPower(model.getDirectedGraphTwo().getNegativePowerVertex(), "Negative power of vertices (directed graph 2):");
-        //4.2
+        //4.2 FIX
         view.printMatrix("matrix of two-step paths", model.getDirectedGraphTwo().getTwoStepPathMatrix());
         view.printMatrix("matrix of three-step paths", model.getDirectedGraphTwo().getThreeStepPathMatrix());
-        //4.3 FIX
         view.printPaths(model.getDirectedGraphTwo().findNStepPaths(2), 2);
+        //4.3
+        view.printMatrix("Matrix of reachability", model.getDirectedGraphTwo().getMatrixOfReachability());
+        view.printMatrix("Transposed of reachability", MatrixCalculator.transposeMatrix(model.getDirectedGraphTwo().getMatrixOfReachability()));
+        //4.4
+        view.printMatrix("Matrix of strong connections", model.getDirectedGraphTwo().getMatrixOfStrongConnections());
+        System.out.println("Moved matrix of strong connections");
+        MatrixPrinter<Integer> matrixPrinter = new MatrixPrinter<>();
+        matrixPrinter.printMovedMatrix(model.getDirectedGraphTwo().moveMatrixOfStrongConnections());
+        view.printComponents(model.getDirectedGraphTwo().getComponents());
+
     }
 }

@@ -57,6 +57,18 @@ public class View<T> {
         }
     }
 
+    public void printComponents(ArrayList<ArrayList<Integer>> components) {
+        printTitle("Components");
+        for (int i = 0; i < components.size(); i++) {
+            System.out.printf("Component K%d:\n", i+1);
+            for (int j = 0; j < components.get(i).size(); j++) {
+                System.out.printf("\t%d", components.get(i).get(j));
+            }
+            System.out.println();
+        }
+
+    }
+
     private void printTitle(String title) {
         System.out.println(title);
     }

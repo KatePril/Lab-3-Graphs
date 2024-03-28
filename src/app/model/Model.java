@@ -1,6 +1,7 @@
 package app.model;
 
 import app.model.matrix.*;
+import app.model.matrix.dataSupliers.KGenerator;
 import app.utils.Constants;
 
 public class Model {
