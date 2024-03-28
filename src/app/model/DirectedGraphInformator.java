@@ -5,7 +5,10 @@ import app.model.matrix.BoolTransformer;
 import app.model.matrix.MatrixCalculator;
 import app.model.matrix.dataSupliers.IdentityMatrixSupplier;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 public class DirectedGraphInformator extends UndirectedGraphInformator {
     private Integer[] positivePowerVertex;
@@ -30,11 +33,11 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
 
         for (int i = 0; i < getAdjacencyMatrix().length; i++) {
             for (int j = 0; j < getAdjacencyMatrix().length; j++) {
-                if (twoStepPathMatrix[i][j] > 0) {
-                    System.out.println("Entrance");
-                    ArrayList<Integer> foundPath = findPath(i, j, ttl, new ArrayList<>());
-                    if (foundPath != null) {
-                        twoStepPaths.add(foundPath);
+                if (i != j) {
+                    if (twoStepPathMatrix[i][j] > 0) {
+//                        System.out.printf("\nEntrance: i = %d; j = %d; ttl = %d\n", i, j, ttl);
+                        ArrayList<ArrayList<Integer>> foundPaths = findPath(i, j, ttl);
+                        twoStepPaths.addAll(foundPaths);
                     }
                 }
             }
@@ -43,25 +46,76 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
         return twoStepPaths;
     }
 
-    private ArrayList<Integer> findPath(Integer firstVertex, Integer lastVertex, int TTL, ArrayList<Integer> path) { // refactor numerous returns
-        path.add(firstVertex);
-        System.out.println(path);
-        System.out.printf("firstVertex = %d, lastVertex = %d, ttl = %d\n", firstVertex, lastVertex, TTL);
-        if (TTL == 0) {
-            if (firstVertex.equals(lastVertex)) {
-                return path;
-            } else {
-                return null;
-            }
-        } else {
-            for (int j = 0; j < getAdjacencyMatrix().length; j++) {
-                if (getAdjacencyMatrix()[firstVertex][j] == 1) {
-                    return findPath(getAdjacencyMatrix()[firstVertex][j], lastVertex, TTL-1, path);
-                }
-            }
-        }
-        return null;
-    }
+   private ArrayList<ArrayList<Integer>> findPath(Integer firstVertex, Integer lastVertex, int ttl) {
+       ArrayList<ArrayList<Integer>> paths = new ArrayList<>();
+       boolean flag = true;
+       int currentVertex = firstVertex;
+       while (ttl > 0) {
+           ArrayList<ArrayList<Integer>> pathsFromVertex = new ArrayList<>();
+           if (flag) {
+               for (int i = 0; i < getAdjacencyMatrix().length; i++) {
+                   if (currentVertex != i && getAdjacencyMatrix()[currentVertex][i] == 1) {
+                       pathsFromVertex.add(new ArrayList<>(Arrays.asList(firstVertex, i)));
+                   }
+               }
+//               System.out.println(paths);
+               flag = false;
+           } else {
+               for (ArrayList<Integer> path : paths) {
+                   currentVertex = path.get(path.size() - 1);
+                   for (int j = 0; j < getAdjacencyMatrix().length; j++) {
+                       if (currentVertex != j && getAdjacencyMatrix()[currentVertex][j] == 1) {
+                           if (!path.contains(j)) {
+                               ArrayList<Integer> tmp = (ArrayList<Integer>) path.clone();
+                               tmp.add(j);
+//                           System.out.println("tmp: " + tmp);
+                               pathsFromVertex.add(tmp);
+                           }
+                       }
+                   }
+               }
+           }
+           paths = pathsFromVertex;
+//           System.out.println(pathsFromVertex);
+           --ttl;
+       }
+       ArrayList<ArrayList<Integer>> output = new ArrayList<>();
+       for (ArrayList<Integer> path : paths) {
+           if (path.get(0).equals(firstVertex) && path.get(path.size()-1).equals(lastVertex)) {
+               output.add(path);
+           }
+       }
+//       System.out.println("output: " + output);
+       return output;
+   }
+
+//    private ArrayList<Integer> findPath(Integer firstVertex, Integer lastVertex, int TTL, ArrayList<Integer> path) { // refactor numerous returns
+//
+//
+//        System.out.println(path);
+//        System.out.printf("firstVertex = %d, lastVertex = %d, ttl = %d\n", firstVertex, lastVertex, TTL);
+//        if (TTL == 0) {
+//            path.add(firstVertex);
+//            if (firstVertex.equals(lastVertex)) {
+//                return path;
+//            } else {
+//                return path;
+//            }
+//        } else {
+//            if (!path.isEmpty()) {
+//                if (path.contains(firstVertex)) {
+//                    return findPath(path.get(path.size() - 1), lastVertex, TTL, path);
+//                }
+//            }
+//            path.add(firstVertex);
+//            for (int j = 0; j < getAdjacencyMatrix().length; j++) {
+//                if (getAdjacencyMatrix()[lastVertex][j] == 1) {
+//                    return findPath(j, lastVertex, TTL-1, path);
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     private Integer[][] calculateMatrixOfReachability() {
         ArrayList<Integer[][]> matrixExponents = new ArrayList<>();
