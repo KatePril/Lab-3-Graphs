@@ -3,12 +3,16 @@ package app.model;
 import app.model.matrix.*;
 import app.model.matrix.dataSupliers.KGenerator;
 import app.utils.Constants;
+import app.view.matrix.MatrixPrinter;
+
+import java.util.ArrayList;
 
 public class Model {
     private final int n;
     private final UndirectedGraphInformator undirectedGraph;
     private final DirectedGraphInformator directedGraph;
     private final DirectedGraphInformator directedGraphTwo;
+    private final DirectedGraphInformator componentsGraph;
 
     public Model() {
         this.n = calculateVerticesNumber();
@@ -21,6 +25,9 @@ public class Model {
 
         Integer[][] directedGraphMatrixTwo = createDirectedGraphMatrix(new RandomMatrixCreator(this.n, KGenerator.getK2()).getMatrix());
         directedGraphTwo = new DirectedGraphInformator(directedGraphMatrixTwo, true);
+
+        Integer[][] componentMatrix = createMatrixOfConnectionsGraph(directedGraphTwo.getComponents(), directedGraphTwo.getAdjacencyMatrix());
+        componentsGraph = new DirectedGraphInformator(componentMatrix, true);
     }
 
     private Integer[][] createDirectedGraphMatrix(Double[][] matrix) {
@@ -31,6 +38,35 @@ public class Model {
     private Integer[][] createUndirectedGraphMatrix(Integer[][] directedGraphMatrix) {
         UndirectedGraphMatrixCreator undirectedGraphMatrixCreator = new UndirectedGraphMatrixCreator(directedGraphMatrix);
         return undirectedGraphMatrixCreator.getGraphMatrix();
+    }
+
+    public Integer[][] createMatrixOfConnectionsGraph(ArrayList<ArrayList<Integer>> components, Integer[][] adjacencyMatrix) {
+        Integer[][] componentGraph = new Integer[components.size()][components.size()];
+        for (int i = 0; i < componentGraph.length; i++) {
+            for (int j = 0; j < componentGraph.length; j++) {
+                if (i == j) {
+                    componentGraph[i][j] = 0;
+                } else {
+                    ArrayList<Integer> k1 = components.get(i);
+                    ArrayList<Integer> k2 = components.get(j);
+                    boolean flag = false;
+                    for (int k = 0; k < k1.size(); k++) {
+                        for (int l = 0; l < k2.size(); l++) {
+                            if (adjacencyMatrix[k1.get(k)-1][k2.get(l)-1] == 1) {
+                                componentGraph[i][j] = 1;
+                                flag = true;
+                                break;
+                            } else {
+                                componentGraph[i][j] = 0;
+                            }
+                        }
+                        if (flag)
+                            break;
+                    }
+                }
+            }
+        }
+        return componentGraph;
     }
 
 
@@ -54,5 +90,9 @@ public class Model {
 
     public DirectedGraphInformator getDirectedGraphTwo() {
         return directedGraphTwo;
+    }
+
+    public DirectedGraphInformator getComponentsGraph() {
+        return componentsGraph;
     }
 }

@@ -55,7 +55,12 @@ public class Controller {
         System.out.println("Moved matrix of strong connections");
         MatrixPrinter<Integer> matrixPrinter = new MatrixPrinter<>();
         matrixPrinter.printMovedMatrix(model.getDirectedGraphTwo().moveMatrixOfStrongConnections());
+        //4.5
         view.printComponents(model.getDirectedGraphTwo().getComponents());
+        //4.6
+        view.printMatrix("Directed graph of components", model.getComponentsGraph().getAdjacencyMatrix());
+        view.drawDirectedGraph(model.getComponentsGraph().getAdjacencyMatrix());
+
 
     }
 }

@@ -23,7 +23,7 @@ public class LinePainter {
             paintCycleLine(g, vertexOne, arrow);
         } else if (Math.abs(vertexOne.getY() - vertexTwo.getY()) == Direction.DOWN.y) {
             paintLineDistOneY(g, vertexOne, vertexTwo, arrow);
-        } else if (Math.abs(vertexOne.getValue() - vertexTwo.getValue()) == middleIndicator) {
+        } else if (Math.abs(vertexOne.getValue() - vertexTwo.getValue()) == middleIndicator && vertexTwo.getValue() != middleIndicator * 2) {
             paintLineAvoidingMiddle(g, vertexOne, vertexTwo, arrow);
         }
         else if (Math.abs(vertexOne.getX() - vertexTwo.getX()) == Direction.RIGHT.x
