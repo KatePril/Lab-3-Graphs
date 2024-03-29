@@ -33,13 +33,13 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
 
         for (int i = 0; i < getAdjacencyMatrix().length; i++) {
             for (int j = 0; j < getAdjacencyMatrix().length; j++) {
-                if (i != j) {
+//                if (i != j) {
                     if (twoStepPathMatrix[i][j] > 0) {
 //                        System.out.printf("\nEntrance: i = %d; j = %d; ttl = %d\n", i, j, ttl);
                         ArrayList<ArrayList<Integer>> foundPaths = findPath(i, j, ttl);
                         twoStepPaths.addAll(foundPaths);
                     }
-                }
+//                }
             }
         }
 
@@ -54,8 +54,8 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
            ArrayList<ArrayList<Integer>> pathsFromVertex = new ArrayList<>();
            if (flag) {
                for (int i = 0; i < getAdjacencyMatrix().length; i++) {
-                   if (currentVertex != i && getAdjacencyMatrix()[currentVertex][i] == 1) {
-                       pathsFromVertex.add(new ArrayList<>(Arrays.asList(firstVertex, i)));
+                   if (getAdjacencyMatrix()[currentVertex][i] == 1) { //currentVertex != i &&
+                           pathsFromVertex.add(new ArrayList<>(Arrays.asList(firstVertex, i)));
                    }
                }
 //               System.out.println(paths);
@@ -65,7 +65,7 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
                    currentVertex = path.get(path.size() - 1);
                    for (int j = 0; j < getAdjacencyMatrix().length; j++) {
                        if (currentVertex != j && getAdjacencyMatrix()[currentVertex][j] == 1) {
-                           if (!path.contains(j)) {
+                           if (!checkVertexPresence(path, j)) { // 1 - 7 - 1 - 7 is possible fix it!!!
                                ArrayList<Integer> tmp = (ArrayList<Integer>) path.clone();
                                tmp.add(j);
 //                           System.out.println("tmp: " + tmp);
@@ -86,6 +86,18 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
            }
        }
 //       System.out.println("output: " + output);
+       return output;
+   }
+
+   private boolean checkVertexPresence(ArrayList<Integer> arr, Integer vertex) {
+       Integer lastElement = arr.get(arr.size() - 1);
+       boolean output = false;
+       for (int i = 1; i < arr.size(); i++) {
+           if (arr.get(i).equals(vertex) && arr.get(i-1).equals(lastElement)) {
+               output = true;
+               break;
+           }
+       }
        return output;
    }
 

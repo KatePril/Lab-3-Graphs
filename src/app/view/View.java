@@ -50,10 +50,12 @@ public class View<T> {
 
     public void printPaths(ArrayList<ArrayList<Integer>> paths, int ttl) {
         printTitle(String.format("List of %d-step paths:", ttl));
+        int i = 1;
         for (ArrayList<Integer> path : paths) {
             String[] arr = path.stream().map(el -> String.valueOf(el + 1)).toArray(String[]::new);
             String output = String.join(" - ", arr);
-            System.out.println(output);
+            System.out.println( i + ") " + output);
+            ++i;
         }
     }
 
