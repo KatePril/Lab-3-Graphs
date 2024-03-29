@@ -1,9 +1,10 @@
 package app.model;
 
-import app.model.matrix.*;
+import app.model.matrix.dataSupliers.DirectedGraphMatrixCreator;
 import app.model.matrix.dataSupliers.KGenerator;
+import app.model.matrix.dataSupliers.RandomMatrixCreator;
+import app.model.matrix.dataSupliers.UndirectedGraphMatrixCreator;
 import app.utils.Constants;
-import app.view.matrix.MatrixPrinter;
 
 import java.util.ArrayList;
 

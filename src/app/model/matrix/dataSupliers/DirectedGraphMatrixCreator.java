@@ -1,4 +1,6 @@
-package app.model.matrix;
+package app.model.matrix.dataSupliers;
+
+import app.model.matrix.BoolTransformer;
 
 public class DirectedGraphMatrixCreator {
     private final Double[][] randomMatrix;

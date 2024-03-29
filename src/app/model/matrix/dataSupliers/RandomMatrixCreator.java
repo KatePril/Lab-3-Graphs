@@ -1,4 +1,4 @@
-package app.model.matrix;
+package app.model.matrix.dataSupliers;
 
 import app.utils.Constants;
 

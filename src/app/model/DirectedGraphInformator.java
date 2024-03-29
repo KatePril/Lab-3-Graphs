@@ -3,10 +3,12 @@ package app.model;
 import app.model.graphAnalysis.VertexCalculator;
 import app.model.matrix.BoolTransformer;
 import app.model.matrix.MatrixCalculator;
+import app.model.matrix.PathSearcher;
 import app.model.matrix.dataSupliers.IdentityMatrixSupplier;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class DirectedGraphInformator extends UndirectedGraphInformator {
     private Integer[] positivePowerVertex;
@@ -25,72 +27,15 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
         return MatrixCalculator.exponentMatrix(getAdjacencyMatrix(), 2);
     }
 
-    public ArrayList<ArrayList<Integer>> findNStepPaths(int ttl) {
-        Integer[][] twoStepPathMatrix = getTwoStepPathMatrix();
-        ArrayList<ArrayList<Integer>> twoStepPaths = new ArrayList<>();
-
-        for (int i = 0; i < getAdjacencyMatrix().length; i++) {
-            for (int j = 0; j < getAdjacencyMatrix().length; j++) {
-                if (twoStepPathMatrix[i][j] > 0) {
-                    ArrayList<ArrayList<Integer>> foundPaths = findPath(i, j, ttl);
-                    twoStepPaths.addAll(foundPaths);
-                }
-            }
-        }
-
-        return twoStepPaths;
+    public Integer[][] getThreeStepPathMatrix() {
+        return MatrixCalculator.exponentMatrix(getAdjacencyMatrix(), 3);
     }
 
-   private ArrayList<ArrayList<Integer>> findPath(Integer firstVertex, Integer lastVertex, int ttl) {
-       ArrayList<ArrayList<Integer>> paths = new ArrayList<>();
-       boolean flag = true;
-       int currentVertex = firstVertex;
-       while (ttl > 0) {
-           ArrayList<ArrayList<Integer>> pathsFromVertex = new ArrayList<>();
-           if (flag) {
-               for (int i = 0; i < getAdjacencyMatrix().length; i++) {
-                   if (getAdjacencyMatrix()[currentVertex][i] == 1) { //currentVertex != i &&
-                           pathsFromVertex.add(new ArrayList<>(Arrays.asList(firstVertex, i)));
-                   }
-               }
-               flag = false;
-           } else {
-               for (ArrayList<Integer> path : paths) {
-                   currentVertex = path.get(path.size() - 1);
-                   for (int j = 0; j < getAdjacencyMatrix().length; j++) {
-                       if (currentVertex != j && getAdjacencyMatrix()[currentVertex][j] == 1) {
-                           if (!checkVertexPresence(path, j)) { // 1 - 7 - 1 - 7 is possible fix it!!!
-                               ArrayList<Integer> tmp = (ArrayList<Integer>) path.clone();
-                               tmp.add(j);
-                               pathsFromVertex.add(tmp);
-                           }
-                       }
-                   }
-               }
-           }
-           paths = pathsFromVertex;
-           --ttl;
-       }
-       ArrayList<ArrayList<Integer>> output = new ArrayList<>();
-       for (ArrayList<Integer> path : paths) {
-           if (path.get(0).equals(firstVertex) && path.get(path.size()-1).equals(lastVertex)) {
-               output.add(path);
-           }
-       }
-       return output;
-   }
 
-   private boolean checkVertexPresence(ArrayList<Integer> arr, Integer vertex) {
-       Integer lastElement = arr.get(arr.size() - 1);
-       boolean output = false;
-       for (int i = 1; i < arr.size(); i++) {
-           if (arr.get(i).equals(vertex) && arr.get(i-1).equals(lastElement)) {
-               output = true;
-               break;
-           }
-       }
-       return output;
-   }
+    public LinkedList<LinkedList<Integer>> findNStepPaths(int ttl) {
+        PathSearcher pathSearcher = new PathSearcher(MatrixCalculator.exponentMatrix(getAdjacencyMatrix(), ttl), getAdjacencyMatrix());
+        return pathSearcher.findNStepPaths(ttl);
+    }
 
     private Integer[][] calculateMatrixOfReachability() {
         ArrayList<Integer[][]> matrixExponents = new ArrayList<>();
@@ -108,10 +53,6 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
     private Integer[][] calculateMatrixOfStrongConnections() {
         Integer[][] transposedMatrixOfReachability = MatrixCalculator.transposeMatrix(matrixOfReachability);
         return MatrixCalculator.multiplyElementWise(matrixOfReachability, transposedMatrixOfReachability);
-    }
-
-    public Integer[][] getThreeStepPathMatrix() {
-        return MatrixCalculator.exponentMatrix(getAdjacencyMatrix(), 3);
     }
 
     public Integer[][] moveMatrixOfStrongConnections() {
