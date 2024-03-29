@@ -2,6 +2,7 @@ package app.model;
 
 import app.model.graphAnalysis.VertexCalculator;
 import app.model.matrix.BoolTransformer;
+import app.model.matrix.ConnectionsMatrixMover;
 import app.model.matrix.MatrixCalculator;
 import app.model.matrix.PathSearcher;
 import app.model.matrix.dataSupliers.IdentityMatrixSupplier;
@@ -55,45 +56,12 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
         return MatrixCalculator.multiplyElementWise(matrixOfReachability, transposedMatrixOfReachability);
     }
 
-    public Integer[][] moveMatrixOfStrongConnections() {
-        Integer[][] numeratedMatrixOfStrongConnections = new Integer[matrixOfStrongConnections.length + 1][matrixOfStrongConnections[0].length + 1];
-        for (int i = 0; i <= matrixOfStrongConnections.length; i++) {
-            numeratedMatrixOfStrongConnections[0][i] = i;
-            numeratedMatrixOfStrongConnections[i][0] = i;
-        }
-        for (int i = 0; i < matrixOfStrongConnections.length; i++) {
-            for (int j = 0; j < matrixOfStrongConnections[0].length; j++) {
-                numeratedMatrixOfStrongConnections[i+1][j+1] = matrixOfStrongConnections[i][j];
-            }
-        }
-
-        for (int i = 1; i < numeratedMatrixOfStrongConnections.length; i++) {
-            for (int j = 2; j < numeratedMatrixOfStrongConnections.length; j++) {
-                if (calculateRowValue(numeratedMatrixOfStrongConnections[j-1]) < calculateRowValue(numeratedMatrixOfStrongConnections[j])) {
-                    Integer[] tmp = numeratedMatrixOfStrongConnections[j-1];
-                    numeratedMatrixOfStrongConnections[j-1] = numeratedMatrixOfStrongConnections[j];
-                    numeratedMatrixOfStrongConnections[j] = tmp;
-                }
-            }
-        }
-        for (int i = 1; i < numeratedMatrixOfStrongConnections.length; i++) {
-            for (int j = 2; j < numeratedMatrixOfStrongConnections.length; j++) {
-                if (calculateColumnValue(numeratedMatrixOfStrongConnections, j-1) < calculateColumnValue(numeratedMatrixOfStrongConnections, j)) {
-                    for (int k = 0; k < numeratedMatrixOfStrongConnections.length; k++) {
-                        Integer tmp = numeratedMatrixOfStrongConnections[k][j-1];
-                        numeratedMatrixOfStrongConnections[k][j-1] = numeratedMatrixOfStrongConnections[k][j];
-                        numeratedMatrixOfStrongConnections[k][j] = tmp;
-                    }
-                }
-            }
-        }
-
-
-        return numeratedMatrixOfStrongConnections;
+    public Integer[][] getMovedMatrixOfStrongConnections() {
+        return ConnectionsMatrixMover.moveMatrixOfStrongConnections(matrixOfStrongConnections);
     }
 
     public ArrayList<ArrayList<Integer>> getComponents() {
-        Integer[][] matrix = moveMatrixOfStrongConnections();
+        Integer[][] matrix = getMovedMatrixOfStrongConnections();
         ArrayList<ArrayList<Integer>> components = new ArrayList<>();
         int k = 0;
         int j = 1;
@@ -115,21 +83,6 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
             k++;
         }
         return components;
-    }
-
-    private int calculateRowValue(Integer[] row) {
-        int sum = 0;
-        for (int i = 1; i < row.length; i++) {
-            sum += row[i];
-        }
-        return sum;
-    }
-    private int calculateColumnValue(Integer[][] matrix, int columnIndex) {
-        int sum = 0;
-        for (int i = 1; i < matrix[0].length; i++) {
-            sum += matrix[i][columnIndex];
-        }
-        return sum;
     }
 
     public Integer[] getPositivePowerVertex() {

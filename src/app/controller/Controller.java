@@ -53,9 +53,7 @@ public class Controller {
         view.printMatrix("Transposed of reachability", MatrixCalculator.transposeMatrix(model.getDirectedGraphTwo().getMatrixOfReachability()));
         //4.4
         view.printMatrix("Matrix of strong connections", model.getDirectedGraphTwo().getMatrixOfStrongConnections());
-        System.out.println("Moved matrix of strong connections");
-        MatrixPrinter<Integer> matrixPrinter = new MatrixPrinter<>();
-        matrixPrinter.printMovedMatrix(model.getDirectedGraphTwo().moveMatrixOfStrongConnections());
+        view.printMovedMatrix(model.getDirectedGraphTwo().getMovedMatrixOfStrongConnections());
         //4.5
         view.printComponents(model.getDirectedGraphTwo().getComponents());
         //4.6

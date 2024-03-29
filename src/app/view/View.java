@@ -14,6 +14,12 @@ public class View<T> {
         matrixPrinter.printMatrix(matrix);
     }
 
+    public void printMovedMatrix(T[][] matrix) {
+        MatrixPrinter<T> matrixPrinter = new MatrixPrinter<>();
+        printTitle("Moved matrix of strong connections");
+        matrixPrinter.printMovedMatrix(matrix);
+    }
+
     public void drawUndirectedGraph(Integer[][] matrix) {
         new UndirectedGraphFrame("Undirected graph", matrix);
     }
