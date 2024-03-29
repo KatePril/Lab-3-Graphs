@@ -3,9 +3,9 @@ package app.entity;
 import static java.lang.String.format;
 
 public class Vertex {
-    private Integer value;
-    private Integer x;
-    private Integer y;
+    private final Integer value;
+    private final Integer x;
+    private final Integer y;
     private final Integer SIZE = 50;
 
     public Vertex(Integer value, Integer x, Integer y) {

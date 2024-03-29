@@ -5,10 +5,8 @@ import app.model.matrix.BoolTransformer;
 import app.model.matrix.MatrixCalculator;
 import app.model.matrix.dataSupliers.IdentityMatrixSupplier;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 public class DirectedGraphInformator extends UndirectedGraphInformator {
     private Integer[] positivePowerVertex;
@@ -33,13 +31,10 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
 
         for (int i = 0; i < getAdjacencyMatrix().length; i++) {
             for (int j = 0; j < getAdjacencyMatrix().length; j++) {
-//                if (i != j) {
-                    if (twoStepPathMatrix[i][j] > 0) {
-//                        System.out.printf("\nEntrance: i = %d; j = %d; ttl = %d\n", i, j, ttl);
-                        ArrayList<ArrayList<Integer>> foundPaths = findPath(i, j, ttl);
-                        twoStepPaths.addAll(foundPaths);
-                    }
-//                }
+                if (twoStepPathMatrix[i][j] > 0) {
+                    ArrayList<ArrayList<Integer>> foundPaths = findPath(i, j, ttl);
+                    twoStepPaths.addAll(foundPaths);
+                }
             }
         }
 
@@ -58,7 +53,6 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
                            pathsFromVertex.add(new ArrayList<>(Arrays.asList(firstVertex, i)));
                    }
                }
-//               System.out.println(paths);
                flag = false;
            } else {
                for (ArrayList<Integer> path : paths) {
@@ -68,7 +62,6 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
                            if (!checkVertexPresence(path, j)) { // 1 - 7 - 1 - 7 is possible fix it!!!
                                ArrayList<Integer> tmp = (ArrayList<Integer>) path.clone();
                                tmp.add(j);
-//                           System.out.println("tmp: " + tmp);
                                pathsFromVertex.add(tmp);
                            }
                        }
@@ -76,7 +69,6 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
                }
            }
            paths = pathsFromVertex;
-//           System.out.println(pathsFromVertex);
            --ttl;
        }
        ArrayList<ArrayList<Integer>> output = new ArrayList<>();
@@ -85,7 +77,6 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
                output.add(path);
            }
        }
-//       System.out.println("output: " + output);
        return output;
    }
 
@@ -100,34 +91,6 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
        }
        return output;
    }
-
-//    private ArrayList<Integer> findPath(Integer firstVertex, Integer lastVertex, int TTL, ArrayList<Integer> path) { // refactor numerous returns
-//
-//
-//        System.out.println(path);
-//        System.out.printf("firstVertex = %d, lastVertex = %d, ttl = %d\n", firstVertex, lastVertex, TTL);
-//        if (TTL == 0) {
-//            path.add(firstVertex);
-//            if (firstVertex.equals(lastVertex)) {
-//                return path;
-//            } else {
-//                return path;
-//            }
-//        } else {
-//            if (!path.isEmpty()) {
-//                if (path.contains(firstVertex)) {
-//                    return findPath(path.get(path.size() - 1), lastVertex, TTL, path);
-//                }
-//            }
-//            path.add(firstVertex);
-//            for (int j = 0; j < getAdjacencyMatrix().length; j++) {
-//                if (getAdjacencyMatrix()[lastVertex][j] == 1) {
-//                    return findPath(j, lastVertex, TTL-1, path);
-//                }
-//            }
-//        }
-//        return null;
-//    }
 
     private Integer[][] calculateMatrixOfReachability() {
         ArrayList<Integer[][]> matrixExponents = new ArrayList<>();

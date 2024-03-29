@@ -43,7 +43,7 @@ public class Controller {
         //4.1
         view.printVertexPower(model.getDirectedGraphTwo().getPositivePowerVertex(), "Positive power of vertices (directed graph 2):");
         view.printVertexPower(model.getDirectedGraphTwo().getNegativePowerVertex(), "Negative power of vertices (directed graph 2):");
-        //4.2 FIX
+        //4.2
         view.printMatrix("matrix of two-step paths", model.getDirectedGraphTwo().getTwoStepPathMatrix());
         view.printMatrix("matrix of three-step paths", model.getDirectedGraphTwo().getThreeStepPathMatrix());
         view.printPaths(model.getDirectedGraphTwo().findNStepPaths(2), 2);

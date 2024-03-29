@@ -49,8 +49,9 @@ public final class MatrixCalculator {
     public static Integer[][] transposeMatrix(Integer[][] a) {
         Integer[][] resultMatrix = new Integer[a.length][a.length];
         for (int i = 0; i < a.length; i++) {
+            Integer[] aRow = a[i];
             for (int j = 0; j < a[0].length; j++) {
-                resultMatrix[j][i] = a[i][j];
+                resultMatrix[j][i] = aRow[j];
             }
         }
         return resultMatrix;

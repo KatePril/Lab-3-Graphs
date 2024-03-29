@@ -5,7 +5,7 @@ import app.utils.Constants;
 import java.util.Random;
 
 public class RandomMatrixCreator {
-    private Double[][] matrix;
+    private final Double[][] matrix;
     public RandomMatrixCreator(int n, Double k) {
         matrix = generateRandomMatrix(n, calculateSeed(Constants.n1, Constants.n2, Constants.n3, Constants.n4));
         scalarMultiply(k);
