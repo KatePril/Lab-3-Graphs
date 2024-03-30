@@ -3,7 +3,6 @@ package app.controller;
 import app.model.Model;
 import app.model.matrix.MatrixCalculator;
 import app.view.View;
-import app.view.matrix.MatrixPrinter;
 
 public class Controller {
     private final Model model = new Model();
@@ -44,8 +43,8 @@ public class Controller {
         view.printVertexPower(model.getDirectedGraphTwo().getPositivePowerVertex(), "Positive power of vertices (directed graph 2):");
         view.printVertexPower(model.getDirectedGraphTwo().getNegativePowerVertex(), "Negative power of vertices (directed graph 2):");
         //4.2
-        view.printMatrix("matrix of two-step paths", model.getDirectedGraphTwo().getTwoStepPathMatrix());
-        view.printMatrix("matrix of three-step paths", model.getDirectedGraphTwo().getThreeStepPathMatrix());
+        view.printMatrix("matrix of two-step paths", model.getDirectedGraphTwo().getBoolTwoStepPathMatrix());
+        view.printMatrix("matrix of three-step paths", model.getDirectedGraphTwo().getBoolThreeStepPathMatrix());
         view.printPaths(model.getDirectedGraphTwo().findNStepPaths(2), 2);
         view.printPaths(model.getDirectedGraphTwo().findNStepPaths(3), 3);
         //4.3

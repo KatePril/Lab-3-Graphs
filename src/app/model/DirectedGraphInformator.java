@@ -8,7 +8,6 @@ import app.model.matrix.PathSearcher;
 import app.model.matrix.dataSupliers.IdentityMatrixSupplier;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 public class DirectedGraphInformator extends UndirectedGraphInformator {
@@ -24,12 +23,14 @@ public class DirectedGraphInformator extends UndirectedGraphInformator {
         matrixOfStrongConnections = calculateMatrixOfStrongConnections();
     }
 
-    public Integer[][] getTwoStepPathMatrix() {
-        return MatrixCalculator.exponentMatrix(getAdjacencyMatrix(), 2);
+    public Integer[][] getBoolTwoStepPathMatrix() {
+        BoolTransformer<Integer> boolTransformer = new BoolTransformer<>();
+        return boolTransformer.getBoolMatrix(MatrixCalculator.exponentMatrix(getAdjacencyMatrix(), 2));
     }
 
-    public Integer[][] getThreeStepPathMatrix() {
-        return MatrixCalculator.exponentMatrix(getAdjacencyMatrix(), 3);
+    public Integer[][] getBoolThreeStepPathMatrix() {
+        BoolTransformer<Integer> boolTransformer = new BoolTransformer<>();
+        return boolTransformer.getBoolMatrix(MatrixCalculator.exponentMatrix(getAdjacencyMatrix(), 3));
     }
 
 
