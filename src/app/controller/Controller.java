@@ -49,7 +49,6 @@ public class Controller {
         view.printPaths(model.getDirectedGraphTwo().findNStepPaths(3), 3);
         //4.3
         view.printMatrix("Matrix of reachability", model.getDirectedGraphTwo().getMatrixOfReachability());
-        view.printMatrix("Transposed of reachability", MatrixCalculator.transposeMatrix(model.getDirectedGraphTwo().getMatrixOfReachability()));
         //4.4
         view.printMatrix("Matrix of strong connections", model.getDirectedGraphTwo().getMatrixOfStrongConnections());
         view.printMovedMatrix(model.getDirectedGraphTwo().getMovedMatrixOfStrongConnections());
