@@ -1,7 +1,6 @@
 package app.controller;
 
 import app.model.Model;
-import app.model.matrix.MatrixCalculator;
 import app.view.View;
 
 public class Controller {
@@ -57,7 +56,5 @@ public class Controller {
         //4.6
         view.printMatrix("Directed graph of components", model.getComponentsGraph().getAdjacencyMatrix());
         view.drawDirectedGraph(model.getComponentsGraph().getAdjacencyMatrix());
-
-
     }
 }
