@@ -1,5 +1,7 @@
 package app.model;
 
+import app.model.graphInformators.DirectedGraphInformator;
+import app.model.graphInformators.UndirectedGraphInformator;
 import app.model.matrix.dataSupliers.DirectedGraphMatrixCreator;
 import app.model.matrix.dataSupliers.KGenerator;
 import app.model.matrix.dataSupliers.RandomMatrixCreator;

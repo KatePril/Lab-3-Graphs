@@ -1,6 +1,5 @@
 package app.model.graphAnalysis;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 

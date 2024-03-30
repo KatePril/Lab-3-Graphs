@@ -1,20 +1,20 @@
-package app.model;
+package app.model.graphInformators;
 
 import app.model.graphAnalysis.VertexCalculator;
 import app.model.matrix.BoolTransformer;
 import app.model.matrix.ConnectionsMatrixMover;
 import app.model.matrix.MatrixCalculator;
-import app.model.matrix.PathSearcher;
+import app.model.graphAnalysis.PathSearcher;
 import app.model.matrix.dataSupliers.IdentityMatrixSupplier;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class DirectedGraphInformator extends UndirectedGraphInformator {
-    private Integer[] positivePowerVertex;
-    private Integer[] negativePowerVertex;
-    private Integer[][] matrixOfReachability;
-    private Integer[][] matrixOfStrongConnections;
+    private final Integer[] positivePowerVertex;
+    private final Integer[] negativePowerVertex;
+    private final Integer[][] matrixOfReachability;
+    private final Integer[][] matrixOfStrongConnections;
     public DirectedGraphInformator(Integer[][] adjacencyMatrix, boolean ifDirected) {
         super(adjacencyMatrix, ifDirected);
         positivePowerVertex = VertexCalculator.calculateVerticesPositivePower(getAdjacencyMatrix());

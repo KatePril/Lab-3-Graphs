@@ -10,8 +10,8 @@ import java.awt.*;
 
 public class UndirectedGraphFrame extends JFrame {
 
-    private Integer[][] graphMatrix;
-    private VertexPainter vertexPainter = new VertexPainter();
+    private final Integer[][] graphMatrix;
+    private final VertexPainter vertexPainter = new VertexPainter();
     protected LinePainter linePainter;
 
 

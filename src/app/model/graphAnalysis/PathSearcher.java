@@ -1,4 +1,4 @@
-package app.model.matrix;
+package app.model.graphAnalysis;
 
 import java.util.Arrays;
 import java.util.LinkedList;

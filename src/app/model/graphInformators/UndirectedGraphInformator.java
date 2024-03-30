@@ -1,4 +1,4 @@
-package app.model;
+package app.model.graphInformators;
 
 import app.model.graphAnalysis.VertexCalculator;
 
