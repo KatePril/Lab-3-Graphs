@@ -1,5 +1,6 @@
 package app.model;
 
+import app.model.graphVisitors.BFSVisitor;
 import app.model.matrix.dataSuppliers.DirectedGraphMatrixCreator;
 import app.model.matrix.dataSuppliers.KGenerator;
 import app.model.matrix.dataSuppliers.RandomMatrixCreator;

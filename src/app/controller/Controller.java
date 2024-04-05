@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.model.Model;
+import app.model.graphVisitors.BFSVisitor;
 import app.view.View;
 
 public class Controller {
@@ -10,6 +11,7 @@ public class Controller {
     public void displayDirectedGraph() {
         view.printMatrix("Directed graph matrix", model.getDirectedGraphMatrix());
         view.drawDirectedGraph(model.getDirectedGraphMatrix());
-
+        BFSVisitor bfsVisitor = new BFSVisitor(model.getDirectedGraphMatrix());
+        bfsVisitor.visitBFS(0);
     }
 }
