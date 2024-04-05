@@ -19,6 +19,7 @@ public class LinePainter {
     public void paintLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
         g.setColor(getRandomColor());
 
+        System.out.printf("vertexOne = %d, vertexTwo = %d, arrow = %s\n", vertexOne.getValue(), vertexTwo.getValue(), arrow.name());
         if (vertexOne.getValue().equals(vertexTwo.getValue())) {
             paintCycleLine(g, vertexOne, arrow);
         } else if (Math.abs(vertexOne.getY() - vertexTwo.getY()) == Direction.DOWN.y) {
@@ -126,7 +127,6 @@ public class LinePainter {
             drawStraightLine(g, arrow, x1, y1, x2, y2);
         } else {
             int x3 = (Math.abs(vertexOne.getX() - vertexTwo.getX()) / 2) + Math.min(vertexOne.getX(), vertexTwo.getX());
-            int y3 = y1 - vertexOne.getSIZE();
             drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y1);
         }
     }
@@ -219,6 +219,8 @@ public class LinePainter {
         }
         double fi = Math.PI * (180.0 - angle) / 180.0;
 
+        System.out.printf("\tangle = %f, arrow = %s\n", angle, arrow.name());
+
         int xCoefficient, yCoefficient;
         if (rotateArrow(arrow, angle)) {
             yCoefficient = -1;
@@ -243,9 +245,9 @@ public class LinePainter {
 
     private boolean rotateArrow(Arrow arrow, double angle) {
         return (arrow.equals(Arrow.VERTEX_TWO) &&
-                !((angle > 45 && angle < 60) || (angle > 10 && angle < 15) || (angle > -11 && angle < 0) || (angle > -45 && angle < -38) || (angle > -37 && angle < -30)))
+                ((angle > -38 && angle < -37) || (angle > -30 && angle < -11) || (angle > 0 && angle < 10) || (angle > 15 && angle < 55) || (angle > 60 && angle < 70)))
                 || (arrow.equals(Arrow.VERTEX_ONE)
-                && (angle < -30 || (angle > -26 && angle < -16) || (angle > -15 && angle < 0)));
+                && (angle < -30 || (angle > -26 && angle < -16) || (angle > -15 && angle < -11) || (angle > -10 && angle < 0)));
     }
 
     private Color getRandomColor() {

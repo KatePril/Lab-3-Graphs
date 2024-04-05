@@ -14,7 +14,7 @@ public class Model {
 
     public Model() {
         this.n = calculateVerticesNumber();
-        matrix = new RandomMatrixCreator(this.n, KGenerator.getK1()).getMatrix();
+        matrix = new RandomMatrixCreator(this.n, KGenerator.getK()).getMatrix();
 
         directedGraphMatrix = createDirectedGraphMatrix();
         undirectedGraphMatrix = createUndirectedGraphMatrix();
