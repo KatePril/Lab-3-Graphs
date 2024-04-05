@@ -1,20 +1,16 @@
-package app.model.matrix;
+package app.model.matrix.dataSuppliers;
 
 import app.utils.Constants;
 
 import java.util.Random;
 
 public class RandomMatrixCreator {
-    private Double[][] matrix;
-    public RandomMatrixCreator(int n) {
+    private final Double[][] matrix;
+    public RandomMatrixCreator(int n, Double k) {
         matrix = generateRandomMatrix(n, calculateSeed(Constants.n1, Constants.n2, Constants.n3, Constants.n4));
-        scalarMultiply(calculateK());
+        scalarMultiply(k);
     }
 
-    private Double calculateK() {
-        return 1.0 - Constants.n3 * 0.02 - Constants.n4 * 0.005 - 0.25;
-    }
-    
     private int calculateSeed(int ...ns) {
         StringBuilder output = new StringBuilder();
         for (int n: ns) {

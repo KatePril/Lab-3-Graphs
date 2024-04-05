@@ -1,8 +1,9 @@
 package app.model;
 
-import app.model.matrix.DirectedGraphMatrixCreator;
-import app.model.matrix.RandomMatrixCreator;
-import app.model.matrix.UndirectedGraphMatrixCreator;
+import app.model.matrix.dataSuppliers.DirectedGraphMatrixCreator;
+import app.model.matrix.dataSuppliers.KGenerator;
+import app.model.matrix.dataSuppliers.RandomMatrixCreator;
+import app.model.matrix.dataSuppliers.UndirectedGraphMatrixCreator;
 import app.utils.Constants;
 
 public class Model {
@@ -13,7 +14,7 @@ public class Model {
 
     public Model() {
         this.n = calculateVerticesNumber();
-        matrix = new RandomMatrixCreator(this.n).getMatrix();
+        matrix = new RandomMatrixCreator(this.n, KGenerator.getK1()).getMatrix();
 
         directedGraphMatrix = createDirectedGraphMatrix();
         undirectedGraphMatrix = createUndirectedGraphMatrix();
