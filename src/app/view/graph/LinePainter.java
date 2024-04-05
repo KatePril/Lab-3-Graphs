@@ -19,7 +19,6 @@ public class LinePainter {
     public void paintLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
         g.setColor(getRandomColor());
 
-        System.out.printf("vertexOne = %d, vertexTwo = %d, arrow = %s\n", vertexOne.getValue(), vertexTwo.getValue(), arrow.name());
         if (vertexOne.getValue().equals(vertexTwo.getValue())) {
             paintCycleLine(g, vertexOne, arrow);
         } else if (Math.abs(vertexOne.getY() - vertexTwo.getY()) == Direction.DOWN.y) {
@@ -218,8 +217,6 @@ public class LinePainter {
             angle = Math.toDegrees(Math.atan(slope));
         }
         double fi = Math.PI * (180.0 - angle) / 180.0;
-
-        System.out.printf("\tangle = %f, arrow = %s\n", angle, arrow.name());
 
         int xCoefficient, yCoefficient;
         if (rotateArrow(arrow, angle)) {
