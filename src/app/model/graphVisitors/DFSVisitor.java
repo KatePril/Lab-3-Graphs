@@ -13,7 +13,7 @@ public class DFSVisitor extends Visitor{
 
     @Override
     public void makeStep(Integer startVertex) {
-        vertices[startVertex] = VertexStatus.ACTIVE.val;
+        vertices[startVertex] = VertexStatus.VISITED;
 
         newIndicesOfVertices.put(startVertex, vertexCounter);
 
@@ -22,13 +22,13 @@ public class DFSVisitor extends Visitor{
 
         while (!visitedVertices.empty()) {
             Integer activeVertex = visitedVertices.peek();
-            vertices[activeVertex] = VertexStatus.ACTIVE.val;
+            vertices[activeVertex] = VertexStatus.ACTIVE;
             for (int i = 0; i < graphMatrix[0].length; i++) {
                 System.out.printf("activeVertex = %d, i = %d\n", activeVertex, i);
                 System.out.println("Vertices: " + Arrays.toString(vertices));
-                if (graphMatrix[activeVertex][i] == 1 && vertices[i] == VertexStatus.NEW.val) {
-                    vertices[i] = VertexStatus.ACTIVE.val;
-                    vertices[activeVertex] = VertexStatus.VISITED.val;
+                if (graphMatrix[activeVertex][i] == 1 && vertices[i] == VertexStatus.NEW) {
+                    vertices[i] = VertexStatus.ACTIVE;
+                    vertices[activeVertex] = VertexStatus.VISITED;
                     ++vertexCounter;
                     newIndicesOfVertices.put(i, vertexCounter);
                     visitedVertices.push(i);
@@ -38,7 +38,7 @@ public class DFSVisitor extends Visitor{
                     break;
                 }
                 if (i == graphMatrix[0].length - 1) {
-                    vertices[visitedVertices.pop()] = VertexStatus.CLOSED.val;
+                    vertices[visitedVertices.pop()] = VertexStatus.CLOSED;
                     System.out.println("Vertices: " + Arrays.toString(vertices));
                     System.out.println("VisitedVertices: " + visitedVertices);
                     System.out.println("HashMap: " + newIndicesOfVertices);
