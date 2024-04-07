@@ -4,24 +4,23 @@ import app.enums.VertexStatus;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Stack;
 
-public final class BFSVisitor {
+public class DFSVisitor {
     private final Integer[][] graphMatrix;
     private final Integer[] vertices;
     private HashMap<Integer, Integer> newIndicesOfVertices;
     private Integer vertexCounter;
 
-    public BFSVisitor(Integer[][] graphMatrix) {
+    public DFSVisitor(Integer[][] graphMatrix) {
         this.graphMatrix = graphMatrix;
         this.vertices = new Integer[graphMatrix.length];
         Arrays.fill(vertices, VertexStatus.NEW.val);
-        this.newIndicesOfVertices = new HashMap<>(); // pair {vertex : new number}
         this.vertexCounter = 0;
+        this.newIndicesOfVertices = new HashMap<>();
     }
 
-    public void visitBFS() {
+    public void visitDFS() {
         while (!isVisitComplete()) {
             visit(getStartVertex());
         }
@@ -46,29 +45,32 @@ public final class BFSVisitor {
     }
 
     public void visit(Integer startVertex) {
-        vertices[startVertex] = 1;
-        Queue<Integer> visitedVertices = new LinkedList<>();
-        visitedVertices.add(startVertex);
+        vertices[startVertex] = VertexStatus.ACTIVE.val;
 
         newIndicesOfVertices.put(startVertex, vertexCounter);
 
-        while (!visitedVertices.isEmpty()) {
-            Integer activeVertex = visitedVertices.element();
+        Stack<Integer> visitedVertices = new Stack<>();
+        visitedVertices.push(startVertex);
+
+        while (!visitedVertices.empty()) {
+            Integer activeVertex = visitedVertices.peek();
             vertices[activeVertex] = VertexStatus.ACTIVE.val;
             for (int i = 0; i < graphMatrix[0].length; i++) {
                 System.out.printf("activeVertex = %d, i = %d\n", activeVertex, i);
                 System.out.println("Vertices: " + Arrays.toString(vertices));
                 if (graphMatrix[activeVertex][i] == 1 && vertices[i] == VertexStatus.NEW.val) {
-                    vertices[i] = VertexStatus.VISITED.val;
+                    vertices[i] = VertexStatus.ACTIVE.val;
+                    vertices[activeVertex] = VertexStatus.VISITED.val;
                     ++vertexCounter;
                     newIndicesOfVertices.put(i, vertexCounter);
-                    visitedVertices.add(i);
+                    visitedVertices.push(i);
                     System.out.println("Vertices: " + Arrays.toString(vertices));
                     System.out.println("VisitedVertices: " + visitedVertices);
                     System.out.println("HashMap: " + newIndicesOfVertices);
+                    break;
                 }
                 if (i == graphMatrix[0].length - 1) {
-                    vertices[visitedVertices.remove()] = VertexStatus.CLOSED.val;
+                    vertices[visitedVertices.pop()] = VertexStatus.CLOSED.val;
                     System.out.println("Vertices: " + Arrays.toString(vertices));
                     System.out.println("VisitedVertices: " + visitedVertices);
                     System.out.println("HashMap: " + newIndicesOfVertices);
@@ -86,13 +88,5 @@ public final class BFSVisitor {
             }
         }
         return output;
-    }
-
-    public Integer[] getVertices() {
-        return vertices;
-    }
-
-    public HashMap<Integer, Integer> getNewIndicesOfVertices() {
-        return newIndicesOfVertices;
     }
 }

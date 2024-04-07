@@ -1,10 +1,8 @@
 package app.model;
 
-import app.model.graphVisitors.BFSVisitor;
 import app.model.matrix.dataSuppliers.DirectedGraphMatrixCreator;
 import app.model.matrix.dataSuppliers.KGenerator;
 import app.model.matrix.dataSuppliers.RandomMatrixCreator;
-import app.model.matrix.dataSuppliers.UndirectedGraphMatrixCreator;
 import app.utils.Constants;
 
 public class Model {
