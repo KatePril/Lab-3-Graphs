@@ -6,7 +6,6 @@ public class Vertex {
     private Integer value;
     private Integer x;
     private Integer y;
-    private final Integer SIZE = 50;
 
     public Vertex(Integer value, Integer x, Integer y) {
         this.value = value;
@@ -24,10 +23,6 @@ public class Vertex {
 
     public Integer getY() {
         return y;
-    }
-
-    public Integer getSIZE() {
-        return SIZE;
     }
 
     @Override

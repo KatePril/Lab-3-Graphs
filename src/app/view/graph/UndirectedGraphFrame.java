@@ -1,5 +1,6 @@
 package app.view.graph;
 
+import app.enums.VertexStatus;
 import app.model.graph.GraphCreator;
 import app.entity.Vertex;
 import app.utils.Constants;
@@ -7,6 +8,7 @@ import app.enums.Arrow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class UndirectedGraphFrame extends JFrame {
 
@@ -29,15 +31,11 @@ public class UndirectedGraphFrame extends JFrame {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        Vertex[] arr = GraphCreator.createVerticesArray(graphMatrix.length);
-        paintNodes(g, arr);
-        paintLines(g, arr, graphMatrix);
-    }
-
-    private void paintNodes(Graphics g, Vertex[] vertices) {
-        for (Vertex vertex : vertices) {
-            vertexPainter.paintNode(g, vertex);
-        }
+        Vertex[] vertices = GraphCreator.createVerticesArray(graphMatrix.length);
+        VertexStatus[] vertexStatuses = new VertexStatus[vertices.length];
+        Arrays.fill(vertexStatuses, VertexStatus.NEW);
+        vertexPainter.paintNodes(g, vertices, vertexStatuses);
+        paintLines(g, vertices, graphMatrix);
     }
 
     protected void paintLines(Graphics g, Vertex[] vertices, Integer[][] graphMatrix) {
