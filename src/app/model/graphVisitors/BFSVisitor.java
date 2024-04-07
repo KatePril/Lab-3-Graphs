@@ -1,5 +1,7 @@
 package app.model.graphVisitors;
 
+import app.enums.VertexStatus;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,7 +32,7 @@ public final class BFSVisitor {
         boolean flag = false;
         for (int i = 0; i < graphMatrix.length; i++) {
             for (int j = 0; j < graphMatrix[0].length; j++) {
-                if (vertices[i] == 0 && graphMatrix[i][j] == 1) {
+                if (vertices[i] == VertexStatus.NEW.val && graphMatrix[i][j] == 1) {
                     startVertex = i;
                     flag = true;
                     break;
@@ -52,12 +54,12 @@ public final class BFSVisitor {
 
         while (!visitedVertices.isEmpty()) {
             Integer activeVertex = visitedVertices.element();
-            vertices[activeVertex] = 2;
+            vertices[activeVertex] = VertexStatus.ACTIVE.val;
             for (int i = 0; i < graphMatrix[0].length; i++) {
                 System.out.printf("activeVertex = %d, i = %d\n", activeVertex, i);
                 System.out.println("Vertices: " + Arrays.toString(vertices));
-                if (graphMatrix[activeVertex][i] == 1 && vertices[i] == 0) {
-                    vertices[i] = 1;
+                if (graphMatrix[activeVertex][i] == 1 && vertices[i] == VertexStatus.NEW.val) {
+                    vertices[i] = VertexStatus.VISITED.val;
                     ++vertexCounter;
                     newIndicesOfVertices.put(i, vertexCounter);
                     visitedVertices.add(i);
@@ -66,7 +68,7 @@ public final class BFSVisitor {
                     System.out.println("HashMap: " + newIndicesOfVertices);
                 }
                 if (i == graphMatrix[0].length - 1) {
-                    vertices[visitedVertices.remove()] = 3;
+                    vertices[visitedVertices.remove()] = VertexStatus.CLOSED.val;
                     System.out.println("Vertices: " + Arrays.toString(vertices));
                     System.out.println("VisitedVertices: " + visitedVertices);
                     System.out.println("HashMap: " + newIndicesOfVertices);
@@ -78,7 +80,7 @@ public final class BFSVisitor {
     private boolean isVisitComplete() {
         boolean output = true;
         for (Integer vertex : vertices) {
-            if (vertex == 0) {
+            if (vertex == VertexStatus.NEW.val) {
                 output = false;
                 break;
             }
