@@ -3,49 +3,17 @@ package app.model.graphVisitors;
 import app.enums.VertexStatus;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public final class BFSVisitor {
-    private final Integer[][] graphMatrix;
-    private final Integer[] vertices;
-    private HashMap<Integer, Integer> newIndicesOfVertices;
-    private Integer vertexCounter;
+public final class BFSVisitor extends Visitor {
 
     public BFSVisitor(Integer[][] graphMatrix) {
-        this.graphMatrix = graphMatrix;
-        this.vertices = new Integer[graphMatrix.length];
-        Arrays.fill(vertices, VertexStatus.NEW.val);
-        this.newIndicesOfVertices = new HashMap<>(); // pair {vertex : new number}
-        this.vertexCounter = 0;
+        super(graphMatrix);
     }
 
-    public void visitBFS() {
-        while (!isVisitComplete()) {
-            visit(getStartVertex());
-        }
-    }
-
-    private Integer getStartVertex() {
-        int startVertex = 0;
-        boolean flag = false;
-        for (int i = 0; i < graphMatrix.length; i++) {
-            for (int j = 0; j < graphMatrix[0].length; j++) {
-                if (vertices[i] == VertexStatus.NEW.val && graphMatrix[i][j] == 1) {
-                    startVertex = i;
-                    flag = true;
-                    break;
-                }
-            }
-            if (flag)
-                break;
-        }
-
-        return startVertex;
-    }
-
-    public void visit(Integer startVertex) {
+    @Override
+    public void makeStep(Integer startVertex) {
         vertices[startVertex] = 1;
         Queue<Integer> visitedVertices = new LinkedList<>();
         visitedVertices.add(startVertex);
@@ -55,6 +23,7 @@ public final class BFSVisitor {
         while (!visitedVertices.isEmpty()) {
             Integer activeVertex = visitedVertices.element();
             vertices[activeVertex] = VertexStatus.ACTIVE.val;
+
             for (int i = 0; i < graphMatrix[0].length; i++) {
                 System.out.printf("activeVertex = %d, i = %d\n", activeVertex, i);
                 System.out.println("Vertices: " + Arrays.toString(vertices));
@@ -77,22 +46,4 @@ public final class BFSVisitor {
         }
     }
 
-    private boolean isVisitComplete() {
-        boolean output = true;
-        for (Integer vertex : vertices) {
-            if (vertex == VertexStatus.NEW.val) {
-                output = false;
-                break;
-            }
-        }
-        return output;
-    }
-
-    public Integer[] getVertices() {
-        return vertices;
-    }
-
-    public HashMap<Integer, Integer> getNewIndicesOfVertices() {
-        return newIndicesOfVertices;
-    }
 }

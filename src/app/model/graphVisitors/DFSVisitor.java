@@ -3,48 +3,16 @@ package app.model.graphVisitors;
 import app.enums.VertexStatus;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Stack;
 
-public class DFSVisitor {
-    private final Integer[][] graphMatrix;
-    private final Integer[] vertices;
-    private HashMap<Integer, Integer> newIndicesOfVertices;
-    private Integer vertexCounter;
+public class DFSVisitor extends Visitor{
 
     public DFSVisitor(Integer[][] graphMatrix) {
-        this.graphMatrix = graphMatrix;
-        this.vertices = new Integer[graphMatrix.length];
-        Arrays.fill(vertices, VertexStatus.NEW.val);
-        this.vertexCounter = 0;
-        this.newIndicesOfVertices = new HashMap<>();
+        super(graphMatrix);
     }
 
-    public void visitDFS() {
-        while (!isVisitComplete()) {
-            visit(getStartVertex());
-        }
-    }
-
-    private Integer getStartVertex() {
-        int startVertex = 0;
-        boolean flag = false;
-        for (int i = 0; i < graphMatrix.length; i++) {
-            for (int j = 0; j < graphMatrix[0].length; j++) {
-                if (vertices[i] == VertexStatus.NEW.val && graphMatrix[i][j] == 1) {
-                    startVertex = i;
-                    flag = true;
-                    break;
-                }
-            }
-            if (flag)
-                break;
-        }
-
-        return startVertex;
-    }
-
-    public void visit(Integer startVertex) {
+    @Override
+    public void makeStep(Integer startVertex) {
         vertices[startVertex] = VertexStatus.ACTIVE.val;
 
         newIndicesOfVertices.put(startVertex, vertexCounter);
@@ -79,14 +47,4 @@ public class DFSVisitor {
         }
     }
 
-    private boolean isVisitComplete() {
-        boolean output = true;
-        for (Integer vertex : vertices) {
-            if (vertex == VertexStatus.NEW.val) {
-                output = false;
-                break;
-            }
-        }
-        return output;
-    }
 }
