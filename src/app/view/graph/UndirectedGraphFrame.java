@@ -15,13 +15,17 @@ public class UndirectedGraphFrame extends JFrame {
     private Integer[][] graphMatrix;
     private VertexPainter vertexPainter = new VertexPainter();
     protected LinePainter linePainter;
+    private VertexStatus[] vertexStatuses;
+
 
 
     public UndirectedGraphFrame(String title, Integer[][] graphMatrix) throws HeadlessException {
         super(title);
 
         this.graphMatrix = graphMatrix;
+
         linePainter = new LinePainter(graphMatrix.length);
+        this.vertexStatuses = new VertexStatus[graphMatrix.length];
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
@@ -32,7 +36,6 @@ public class UndirectedGraphFrame extends JFrame {
     public void paint(Graphics g) {
         super.paint(g);
         Vertex[] vertices = GraphCreator.createVerticesArray(graphMatrix.length);
-        VertexStatus[] vertexStatuses = new VertexStatus[vertices.length];
         Arrays.fill(vertexStatuses, VertexStatus.NEW);
         vertexPainter.paintNodes(g, vertices, vertexStatuses);
         paintLines(g, vertices, graphMatrix);
@@ -49,5 +52,13 @@ public class UndirectedGraphFrame extends JFrame {
             }
             k++;
         }
+    }
+
+    public void setGraphMatrix(Integer[][] graphMatrix) {
+        this.graphMatrix = graphMatrix;
+    }
+
+    public void setVertexStatuses(VertexStatus[] vertexStatuses) {
+        this.vertexStatuses = vertexStatuses;
     }
 }
