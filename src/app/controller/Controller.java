@@ -12,6 +12,6 @@ public class Controller {
         view.printMatrix("Directed graph matrix", model.getDirectedGraphMatrix());
         view.drawDirectedGraph(model.getDirectedGraphMatrix());
         BFSVisitor bfsVisitor = new BFSVisitor(model.getDirectedGraphMatrix());
-        bfsVisitor.visitBFS(0);
+        bfsVisitor.visitBFS();
     }
 }
