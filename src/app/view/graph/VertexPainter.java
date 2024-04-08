@@ -30,6 +30,7 @@ public class VertexPainter {
             case CLOSED -> output = new  Color(161, 0, 0);
             default -> throw new IllegalStateException("Unexpected value: " + status);
         }
+        System.out.println(status);
         return output;
     }
 }

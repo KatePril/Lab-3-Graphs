@@ -1,9 +1,5 @@
 package app.view.graph;
 
-import app.entity.Vertex;
-import app.enums.Arrow;
-import app.enums.VertexStatus;
-import app.model.graph.GraphCreator;
 import app.model.graphVisitors.Visitor;
 import app.utils.Constants;
 
@@ -27,16 +23,27 @@ public class GraphVisitFrame extends DirectedGraphFrame {
 
         setGraphMatrix(visitMatrix);
 
-        JButton jButton = new JButton("visit");
+        addButton();
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+        setVisible(true);
+    }
+
+    private void addButton() {
+        JButton jButton = new JButton("Visit");
         jButton.setMaximumSize(new Dimension(100, 50));
         JPanel panel = new JPanel();
         panel.setMaximumSize(new Dimension(100, 50));
         panel.add(jButton);
         getContentPane().add(panel);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
-        setVisible(true);
+        jButton.addActionListener(l -> {
+            visitor.visit();
+            setVertexStatuses(visitor.getVertices());
+
+            repaint();
+        });
     }
 
     @Override

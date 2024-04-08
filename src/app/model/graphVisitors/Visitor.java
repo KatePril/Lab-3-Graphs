@@ -56,5 +56,8 @@ public abstract class Visitor {
 
     protected abstract void makeStep(Integer startVertex);
 
+    public VertexStatus[] getVertices() {
+        return vertices;
+    }
 
 }
