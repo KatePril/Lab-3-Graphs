@@ -24,24 +24,25 @@ public class DFSVisitor extends Visitor{
             Integer activeVertex = visitedVertices.peek();
             vertices[activeVertex] = VertexStatus.ACTIVE;
             for (int i = 0; i < graphMatrix[0].length; i++) {
-                System.out.printf("activeVertex = %d, i = %d\n", activeVertex, i);
-                System.out.println("Vertices: " + Arrays.toString(vertices));
+//                System.out.printf("activeVertex = %d, i = %d\n", activeVertex, i);
+//                System.out.println("Vertices: " + Arrays.toString(vertices));
                 if (graphMatrix[activeVertex][i] == 1 && vertices[i] == VertexStatus.NEW) {
                     vertices[i] = VertexStatus.ACTIVE;
                     vertices[activeVertex] = VertexStatus.VISITED;
                     ++vertexCounter;
                     newIndicesOfVertices.put(i, vertexCounter);
                     visitedVertices.push(i);
-                    System.out.println("Vertices: " + Arrays.toString(vertices));
-                    System.out.println("VisitedVertices: " + visitedVertices);
-                    System.out.println("HashMap: " + newIndicesOfVertices);
+                    visitMatrix[activeVertex][i] = 1;
+//                    System.out.println("Vertices: " + Arrays.toString(vertices));
+//                    System.out.println("VisitedVertices: " + visitedVertices);
+//                    System.out.println("HashMap: " + newIndicesOfVertices);
                     break;
                 }
                 if (i == graphMatrix[0].length - 1) {
                     vertices[visitedVertices.pop()] = VertexStatus.CLOSED;
-                    System.out.println("Vertices: " + Arrays.toString(vertices));
-                    System.out.println("VisitedVertices: " + visitedVertices);
-                    System.out.println("HashMap: " + newIndicesOfVertices);
+//                    System.out.println("Vertices: " + Arrays.toString(vertices));
+//                    System.out.println("VisitedVertices: " + visitedVertices);
+//                    System.out.println("HashMap: " + newIndicesOfVertices);
                 }
             }
         }

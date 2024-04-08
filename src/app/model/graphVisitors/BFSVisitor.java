@@ -25,22 +25,23 @@ public final class BFSVisitor extends Visitor {
             vertices[activeVertex] = VertexStatus.ACTIVE;
 
             for (int i = 0; i < graphMatrix[0].length; i++) {
-                System.out.printf("activeVertex = %d, i = %d\n", activeVertex, i);
-                System.out.println("Vertices: " + Arrays.toString(vertices));
+//                System.out.printf("activeVertex = %d, i = %d\n", activeVertex, i);
+//                System.out.println("Vertices: " + Arrays.toString(vertices));
                 if (graphMatrix[activeVertex][i] == 1 && vertices[i] == VertexStatus.NEW) {
                     vertices[i] = VertexStatus.VISITED;
                     ++vertexCounter;
                     newIndicesOfVertices.put(i, vertexCounter);
                     visitedVertices.add(i);
-                    System.out.println("Vertices: " + Arrays.toString(vertices));
-                    System.out.println("VisitedVertices: " + visitedVertices);
-                    System.out.println("HashMap: " + newIndicesOfVertices);
+                    visitMatrix[activeVertex][i] = 1;
+//                    System.out.println("Vertices: " + Arrays.toString(vertices));
+//                    System.out.println("VisitedVertices: " + visitedVertices);
+//                    System.out.println("HashMap: " + newIndicesOfVertices);
                 }
                 if (i == graphMatrix[0].length - 1) {
                     vertices[visitedVertices.remove()] = VertexStatus.CLOSED;
-                    System.out.println("Vertices: " + Arrays.toString(vertices));
-                    System.out.println("VisitedVertices: " + visitedVertices);
-                    System.out.println("HashMap: " + newIndicesOfVertices);
+//                    System.out.println("Vertices: " + Arrays.toString(vertices));
+//                    System.out.println("VisitedVertices: " + visitedVertices);
+//                    System.out.println("HashMap: " + newIndicesOfVertices);
                 }
             }
         }

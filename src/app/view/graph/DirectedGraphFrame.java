@@ -18,14 +18,14 @@ public class DirectedGraphFrame extends UndirectedGraphFrame{
             for (int j = k; j < graphMatrix[0].length; j++) {
                 if (tmpArr[j] == 1) {
                     if (graphMatrix[j][i] == 1) {
-                        linePainter.paintLine(g, vertices[i], vertices[j], Arrow.BOTH_VERTICES);
+                        linePainter.paintLine(g, vertices[i], vertices[j], Arrow.BOTH_VERTICES, getLineColor());
                     } else {
-                        linePainter.paintLine(g, vertices[i], vertices[j], Arrow.VERTEX_TWO);
+                        linePainter.paintLine(g, vertices[i], vertices[j], Arrow.VERTEX_TWO, getLineColor());
                     }
                     continue;
                 }
                 if (graphMatrix[j][i] == 1) {
-                    linePainter.paintLine(g, vertices[i], vertices[j], Arrow.VERTEX_ONE);
+                    linePainter.paintLine(g, vertices[i], vertices[j], Arrow.VERTEX_ONE, getLineColor());
                 }
             }
             k++;

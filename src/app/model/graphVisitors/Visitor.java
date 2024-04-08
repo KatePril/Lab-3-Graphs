@@ -11,12 +11,20 @@ public abstract class Visitor {
     protected HashMap<Integer, Integer> newIndicesOfVertices;
     protected Integer vertexCounter;
 
+    protected Integer[][] visitMatrix;
+
     public Visitor(Integer[][] graphMatrix) {
         this.graphMatrix = graphMatrix;
         this.vertices = new VertexStatus[graphMatrix.length];
         Arrays.fill(vertices, VertexStatus.NEW);
         this.newIndicesOfVertices = new HashMap<>(); // pair {vertex : new number}
         this.vertexCounter = 0;
+        this.visitMatrix = new Integer[graphMatrix.length][graphMatrix[0].length];
+        for (int i = 0; i < visitMatrix.length; i++) {
+            for (int j = 0; j < visitMatrix[0].length; j++) {
+                visitMatrix[i][j] = 0;
+            }
+        }
     }
 
     public void visit() {
@@ -60,4 +68,7 @@ public abstract class Visitor {
         return vertices;
     }
 
+    public Integer[][] getVisitMatrix() {
+        return visitMatrix;
+    }
 }

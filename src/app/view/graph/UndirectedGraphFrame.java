@@ -3,6 +3,7 @@ package app.view.graph;
 import app.enums.VertexStatus;
 import app.model.graph.GraphCreator;
 import app.entity.Vertex;
+import app.utils.ColorResources;
 import app.utils.Constants;
 import app.enums.Arrow;
 
@@ -26,6 +27,7 @@ public class UndirectedGraphFrame extends JFrame {
 
         linePainter = new LinePainter(graphMatrix.length);
         this.vertexStatuses = new VertexStatus[graphMatrix.length];
+        Arrays.fill(vertexStatuses, VertexStatus.NEW);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
@@ -36,7 +38,7 @@ public class UndirectedGraphFrame extends JFrame {
     public void paint(Graphics g) {
         super.paint(g);
         Vertex[] vertices = GraphCreator.createVerticesArray(graphMatrix.length);
-        Arrays.fill(vertexStatuses, VertexStatus.NEW);
+
         vertexPainter.paintNodes(g, vertices, vertexStatuses);
         paintLines(g, vertices, graphMatrix);
     }
@@ -47,7 +49,7 @@ public class UndirectedGraphFrame extends JFrame {
             Integer[] tmpArr = graphMatrix[i];
             for (int j = k; j < graphMatrix[0].length; j++) {
                 if (tmpArr[j] == 1) {
-                    linePainter.paintLine(g, vertices[i], vertices[j], Arrow.NONE);
+                    linePainter.paintLine(g, vertices[i], vertices[j], Arrow.NONE, getLineColor());
                 }
             }
             k++;
@@ -60,5 +62,10 @@ public class UndirectedGraphFrame extends JFrame {
 
     public void setVertexStatuses(VertexStatus[] vertexStatuses) {
         this.vertexStatuses = vertexStatuses;
+        repaint();
+    }
+
+    protected Color getLineColor() {
+        return ColorResources.getRandomColor();
     }
 }

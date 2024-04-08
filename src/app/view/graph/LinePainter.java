@@ -17,8 +17,8 @@ public class LinePainter {
         this.middleIndicator = len / 2;
     }
 
-    public void paintLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
-        g.setColor(getRandomColor());
+    public void paintLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow, Color color) {
+        g.setColor(color);
 
         if (vertexOne.getValue().equals(vertexTwo.getValue())) {
             paintCycleLine(g, vertexOne, arrow);
@@ -43,7 +43,7 @@ public class LinePainter {
     private void paintCycleLine(Graphics g, Vertex vertex, Arrow arrow) {
         int len = 30;
 
-        int x1 = vertex.getX() + Constants.VERTEX_HALF_SIZE;
+        int x1 = vertex.getX() + Constants.RADIUS;
         int y1 = vertex.getY();
         int x2 = x1 - len;
         int y2 = y1 - len;
@@ -59,9 +59,9 @@ public class LinePainter {
     }
 
     private void paintLineAvoidingMiddle(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
-        int x1 = vertexOne.getX() + Constants.VERTEX_HALF_SIZE;
-        int x2 = vertexTwo.getX() + Constants.VERTEX_HALF_SIZE;
-        int y1 = vertexOne.getY() + Constants.VERTEX_SIZE;
+        int x1 = vertexOne.getX() + Constants.RADIUS;
+        int x2 = vertexTwo.getX() + Constants.RADIUS;
+        int y1 = vertexOne.getY() + Constants.DIAMETER;
         int y2 = vertexTwo.getY();
 
         int x3, y3;
@@ -86,16 +86,16 @@ public class LinePainter {
         if (vertexOne.getY().equals(vertexTwo.getY())) {
             int x1, x2;
             if (vertexOne.getX() < vertexTwo.getX()) {
-                x1 = vertexOne.getX() + Constants.VERTEX_SIZE;
+                x1 = vertexOne.getX() + Constants.DIAMETER;
                 x2 = vertexTwo.getX();
 
             } else {
-                x1 = vertexTwo.getX() + Constants.VERTEX_SIZE;
+                x1 = vertexTwo.getX() + Constants.DIAMETER;
                 x2 = vertexOne.getX();
             }
 
-            int y1 = vertexOne.getY() + Constants.VERTEX_HALF_SIZE;
-            int y2 = vertexTwo.getY() + Constants.VERTEX_HALF_SIZE;
+            int y1 = vertexOne.getY() + Constants.RADIUS;
+            int y2 = vertexTwo.getY() + Constants.RADIUS;
 
             if (arrow != Arrow.BOTH_VERTICES) {
                 drawStraightLine(g, arrow, x1, y1, x2, y2);
@@ -111,16 +111,16 @@ public class LinePainter {
     }
 
     private void paintLineDistOneY(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
-        int x1 = vertexOne.getX() + Constants.VERTEX_HALF_SIZE;
-        int x2 = vertexTwo.getX() + Constants.VERTEX_HALF_SIZE;
+        int x1 = vertexOne.getX() + Constants.RADIUS;
+        int x2 = vertexTwo.getX() + Constants.RADIUS;
 
         int y1, y2;
         if (vertexOne.getY() < vertexTwo.getY()) {
-            y1 = vertexOne.getY() + Constants.VERTEX_SIZE;
+            y1 = vertexOne.getY() + Constants.DIAMETER;
             y2 = vertexTwo.getY();
         } else {
             y1 = vertexOne.getY();
-            y2 = vertexTwo.getY() + Constants.VERTEX_SIZE;
+            y2 = vertexTwo.getY() + Constants.DIAMETER;
         }
 
         if (arrow != Arrow.BOTH_VERTICES) {
@@ -132,33 +132,33 @@ public class LinePainter {
     }
 
     private void paintSameXLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
-        int x1 = vertexOne.getX() + Constants.VERTEX_HALF_SIZE;
-        int x2 = vertexTwo.getX() + Constants.VERTEX_HALF_SIZE;
-        int y1 = vertexOne.getY() + Constants.VERTEX_SIZE;
+        int x1 = vertexOne.getX() + Constants.RADIUS;
+        int x2 = vertexTwo.getX() + Constants.RADIUS;
+        int y1 = vertexOne.getY() + Constants.DIAMETER;
         int y2 = vertexTwo.getY();
 
-        int x3 = vertexOne.getX() - Constants.VERTEX_SIZE;
+        int x3 = vertexOne.getX() - Constants.DIAMETER;
         int y3 = calculateY3(y1, y2);
 
         drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y3);
     }
 
     private void paintSameYLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
-        int x1 = vertexOne.getX() + Constants.VERTEX_HALF_SIZE;
-        int x2 = vertexTwo.getX() + Constants.VERTEX_HALF_SIZE;
+        int x1 = vertexOne.getX() + Constants.RADIUS;
+        int x2 = vertexTwo.getX() + Constants.RADIUS;
         int y1 = vertexOne.getY();
         int y2 = vertexTwo.getY();
 
         int x3 = (Math.abs(vertexOne.getX() - vertexTwo.getX()) / 2) + Math.min(vertexOne.getX(), vertexTwo.getX());
-        int y3 = y1 - Constants.VERTEX_SIZE;
+        int y3 = y1 - Constants.DIAMETER;
 
         drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y3);
     }
 
     private void paintFreeConditionLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
-        int x1 = vertexOne.getX() + Constants.VERTEX_HALF_SIZE;
-        int x2 = vertexTwo.getX() + Constants.VERTEX_HALF_SIZE;
-        int y1 = vertexOne.getY() + Constants.VERTEX_SIZE;
+        int x1 = vertexOne.getX() + Constants.RADIUS;
+        int x2 = vertexTwo.getX() + Constants.RADIUS;
+        int y1 = vertexOne.getY() + Constants.DIAMETER;
         int y2 = vertexTwo.getY();
 
         int x3;
