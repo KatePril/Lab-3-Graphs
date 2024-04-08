@@ -31,7 +31,6 @@ public class VertexPainter {
             case CLOSED -> output = ColorResources.RED;
             default -> throw new IllegalStateException("Unexpected value: " + status);
         }
-        System.out.println(status);
         return output;
     }
 }

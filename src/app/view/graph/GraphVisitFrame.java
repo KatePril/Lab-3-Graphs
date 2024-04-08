@@ -18,6 +18,7 @@ public class GraphVisitFrame extends DirectedGraphFrame {
         super(title, graphMatrix);
         this.visitor = visitor;
         setGraphMatrix(visitor.getVisitMatrix());
+        setVertexStatuses(visitor.getVertices());
 
         addButton();
 
@@ -36,9 +37,6 @@ public class GraphVisitFrame extends DirectedGraphFrame {
 
         jButton.addActionListener(l -> {
             visitor.visit();
-            setGraphMatrix(visitor.getVisitMatrix());
-            setVertexStatuses(visitor.getVertices());
-
             repaint();
         });
     }
