@@ -29,15 +29,19 @@ public class GraphVisitFrame extends DirectedGraphFrame {
 
     private void addButton() {
         JButton jButton = new JButton("Visit");
-        jButton.setMaximumSize(new Dimension(100, 50));
+        jButton.setMaximumSize(new Dimension(150, 50));
         JPanel panel = new JPanel();
-        panel.setMaximumSize(new Dimension(100, 50));
+        panel.setMaximumSize(new Dimension(150, 50));
         panel.add(jButton);
         getContentPane().add(panel);
 
         jButton.addActionListener(l -> {
-            visitor.visit();
-            repaint();
+            if (!visitor.isVisitComplete()) {
+                visitor.visit();
+                repaint();
+            } else {
+                jButton.setText("Visit was completed");
+            }
         });
     }
 

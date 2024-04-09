@@ -31,12 +31,17 @@ public abstract class Visitor {
     }
 
     public void visit() {
-        while (!isVisitComplete()) {
-            makeStep(getStartVertex());
+        if (isVisitedVerticesEmpty()) {
+            Integer startVertex = getStartVertex();
+            vertices[startVertex] = VertexStatus.VISITED;
+            newIndicesOfVertices.put(startVertex, vertexCounter);
+            makeStep(startVertex);
+        } else {
+            makeStep(activeVertex);
         }
     }
 
-    private boolean isVisitComplete() {
+    public boolean isVisitComplete() {
         boolean output = true;
         for (VertexStatus vertex : vertices) {
             if (vertex == VertexStatus.NEW) {
@@ -74,4 +79,6 @@ public abstract class Visitor {
     public Integer[][] getVisitMatrix() {
         return visitMatrix;
     }
+
+    protected abstract boolean isVisitedVerticesEmpty();
 }

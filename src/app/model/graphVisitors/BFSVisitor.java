@@ -17,18 +17,16 @@ public final class BFSVisitor extends Visitor {
     public BFSVisitor(Integer[][] graphMatrix) {
         super(graphMatrix);
         table = new Table<>("Queue");
+        table.addRow(new Row<>(vertices, vertexCounter, visitedVertices));
         this.visitedVertices = new LinkedList<>();
     }
 
     @Override
     public void makeStep(Integer startVertex) {
-        table.addRow(new Row<>(vertices, vertexCounter, visitedVertices));
-        vertices[startVertex] = VertexStatus.VISITED;
-        visitedVertices.add(startVertex);
+        if (isVisitedVerticesEmpty())
+            visitedVertices.add(startVertex);
 
-        newIndicesOfVertices.put(startVertex, vertexCounter);
-
-        while (!visitedVertices.isEmpty()) {
+        while (!isVisitedVerticesEmpty()) {
             Integer activeVertex = visitedVertices.element();
             vertices[activeVertex] = VertexStatus.ACTIVE;
 
@@ -60,4 +58,8 @@ public final class BFSVisitor extends Visitor {
         }
     }
 
+    @Override
+    protected boolean isVisitedVerticesEmpty() {
+        return visitedVertices.isEmpty();
+    }
 }

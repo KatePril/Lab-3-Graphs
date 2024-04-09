@@ -16,49 +16,57 @@ public class DFSVisitor extends Visitor{
     public DFSVisitor(Integer[][] graphMatrix) {
         super(graphMatrix);
         this.table = new Table<>("Stack");
+        table.addRow(new Row<>(vertices, vertexCounter, visitedVertices));
         this.visitedVertices = new Stack<>();
     }
 
     @Override
     public void makeStep(Integer startVertex) {
-        table.addRow(new Row<>(vertices, vertexCounter, visitedVertices));
+        if (isVisitedVerticesEmpty())
+            visitedVertices.push(startVertex);
+        boolean flag = true;
 
-        vertices[startVertex] = VertexStatus.VISITED;
-        newIndicesOfVertices.put(startVertex, vertexCounter);
-        visitedVertices.push(startVertex);
-
-        while (!visitedVertices.empty()) {
-            Integer activeVertex = visitedVertices.peek();
+        while (flag) {
+            System.out.println("here");
+            activeVertex = visitedVertices.peek();
             vertices[activeVertex] = VertexStatus.ACTIVE;
-            for (int i = 0; i < graphMatrix[0].length; i++) {
-//                System.out.printf("activeVertex = %d, i = %d\n", activeVertex, i);
-//                System.out.println("Vertices: " + Arrays.toString(vertices));
-                if (graphMatrix[activeVertex][i] == 1) {
-                    if (vertices[i] == VertexStatus.NEW) {
+            for (; index < graphMatrix[0].length; index++) {
+                System.out.printf("activeVertex = %d, index = %d\n", activeVertex, index);
+                System.out.println("Vertices: " + Arrays.toString(vertices));
+                if (graphMatrix[activeVertex][index] == 1) {
+                    if (vertices[index] == VertexStatus.NEW) {
                         ++vertexCounter;
-                        table.addRow(new Row<>(vertices, visitedVertices, i + 1, vertexCounter));
-                        vertices[i] = VertexStatus.ACTIVE;
+                        table.addRow(new Row<>(vertices, visitedVertices, index + 1, vertexCounter));
+                        vertices[index] = VertexStatus.ACTIVE;
                         vertices[activeVertex] = VertexStatus.VISITED;
 
-                        newIndicesOfVertices.put(i, vertexCounter);
-                        visitedVertices.push(i);
-                        visitMatrix[activeVertex][i] = 1;
-//                    System.out.println("Vertices: " + Arrays.toString(vertices));
-//                    System.out.println("VisitedVertices: " + visitedVertices);
-//                    System.out.println("HashMap: " + newIndicesOfVertices);
+                        newIndicesOfVertices.put(index, vertexCounter);
+                        visitedVertices.push(index);
+                        visitMatrix[activeVertex][index] = 1;
+                    System.out.println("Vertices: " + Arrays.toString(vertices));
+                    System.out.println("VisitedVertices: " + visitedVertices);
+                    System.out.println("HashMap: " + newIndicesOfVertices);
                         break;
                     } else {
                         table.addRow(new Row<>(vertices, visitedVertices));
                     }
                 }
-                if (i == graphMatrix[0].length - 1) {
-                    vertices[visitedVertices.pop()] = VertexStatus.CLOSED;
-//                    System.out.println("Vertices: " + Arrays.toString(vertices));
-//                    System.out.println("VisitedVertices: " + visitedVertices);
-//                    System.out.println("HashMap: " + newIndicesOfVertices);
+                if (this.index == graphMatrix[0].length - 1) {
+                    if (!isVisitedVerticesEmpty()) {
+                        vertices[visitedVertices.pop()] = VertexStatus.CLOSED;
+                    }
+                    System.out.println("Vertices: " + Arrays.toString(vertices));
+                    System.out.println("VisitedVertices: " + visitedVertices);
+                    System.out.println("HashMap: " + newIndicesOfVertices);
                 }
             }
+            flag = false;
+            index = 0;
         }
     }
 
+    @Override
+    protected boolean isVisitedVerticesEmpty() {
+        return visitedVertices.empty();
+    }
 }
