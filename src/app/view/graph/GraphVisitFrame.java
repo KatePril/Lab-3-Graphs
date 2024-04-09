@@ -12,7 +12,6 @@ import java.awt.*;
 
 public class GraphVisitFrame extends DirectedGraphFrame {
     private Visitor visitor;
-//    private Integer[][] visitMatrix;
 
     public GraphVisitFrame(String title, Integer[][] graphMatrix, Visitor visitor) throws HeadlessException {
         super(title, graphMatrix);

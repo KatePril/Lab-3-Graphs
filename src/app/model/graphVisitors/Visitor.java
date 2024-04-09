@@ -70,8 +70,6 @@ public abstract class Visitor {
         return startVertex;
     }
 
-    protected abstract void makeStep(Integer startVertex);
-
     public VertexStatus[] getVertices() {
         return vertices;
     }
@@ -84,5 +82,7 @@ public abstract class Visitor {
         return newIndicesOfVertices;
     }
 
+    protected abstract void makeStep(Integer startVertex);
     protected abstract boolean isVisitedVerticesEmpty();
+
 }
