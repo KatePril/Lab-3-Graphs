@@ -3,7 +3,9 @@ package app.view.graph;
 import app.model.graphVisitors.Visitor;
 import app.utils.ColorResources;
 import app.utils.Constants;
+import app.view.View;
 import app.view.forCollections.HashMapPrinter;
+import app.view.forCollections.MatrixPrinter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,6 +41,8 @@ public class GraphVisitFrame extends DirectedGraphFrame {
                 repaint();
             } else {
                 jButton.setText("Visit was completed");
+                View<Integer> view = new View<>();
+                view.printMatrix("Matrix of the visit", visitor.getVisitMatrix());
                 HashMapPrinter.printHashMap(visitor.getNewIndicesOfVertices());
             }
         });
