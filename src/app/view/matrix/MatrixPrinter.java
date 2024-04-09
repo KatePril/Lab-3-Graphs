@@ -4,6 +4,7 @@ public class MatrixPrinter<T> {
     public void printMatrix(T[][] matrix) {
         System.out.print(" \t\t");
         for (int i = 1; i <= matrix.length; i++) {
+//        for (int i = 0; i < matrix.length; i++) {
             System.out.print(i + "\t");
         }
         System.out.println();

@@ -22,7 +22,7 @@ public class Controller {
 //        dfsVisitor.visit();
 //        Table<Queue<Integer>> table = new Table<>("Queue");
         GraphVisitFrame graphVisitBFSFrame = new GraphVisitFrame("BFS", model.getDirectedGraphMatrix(), bfsVisitor);
-        GraphVisitFrame graphVisitDFSFrame = new GraphVisitFrame("DFS", model.getDirectedGraphMatrix(), dfsVisitor);
+//        GraphVisitFrame graphVisitDFSFrame = new GraphVisitFrame("DFS", model.getDirectedGraphMatrix(), dfsVisitor);
 
     }
 }

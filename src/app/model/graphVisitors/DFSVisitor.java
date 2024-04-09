@@ -27,7 +27,6 @@ public class DFSVisitor extends Visitor{
         boolean flag = true;
 
         while (flag) {
-            System.out.println("here");
             activeVertex = visitedVertices.peek();
             vertices[activeVertex] = VertexStatus.ACTIVE;
             for (; index < graphMatrix[0].length; index++) {
@@ -52,9 +51,7 @@ public class DFSVisitor extends Visitor{
                     }
                 }
                 if (this.index == graphMatrix[0].length - 1) {
-                    if (!isVisitedVerticesEmpty()) {
-                        vertices[visitedVertices.pop()] = VertexStatus.CLOSED;
-                    }
+                    vertices[visitedVertices.pop()] = VertexStatus.CLOSED;
                     System.out.println("Vertices: " + Arrays.toString(vertices));
                     System.out.println("VisitedVertices: " + visitedVertices);
                     System.out.println("HashMap: " + newIndicesOfVertices);

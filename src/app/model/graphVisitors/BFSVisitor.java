@@ -3,6 +3,7 @@ package app.model.graphVisitors;
 import app.enums.VertexStatus;
 import app.model.table.Row;
 import app.model.table.Table;
+import app.view.matrix.MatrixPrinter;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -25,36 +26,47 @@ public final class BFSVisitor extends Visitor {
     public void makeStep(Integer startVertex) {
         if (isVisitedVerticesEmpty())
             visitedVertices.add(startVertex);
+        boolean flag = true;
 
-        while (!isVisitedVerticesEmpty()) {
+        while (flag) {
             Integer activeVertex = visitedVertices.element();
             vertices[activeVertex] = VertexStatus.ACTIVE;
 
-            for (int i = 0; i < graphMatrix[0].length; i++) {
-//                System.out.printf("activeVertex = %d, i = %d\n", activeVertex, i);
-//                System.out.println("Vertices: " + Arrays.toString(vertices));
-                if (graphMatrix[activeVertex][i] == 1) {
-                    if (vertices[i] == VertexStatus.NEW) {
-                        vertices[i] = VertexStatus.VISITED;
+            for (; index < graphMatrix[0].length; index++) {
+                System.out.printf("activeVertex = %d, index = %d\n", activeVertex, index);
+                System.out.println("Vertices: " + Arrays.toString(vertices));
+                if (graphMatrix[activeVertex][index] == 1) {
+                    if (vertices[index] == VertexStatus.NEW) {
+                        System.out.println("---------------------New vertex was visited");
+                        vertices[index] = VertexStatus.VISITED;
                         ++vertexCounter;
-                        newIndicesOfVertices.put(i, vertexCounter);
-                        visitedVertices.add(i);
-                        visitMatrix[activeVertex][i] = 1;
-//                    System.out.println("Vertices: " + Arrays.toString(vertices));
-//                    System.out.println("VisitedVertices: " + visitedVertices);
-//                    System.out.println("HashMap: " + newIndicesOfVertices);
-                        table.addRow(new Row<>(vertices, visitedVertices, i + 1, vertexCounter));
+                        newIndicesOfVertices.put(index, vertexCounter);
+                        visitedVertices.add(index);
+                        visitMatrix[activeVertex][index] = 1;
+                        MatrixPrinter<Integer> matrixPrinter = new MatrixPrinter<>();
+                        matrixPrinter.printMatrix(visitMatrix);
+
+                        System.out.println("Vertices: " + Arrays.toString(vertices));
+                        System.out.println("VisitedVertices: " + visitedVertices);
+                        System.out.println("HashMap: " + newIndicesOfVertices);
+                        table.addRow(new Row<>(vertices, visitedVertices, index + 1, vertexCounter));
+                        flag = false;
+                        break;
                     } else {
                         table.addRow(new Row<>(vertices, visitedVertices));
                     }
                 }
-                if (i == graphMatrix[0].length - 1) {
-                    vertices[visitedVertices.remove()] = VertexStatus.CLOSED;
-//                    System.out.println("Vertices: " + Arrays.toString(vertices));
-//                    System.out.println("VisitedVertices: " + visitedVertices);
-//                    System.out.println("HashMap: " + newIndicesOfVertices);
+                if (index == graphMatrix[0].length - 1) {
+                    if (!isVisitedVerticesEmpty()) {
+                        vertices[visitedVertices.remove()] = VertexStatus.CLOSED;
+                    }
+                    System.out.println("Vertices: " + Arrays.toString(vertices));
+                    System.out.println("VisitedVertices: " + visitedVertices);
+                    System.out.println("HashMap: " + newIndicesOfVertices);
                 }
             }
+            flag = false;
+            index = 0;
         }
     }
 
