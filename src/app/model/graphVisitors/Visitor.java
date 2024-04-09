@@ -30,15 +30,20 @@ public abstract class Visitor {
         index = 0;
     }
 
-    public void visit() {
-        if (isVisitedVerticesEmpty()) {
-            Integer startVertex = getStartVertex();
-            vertices[startVertex] = VertexStatus.VISITED;
-            newIndicesOfVertices.put(startVertex, ++vertexCounter);
-            makeStep(startVertex);
-        } else {
-            makeStep(activeVertex);
+    public boolean visit() {
+        boolean output = false;
+        if (!isVisitComplete()) {
+            if (isVisitedVerticesEmpty()) {
+                Integer startVertex = getStartVertex();
+                vertices[startVertex] = VertexStatus.VISITED;
+                newIndicesOfVertices.put(startVertex, ++vertexCounter);
+                makeStep(startVertex);
+            } else {
+                makeStep(activeVertex);
+            }
+            output = true;
         }
+        return output;
     }
 
     public boolean isVisitComplete() {

@@ -35,8 +35,7 @@ public class GraphVisitFrame extends DirectedGraphFrame {
         getContentPane().add(panel);
 
         jButton.addActionListener(l -> {
-            if (!visitor.isVisitComplete()) {
-                visitor.visit();
+            if (visitor.visit()) {
                 repaint();
             } else {
                 jButton.setText("Visit was completed");
