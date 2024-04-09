@@ -28,6 +28,6 @@ public class Table<E extends Collection> {
 
     public void addRow(Row<E> row) {
         rows.add(row);
-//        printRow(rows.getLast(), rows.size());
+        printRow(rows.getLast(), rows.size());
     }
 }

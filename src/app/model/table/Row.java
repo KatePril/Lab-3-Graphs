@@ -81,9 +81,11 @@ public class Row<E extends Collection> {
 
     public String getCollectionString() {
         ArrayList<Integer> list = new ArrayList<>();
-        if (!collection.isEmpty()) {
-            for (Object el: collection) {
-                list.add((Integer) el + 1);
+        if (collection != null) {
+            if (!collection.isEmpty()) {
+                for (Object el : collection) {
+                    list.add((Integer) el + 1);
+                }
             }
         }
         String output = "-";

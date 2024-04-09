@@ -3,12 +3,10 @@ package app.view.graph;
 import app.model.graphVisitors.Visitor;
 import app.utils.ColorResources;
 import app.utils.Constants;
-import app.view.matrix.MatrixPrinter;
+import app.view.forCollections.HashMapPrinter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
-import java.util.regex.Matcher;
 
 public class GraphVisitFrame extends DirectedGraphFrame {
     private Visitor visitor;
@@ -41,6 +39,7 @@ public class GraphVisitFrame extends DirectedGraphFrame {
                 repaint();
             } else {
                 jButton.setText("Visit was completed");
+                HashMapPrinter.printHashMap(visitor.getNewIndicesOfVertices());
             }
         });
     }

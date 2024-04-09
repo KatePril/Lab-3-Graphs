@@ -80,5 +80,9 @@ public abstract class Visitor {
         return visitMatrix;
     }
 
+    public HashMap<Integer, Integer> getNewIndicesOfVertices() {
+        return newIndicesOfVertices;
+    }
+
     protected abstract boolean isVisitedVerticesEmpty();
 }

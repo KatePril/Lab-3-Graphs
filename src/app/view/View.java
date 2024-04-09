@@ -2,7 +2,7 @@ package app.view;
 
 import app.view.graph.DirectedGraphFrame;
 import app.view.graph.UndirectedGraphFrame;
-import app.view.matrix.MatrixPrinter;
+import app.view.forCollections.MatrixPrinter;
 
 public class View<T> {
     public void printMatrix(String title, T[][] matrix) {
