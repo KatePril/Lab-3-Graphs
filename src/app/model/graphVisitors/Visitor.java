@@ -46,7 +46,7 @@ public abstract class Visitor {
         return output;
     }
 
-    public boolean isVisitComplete() {
+    private boolean isVisitComplete() {
         boolean output = true;
         for (VertexStatus vertex : vertices) {
             if (vertex == VertexStatus.NEW) {
