@@ -16,7 +16,6 @@ public final class BFSVisitor extends Visitor {
     public BFSVisitor(Integer[][] graphMatrix) {
         super(graphMatrix);
         table = new Table<>("Queue");
-        table.addRow(new Row<>(vertices, vertexCounter, visitedVertices));
         this.visitedVertices = new LinkedList<>();
     }
 

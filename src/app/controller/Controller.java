@@ -16,7 +16,7 @@ public class Controller {
         BFSVisitor bfsVisitor = new BFSVisitor(model.getDirectedGraphMatrix());
         GraphVisitFrame graphVisitBFSFrame = new GraphVisitFrame("BFS", model.getDirectedGraphMatrix(), bfsVisitor);
         DFSVisitor dfsVisitor = new DFSVisitor(model.getDirectedGraphMatrix());
-        GraphVisitFrame graphVisitDFSFrame = new GraphVisitFrame("DFS", model.getDirectedGraphMatrix(), dfsVisitor);
+//        GraphVisitFrame graphVisitDFSFrame = new GraphVisitFrame("DFS", model.getDirectedGraphMatrix(), dfsVisitor);
 
     }
 }

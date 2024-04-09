@@ -75,7 +75,7 @@ public class Row<E extends Collection> {
     public String getNumberOfVisitedVertexString() {
         String output = "-";
         if (numberOfVisitedVertex != null)
-            output = numberOfVisitedVertex.toString();
+            output = (numberOfVisitedVertex == -1) ? "0" : numberOfVisitedVertex.toString();
         return output;
     }
 
