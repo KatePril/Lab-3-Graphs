@@ -10,10 +10,12 @@ public abstract class Visitor {
     protected final VertexStatus[] vertices;
     protected HashMap<Integer, Integer> newIndicesOfVertices;
     protected Integer vertexCounter;
-
     protected Integer[][] visitMatrix;
+    protected Integer activeVertex;
+    protected Integer index;
 
     public Visitor(Integer[][] graphMatrix) {
+        activeVertex = null;
         this.graphMatrix = graphMatrix;
         this.vertices = new VertexStatus[graphMatrix.length];
         Arrays.fill(vertices, VertexStatus.NEW);
@@ -25,6 +27,7 @@ public abstract class Visitor {
                 visitMatrix[i][j] = 0;
             }
         }
+        index = 0;
     }
 
     public void visit() {

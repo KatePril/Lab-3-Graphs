@@ -11,4 +11,5 @@ public final class Constants {
 
     public final static Integer DIAMETER = 50;
     public final static Integer RADIUS = DIAMETER / 2;
+
 }

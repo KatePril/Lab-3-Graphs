@@ -1,9 +1,14 @@
 package app.model.table;
 
 import app.enums.VertexStatus;
+import app.utils.Constants;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+
+import static java.lang.String.format;
 
 public class Row<E extends Collection> {
 
@@ -19,6 +24,13 @@ public class Row<E extends Collection> {
         this.collection = collection;
     }
 
+    public Row(VertexStatus[] vertexStatuses, Integer numberOfVisitedVertex, E collection) {
+        this.vertexStatuses = vertexStatuses;
+        this.numberOfVisitedVertex = numberOfVisitedVertex;
+        this.collection = collection;
+        this.visitedVertex = null;
+    }
+
     public Row(VertexStatus[] vertexStatuses, E collection) {
         this.vertexStatuses = vertexStatuses;
         this.collection = collection;
@@ -26,7 +38,7 @@ public class Row<E extends Collection> {
         this.numberOfVisitedVertex = null;
     }
 
-    public String getVertexStatusesString() {
+    public String getNewVerticesString() {
         LinkedList<String> list = new LinkedList<>();
         for (int i = 0; i < vertexStatuses.length; i++) {
             if (vertexStatuses[i] == VertexStatus.NEW) {
@@ -48,7 +60,7 @@ public class Row<E extends Collection> {
                 output = Integer.toString(tmp);
             }
         }
-        if (output != null)
+        if (output == null)
             output = "-";
         return output;
     }
@@ -68,10 +80,16 @@ public class Row<E extends Collection> {
     }
 
     public String getCollectionString() {
-        String output = collection.toString();
-        output = collection.toString().substring(1, output.length() - 1);
-        if (output.isEmpty())
-            output = "-";
+        ArrayList<Integer> list = new ArrayList<>();
+        if (!collection.isEmpty()) {
+            for (Object el: collection) {
+                list.add((Integer) el + 1);
+            }
+        }
+        String output = "-";
+        if (!list.isEmpty()) {
+            output = list.toString().substring(1, list.toString().length() - 1);
+        }
         return output;
     }
 }
