@@ -20,7 +20,7 @@ public abstract class Visitor {
         this.vertices = new VertexStatus[graphMatrix.length];
         Arrays.fill(vertices, VertexStatus.NEW);
         this.newIndicesOfVertices = new HashMap<>(); // pair {vertex : new number}
-        this.vertexCounter = 0;
+        this.vertexCounter = -1;
         this.visitMatrix = new Integer[graphMatrix.length][graphMatrix[0].length];
         for (int i = 0; i < visitMatrix.length; i++) {
             for (int j = 0; j < visitMatrix[0].length; j++) {
@@ -34,7 +34,7 @@ public abstract class Visitor {
         if (isVisitedVerticesEmpty()) {
             Integer startVertex = getStartVertex();
             vertices[startVertex] = VertexStatus.VISITED;
-            newIndicesOfVertices.put(startVertex, vertexCounter);
+            newIndicesOfVertices.put(startVertex, ++vertexCounter);
             makeStep(startVertex);
         } else {
             makeStep(activeVertex);
