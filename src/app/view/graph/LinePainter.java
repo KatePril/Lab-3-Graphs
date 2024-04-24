@@ -97,6 +97,8 @@ public class LinePainter {
             int y2 = vertexTwo.getY() + vertexOne.getSIZE() / 2;
 
             if (arrow != Arrow.BOTH_VERTICES) {
+                if (arrow.equals(Arrow.VERTEX_ONE))
+                    arrow = Arrow.VERTEX_TWO;
                 drawStraightLine(g, arrow, x1, y1, x2, y2);
             } else {
                 int x3 = (Math.abs(vertexOne.getX() - vertexTwo.getX()) / 2) + Math.min(vertexOne.getX(), vertexTwo.getX());
