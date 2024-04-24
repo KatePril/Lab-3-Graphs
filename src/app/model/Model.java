@@ -2,6 +2,7 @@ package app.model;
 
 import app.model.matrix.dataSuppliers.DirectedGraphMatrixCreator;
 import app.model.matrix.dataSuppliers.RandomMatrixCreator;
+import app.model.matrix.weightMatrix.WeightMatrixCreator;
 import app.utils.Constants;
 
 public class Model {
@@ -14,6 +15,9 @@ public class Model {
         matrix = new RandomMatrixCreator(this.n).getMatrix();
 
         directedGraphMatrix = createDirectedGraphMatrix();
+
+        WeightMatrixCreator weightMatrixCreator = new WeightMatrixCreator(directedGraphMatrix);
+        weightMatrixCreator.getWeightMatrix();
     }
 
     private Integer[][] createDirectedGraphMatrix() {

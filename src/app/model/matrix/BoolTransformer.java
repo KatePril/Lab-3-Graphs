@@ -1,6 +1,14 @@
 package app.model.matrix;
 
+import java.util.function.Predicate;
+
 public class BoolTransformer<T extends Number> {
+
+    private final Predicate<T> condition;
+
+    public BoolTransformer(Predicate<T> condition) {
+        this.condition = condition;
+    }
 
     public Integer[][] getBoolMatrix(T[][] matrix) {
         Integer[][] graphMatrix = new Integer[matrix.length][matrix[0].length];
@@ -17,6 +25,6 @@ public class BoolTransformer<T extends Number> {
     }
 
     private Integer replaceElementWithBool(T el) {
-        return el.doubleValue() < 1.0 ? 0 : 1;
+        return condition.test(el) ? 0 : 1;
     }
 }

@@ -2,6 +2,8 @@ package app.model.matrix.dataSuppliers;
 
 import app.model.matrix.BoolTransformer;
 
+import java.util.function.Predicate;
+
 public class DirectedGraphMatrixCreator {
     private final Double[][] randomMatrix;
     public DirectedGraphMatrixCreator(Double[][] randomMatrix) {
@@ -9,7 +11,8 @@ public class DirectedGraphMatrixCreator {
     }
 
     public Integer[][] getGraphMatrix() {
-        BoolTransformer<Double> boolTransformer = new BoolTransformer<>();
+        Predicate<Double> condition = (el) -> el < 1.0;
+        BoolTransformer<Double> boolTransformer = new BoolTransformer<>(condition);
         return boolTransformer.getBoolMatrix(randomMatrix);
     }
 }

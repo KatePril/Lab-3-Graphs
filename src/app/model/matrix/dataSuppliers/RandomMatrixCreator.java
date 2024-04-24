@@ -1,5 +1,6 @@
 package app.model.matrix.dataSuppliers;
 
+import app.model.matrix.ScalarMultiplier;
 import app.model.matrix.dataSuppliers.KGenerator;
 import app.utils.Constants;
 
@@ -34,11 +35,8 @@ public class RandomMatrixCreator {
     }
 
     private void scalarMultiply(Double k) {
-        for (Double[] tmpArr : matrix) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                tmpArr[j] *= k;
-            }
-        }
+        ScalarMultiplier<Double> scalarMultiplier = new ScalarMultiplier<>();
+        matrix = scalarMultiplier.scalarMultiply(matrix, k);
     }
 
     public Double[][] getMatrix() {

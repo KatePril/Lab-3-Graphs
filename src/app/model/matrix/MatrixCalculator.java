@@ -57,12 +57,12 @@ public final class MatrixCalculator {
         return resultMatrix;
     }
 
-    public static Integer[][] multiplyElementWise (Integer[][] a, Integer[][] b) {
-        Integer[][] resultMatrix = new Integer[a.length][a[0].length];
+    public static Double[][] multiplyElementWise (Integer[][] a, Double[][] b) {
+        Double[][] resultMatrix = new Double[a.length][a[0].length];
         for (int i = 0; i < resultMatrix.length; i++) {
             Integer[] aRow = a[i];
-            Integer[] bRow = b[i];
-            Integer[] rRow = resultMatrix[i];
+            Double[] bRow = b[i];
+            Double[] rRow = resultMatrix[i];
             for (int j = 0; j < resultMatrix[0].length; j++) {
                 rRow[j] = aRow[j] * bRow[j];
             }
