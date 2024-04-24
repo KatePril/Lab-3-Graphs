@@ -16,7 +16,7 @@ public class LinePainter {
         this.middleIndicator = len / 2;
     }
 
-    public void paintLine(Graphics g, Vertex vertexOne, Vertex vertexTwo) {
+    public void paintLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, int weight) {
         g.setColor(getRandomColor());
 
 //        System.out.printf("vertexOne = %d, vertexTwo = %d, arrow = %s\n", vertexOne.getValue(), vertexTwo.getValue(), arrow.name());

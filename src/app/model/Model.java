@@ -11,6 +11,7 @@ public class Model {
     private final Double[][] matrix;
     private final Integer[][] directedGraphMatrix;
     private final Integer[][] undirectedGraphMatrix;
+    private final Integer[][] weightMatrix;
 
     public Model() {
         this.n = calculateVerticesNumber();
@@ -20,7 +21,7 @@ public class Model {
         undirectedGraphMatrix = createUndirectedGraphMatrix();
 
         WeightMatrixCreator weightMatrixCreator = new WeightMatrixCreator(undirectedGraphMatrix);
-        weightMatrixCreator.getWeightMatrix();
+        weightMatrix = weightMatrixCreator.getWeightMatrix();
     }
 
     private Integer[][] createDirectedGraphMatrix() {
@@ -48,5 +49,9 @@ public class Model {
 
     public Integer[][] getUndirectedGraphMatrix() {
         return undirectedGraphMatrix;
+    }
+
+    public Integer[][] getWeightMatrix() {
+        return weightMatrix;
     }
 }

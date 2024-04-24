@@ -9,6 +9,7 @@ public class Controller {
 
     public void displayDirectedGraph() {
         view.printMatrix("Undirected graph matrix", model.getUndirectedGraphMatrix());
-        view.drawUndirectedGraph(model.getUndirectedGraphMatrix());
+        view.printMatrix("Weighted graph matrix", model.getWeightMatrix());
+        view.drawWeightedGraph(model.getUndirectedGraphMatrix(), model.getWeightMatrix());
     }
 }
