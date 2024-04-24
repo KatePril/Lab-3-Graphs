@@ -102,7 +102,6 @@ public class LinePainter {
                 drawStraightLine(g, arrow, x1, y1, x2, y2);
             } else {
                 int x3 = (Math.abs(vertexOne.getX() - vertexTwo.getX()) / 2) + Math.min(vertexOne.getX(), vertexTwo.getX());
-                int y3 = calculateY3(y1, y2);
                 drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y1);
             }
 
