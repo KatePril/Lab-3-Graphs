@@ -243,9 +243,9 @@ public class LinePainter {
 
     private boolean rotateArrow(Arrow arrow, double angle) {
         return (arrow.equals(Arrow.VERTEX_TWO) &&
-                !((angle > 45 && angle < 60) || (angle > 10 && angle < 15) || (angle > -11 && angle < 0) || (angle > -45 && angle < -38) || (angle > -37 && angle < -30)))
+                ((angle > -38 && angle < -37) || (angle > -30 && angle < -11) || (angle > 0 && angle < 10) || (angle > 15 && angle < 55) || (angle > 60 && angle < 70)))
                 || (arrow.equals(Arrow.VERTEX_ONE)
-                && (angle < -30 || (angle > -26 && angle < -16) || (angle > -15 && angle < 0)));
+                && (angle < -30 || (angle > -26 && angle < -16) || (angle > -15 && angle < -11) || (angle > -10 && angle < 0)));
     }
 
     private Color getRandomColor() {

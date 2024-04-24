@@ -1,5 +1,6 @@
 package app.model.matrix;
 
+import app.model.matrix.dataSuppliers.KGenerator;
 import app.utils.Constants;
 
 import java.util.Random;
@@ -8,11 +9,7 @@ public class RandomMatrixCreator {
     private Double[][] matrix;
     public RandomMatrixCreator(int n) {
         matrix = generateRandomMatrix(n, calculateSeed(Constants.n1, Constants.n2, Constants.n3, Constants.n4));
-        scalarMultiply(calculateK());
-    }
-
-    private Double calculateK() {
-        return 1.0 - Constants.n3 * 0.02 - Constants.n4 * 0.005 - 0.25;
+        scalarMultiply(KGenerator.getK());
     }
     
     private int calculateSeed(int ...ns) {
