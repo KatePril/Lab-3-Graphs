@@ -1,12 +1,13 @@
-package app.model.matrix;
+package app.model.matrix.boolTransformers;
 
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
-public class BoolTransformer<T extends Number> {
+public class BiBoolTransformer<T extends Number> {
 
-    private final Predicate<T> condition;
+    private final BiPredicate<T, T> condition;
 
-    public BoolTransformer(Predicate<T> condition) {
+    public BiBoolTransformer(BiPredicate<T, T> condition) {
         this.condition = condition;
     }
 
@@ -17,14 +18,15 @@ public class BoolTransformer<T extends Number> {
             T[] tmpRandomArr = matrix[i];
             Integer[] tmpGraphMatrix = graphMatrix[i];
             for (int j = 0; j < matrix[0].length; j++) {
-                tmpGraphMatrix[j] = replaceElementWithBool(tmpRandomArr[j]);
+                tmpGraphMatrix[j] = replaceElementWithBool(tmpRandomArr[j], matrix[j][i]);
             }
         }
 
         return graphMatrix;
     }
 
-    private Integer replaceElementWithBool(T el) {
-        return condition.test(el) ? 0 : 1;
+    private Integer replaceElementWithBool(T el1, T el2) {
+        return condition.test(el1, el2) ? 0 : 1;
     }
+
 }

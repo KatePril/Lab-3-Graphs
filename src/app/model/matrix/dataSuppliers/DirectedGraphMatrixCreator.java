@@ -1,6 +1,6 @@
 package app.model.matrix.dataSuppliers;
 
-import app.model.matrix.BoolTransformer;
+import app.model.matrix.boolTransformers.BoolTransformer;
 
 import java.util.function.Predicate;
 

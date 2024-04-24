@@ -1,11 +1,12 @@
 package app.model.matrix.weightMatrix;
 
-import app.model.matrix.BoolTransformer;
+import app.model.matrix.boolTransformers.BiBoolTransformer;
+import app.model.matrix.boolTransformers.BoolTransformer;
 import app.model.matrix.MatrixCalculator;
 import app.model.matrix.ScalarMultiplier;
 import app.model.matrix.dataSuppliers.RandomMatrixCreator;
-import app.view.matrix.MatrixPrinter;
 
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public class WeightMatrixCreator {
@@ -16,25 +17,33 @@ public class WeightMatrixCreator {
     }
 
     public Double[][] getWeightMatrix() {
-        MatrixPrinter<Double> matrixPrinter = new MatrixPrinter<>();
-        RandomMatrixCreator randomMatrixCreator = new RandomMatrixCreator(matrixA.length);
-        Double[][] matrixB = randomMatrixCreator.getMatrix();
-        System.out.println("B: ");
-        matrixPrinter.printMatrix(matrixB);
-
-        ScalarMultiplier<Integer> scalarMultiplier = new ScalarMultiplier<>();
-        Double[][] matrixC = scalarMultiplier.scalarMultiply(MatrixCalculator.multiplyElementWise(matrixA, matrixB), 100);
-        System.out.println("C: ");
-        matrixPrinter.printMatrix(matrixC);
-
-        Predicate<Double> condition = (el) -> el == 0.0;
-        BoolTransformer<Double> boolTransformer = new BoolTransformer<>(condition);
-        Integer[][] matrixD = boolTransformer.getBoolMatrix(matrixC);
-
-        MatrixPrinter<Integer> integerMatrixPrinter = new MatrixPrinter<>();
-        System.out.println("D:");
-        integerMatrixPrinter.printMatrix(matrixD);
+        Double[][] matrixB = getMatrixB();
+        Double[][] matrixC = getMatrixC(matrixB);
+        Integer[][] matrixD = getMatrixD(matrixC);
+        Integer [][] matrixH = getMatrixH(matrixD);
 
         return null;
+    }
+
+    private Double[][] getMatrixB() {
+        RandomMatrixCreator randomMatrixCreator = new RandomMatrixCreator(matrixA.length);
+        return randomMatrixCreator.getMatrix();
+    }
+
+    private Double[][] getMatrixC(Double[][] matrixB) {
+        ScalarMultiplier<Integer> scalarMultiplier = new ScalarMultiplier<>();
+        return scalarMultiplier.scalarMultiply(MatrixCalculator.multiplyElementWise(matrixA, matrixB), 100);
+    }
+
+    private Integer[][] getMatrixD(Double[][] matrixC) {
+        Predicate<Double> condition = (el) -> el == 0.0;
+        BoolTransformer<Double> boolTransformer = new BoolTransformer<>(condition);
+        return boolTransformer.getBoolMatrix(matrixC);
+    }
+
+    private Integer[][] getMatrixH(Integer[][] matrixD) {
+        BiPredicate<Integer, Integer> biCondition = Integer::equals;
+        BiBoolTransformer<Integer> biBoolTransformer = new BiBoolTransformer<>(biCondition);
+        return biBoolTransformer.getBoolMatrix(matrixD);
     }
 }
