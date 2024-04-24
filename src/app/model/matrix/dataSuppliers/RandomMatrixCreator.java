@@ -1,4 +1,4 @@
-package app.model.matrix;
+package app.model.matrix.dataSuppliers;
 
 import app.model.matrix.dataSuppliers.KGenerator;
 import app.utils.Constants;

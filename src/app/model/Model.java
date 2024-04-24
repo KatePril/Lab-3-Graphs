@@ -1,8 +1,7 @@
 package app.model;
 
-import app.model.matrix.DirectedGraphMatrixCreator;
-import app.model.matrix.RandomMatrixCreator;
-import app.model.matrix.UndirectedGraphMatrixCreator;
+import app.model.matrix.dataSuppliers.DirectedGraphMatrixCreator;
+import app.model.matrix.dataSuppliers.RandomMatrixCreator;
 import app.utils.Constants;
 
 public class Model {
