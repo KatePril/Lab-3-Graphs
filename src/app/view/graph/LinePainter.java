@@ -19,22 +19,30 @@ public class LinePainter {
     public void paintLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
         g.setColor(getRandomColor());
 
+//        System.out.printf("vertexOne = %d, vertexTwo = %d, arrow = %s\n", vertexOne.getValue(), vertexTwo.getValue(), arrow.name());
         if (vertexOne.getValue().equals(vertexTwo.getValue())) {
+//            System.out.println("case 1");
             paintCycleLine(g, vertexOne, arrow);
         } else if (Math.abs(vertexOne.getY() - vertexTwo.getY()) == Direction.DOWN.y) {
+//            System.out.println("case 2");
             paintLineDistOneY(g, vertexOne, vertexTwo, arrow);
         } else if (Math.abs(vertexOne.getValue() - vertexTwo.getValue()) == middleIndicator) {
+//            System.out.println("case 3");
             paintLineAvoidingMiddle(g, vertexOne, vertexTwo, arrow);
         }
         else if (Math.abs(vertexOne.getX() - vertexTwo.getX()) == Direction.RIGHT.x
                 || Math.abs(vertexOne.getX() - vertexTwo.getX()) == Math.abs(Direction.FIRST_LEFT.x)) {
+//            System.out.println("case 4");
             paintLineDistOneX(g, vertexOne, vertexTwo, arrow);
         }
         else if (vertexOne.getX().equals(vertexTwo.getX())) {
+//            System.out.println("case 5");
             paintSameXLine(g, vertexOne, vertexTwo, arrow);
         } else if (vertexOne.getY().equals(vertexTwo.getY())) {
+//            System.out.println("case 6");
             paintSameYLine(g, vertexOne, vertexTwo, arrow);
         } else {
+//            System.out.println("case 7");
             paintFreeConditionLine(g, vertexOne, vertexTwo, arrow);
         }
     }
@@ -128,14 +136,14 @@ public class LinePainter {
         } else {
             int x3 = (Math.abs(vertexOne.getX() - vertexTwo.getX()) / 2) + Math.min(vertexOne.getX(), vertexTwo.getX());
             int y3 = y1 - vertexOne.getSIZE();
-            drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y1);
+            drawPolygonalLine(g, arrow, x1, y1, x2, y2, x3, y3);
         }
     }
 
     private void paintSameXLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, Arrow arrow) {
         int x1 = vertexOne.getX() + vertexOne.getSIZE() / 2;
         int x2 = vertexTwo.getX() + vertexTwo.getSIZE() / 2;
-        int y1 = vertexOne.getY();
+        int y1 = vertexOne.getY() + vertexOne.getSIZE();
         int y2 = vertexTwo.getY();
 
         int x3 = vertexOne.getX() - vertexOne.getSIZE();
@@ -192,14 +200,31 @@ public class LinePainter {
             executeDrawArrow(g, arrow, Arrow.VERTEX_ONE, x3, y3, x1, y1);
             executeDrawArrow(g, arrow, Arrow.VERTEX_TWO, x3, y3, x2, y2);
         } else {
-            int dist = 17;
-            g.drawLine(x1, y1, x3, y3 + dist);
-            g.drawLine(x3, y3 + dist, x2, y2);
-            executeDrawArrow(g, arrow, Arrow.VERTEX_ONE, x3, y3 + dist, x1, y1);
+            int dist = 25;
+            int x3_l1_dist = x3;
+            int y3_l1_dist = y3;
+            int x3_l2_dist = x3;
+            int y3_l2_dist = y3;
 
-            g.drawLine(x1, y1, x3, y3 - dist);
-            g.drawLine(x3, y3 - dist, x2, y2);
-            executeDrawArrow(g, arrow, Arrow.VERTEX_TWO, x3, y3 - dist, x2, y2);
+            if (x1 == x2) {
+                x3_l1_dist = x3 - dist;
+                x3_l2_dist = x3 + dist;
+            } else if (y1 == y2) {
+                y3_l1_dist = y3 + dist;
+                y3_l2_dist = y3 - dist;
+            } else {
+                x3_l1_dist = x3 - dist;
+                y3_l1_dist = y3 + dist;
+                x3_l2_dist = x3 + dist * 2;
+                y3_l2_dist = y3 + dist * 2;
+            }
+            g.drawLine(x1, y1, x3_l1_dist, y3_l1_dist);
+            g.drawLine(x3_l1_dist, y3_l1_dist, x2, y2);
+            executeDrawArrow(g, arrow, Arrow.VERTEX_ONE, x3_l1_dist, y3_l1_dist, x1, y1);
+
+            g.drawLine(x1, y1, x3_l2_dist, y3_l2_dist);
+            g.drawLine(x3_l2_dist, y3_l2_dist, x2, y2);
+            executeDrawArrow(g, arrow, Arrow.VERTEX_TWO, x3_l2_dist, y3_l2_dist, x2, y2);
         }
     }
 
@@ -243,11 +268,23 @@ public class LinePainter {
     }
 
     private boolean rotateArrow(Arrow arrow, double angle) {
-        return (arrow.equals(Arrow.VERTEX_TWO) &&
-                ((angle > -38 && angle < -37) || (angle > -30 && angle < -11) || (angle > 0 && angle < 10) || (angle > 15 && angle < 55) || (angle > 60 && angle < 70)))
-                || (arrow.equals(Arrow.VERTEX_ONE)
-                && (angle < -30 || (angle > -26 && angle < -16) || (angle > -15 && angle < -11) || (angle > -10 && angle < 0)));
+//        System.out.printf("\tarrow = %s, angle = %f\n", arrow.name(), angle);
+        return (arrow.equals(Arrow.VERTEX_TWO) && checkVertexTwoAngle(angle))
+                || (arrow.equals(Arrow.VERTEX_ONE) &&  checkVertexOneAngle(angle));
     }
+
+    private boolean checkVertexTwoAngle(double angle) {
+        return (angle < -75 || (angle > -65 && angle < -51) || (angle > -38 && angle < -37)
+                || (angle > -30 && angle < -11) || (angle > 0 && angle < 12)
+                || (angle > 16 && angle < 55) || (angle > 60 && angle < 75));
+    }
+
+    private boolean checkVertexOneAngle(double angle) {
+        return (angle < -30 || (angle > -26 && angle < -15) || (angle > -14 && angle < -11)
+                || (angle > -10 && angle < -9) || (angle > -6 && angle < 0)
+                || (angle > 11 && angle < 12) || (angle > 44 && angle < 46));
+    }
+
 
     private Color getRandomColor() {
         return new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256));
