@@ -8,7 +8,7 @@ public class Controller {
     private final View<Integer> view = new View<>();
 
     public void displayDirectedGraph() {
-        view.printMatrix("Directed graph matrix", model.getDirectedGraphMatrix());
-        view.drawDirectedGraph(model.getDirectedGraphMatrix());
+        view.printMatrix("Undirected graph matrix", model.getUndirectedGraphMatrix());
+        view.drawUndirectedGraph(model.getUndirectedGraphMatrix());
     }
 }

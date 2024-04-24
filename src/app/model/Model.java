@@ -2,6 +2,7 @@ package app.model;
 
 import app.model.matrix.dataSuppliers.DirectedGraphMatrixCreator;
 import app.model.matrix.dataSuppliers.RandomMatrixCreator;
+import app.model.matrix.dataSuppliers.UndirectedGraphMatrixCreator;
 import app.model.matrix.weightMatrix.WeightMatrixCreator;
 import app.utils.Constants;
 
@@ -9,14 +10,16 @@ public class Model {
     private final int n;
     private final Double[][] matrix;
     private final Integer[][] directedGraphMatrix;
+    private final Integer[][] undirectedGraphMatrix;
 
     public Model() {
         this.n = calculateVerticesNumber();
         matrix = new RandomMatrixCreator(this.n).getMatrix();
 
         directedGraphMatrix = createDirectedGraphMatrix();
+        undirectedGraphMatrix = createUndirectedGraphMatrix();
 
-        WeightMatrixCreator weightMatrixCreator = new WeightMatrixCreator(directedGraphMatrix);
+        WeightMatrixCreator weightMatrixCreator = new WeightMatrixCreator(undirectedGraphMatrix);
         weightMatrixCreator.getWeightMatrix();
     }
 
@@ -24,6 +27,12 @@ public class Model {
         DirectedGraphMatrixCreator directedGraphMatrixCreator = new DirectedGraphMatrixCreator(matrix);
         return directedGraphMatrixCreator.getGraphMatrix();
     }
+
+    private Integer[][] createUndirectedGraphMatrix() {
+        UndirectedGraphMatrixCreator undirectedGraphMatrixCreator = new UndirectedGraphMatrixCreator(directedGraphMatrix);
+        return undirectedGraphMatrixCreator.getGraphMatrix();
+    }
+
 
     private int calculateVerticesNumber() {
         return 10 + Constants.n3;
@@ -35,5 +44,9 @@ public class Model {
 
     public Integer[][] getDirectedGraphMatrix() {
         return directedGraphMatrix;
+    }
+
+    public Integer[][] getUndirectedGraphMatrix() {
+        return undirectedGraphMatrix;
     }
 }

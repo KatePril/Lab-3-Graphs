@@ -18,15 +18,15 @@ public class WeightMatrixCreator {
         this.matrixA = matrixA;
     }
 
-    public Double[][] getWeightMatrix() {
+    public Integer[][] getWeightMatrix() {
         Double[][] matrixB = getMatrixB();
-        Double[][] matrixC = getMatrixC(matrixB);
+        Integer[][] matrixC = getMatrixC(matrixB);
         Integer[][] matrixD = getMatrixD(matrixC);
         Integer[][] matrixH = getMatrixH(matrixD);
         Integer[][] matrixTr = TrMatrixCreator.getTrMatrix(matrixA.length);
-        Double[][] matrixW = getMatrixW(matrixC, matrixD, matrixH, matrixTr);
+        Integer[][] matrixW = getMatrixW(matrixC, matrixD, matrixH, matrixTr);
 
-        MatrixPrinter<Double> matrixPrinter = new MatrixPrinter<>();
+        MatrixPrinter<Integer> matrixPrinter = new MatrixPrinter<>();
         matrixPrinter.printMatrix(matrixW);
 
         return matrixW;
@@ -37,14 +37,25 @@ public class WeightMatrixCreator {
         return randomMatrixCreator.getMatrix();
     }
 
-    private Double[][] getMatrixC(Double[][] matrixB) {
+    private Integer[][] getMatrixC(Double[][] matrixB) {
         ScalarMultiplier<Integer> scalarMultiplier = new ScalarMultiplier<>();
-        return scalarMultiplier.scalarMultiply(MatrixCalculator.multiplyElementWise(matrixA, matrixB), 100);
+        Double[][] c = scalarMultiplier.scalarMultiply(MatrixCalculator.multiplyElementWise(matrixA, matrixB), 100);
+
+        Integer[][] matrixC = new Integer[c.length][c[0].length];
+        for (int i = 0; i < c.length; i++) {
+            for (int j = 0; j < c[0].length; j++) {
+                matrixC[i][j] = c[i][j].intValue();
+                if (matrixC[i][j] != 0) {
+                    matrixC[i][j] += 1;
+                }
+            }
+        }
+        return matrixC;
     }
 
-    private Integer[][] getMatrixD(Double[][] matrixC) {
-        Predicate<Double> condition = (el) -> el == 0.0;
-        BoolTransformer<Double> boolTransformer = new BoolTransformer<>(condition);
+    private Integer[][] getMatrixD(Integer[][] matrixC) {
+        Predicate<Integer> condition = (el) -> el == 0.0;
+        BoolTransformer<Integer> boolTransformer = new BoolTransformer<>(condition);
         return boolTransformer.getBoolMatrix(matrixC);
     }
 
@@ -54,15 +65,12 @@ public class WeightMatrixCreator {
         return biBoolTransformer.getBoolMatrix(matrixD);
     }
 
-    private Double[][] getMatrixW(Double[][] c, Integer[][] d, Integer[][] h, Integer[][] tr) {
-        Double[][] w = new Double[c.length][c[0].length];
+    private Integer[][] getMatrixW(Integer[][] c, Integer[][] d, Integer[][] h, Integer[][] tr) {
+        Integer[][] w = new Integer[c.length][c[0].length];
         int k = 0;
         for (int i = 0; i < w.length; i++) {
             for (int j = k; j < w.length; j++) {
-                Double value = (d[i][j] + h[i][j] * tr[i][j]) * c[i][j];
-//                if (value.equals(0.0)) {
-//                    value = (d[j][i] + h[j][i] * tr[j][i]) * c[j][i];
-//                }
+                int value = (d[i][j] + h[i][j] * tr[i][j]) * c[i][j];
                 w[i][j] = value;
                 w[j][i] = value;
             }
