@@ -46,7 +46,7 @@ public class UndirectedGraphFrame extends JFrame {
             Integer[] tmpArr = graphMatrix[i];
             for (int j = k; j < graphMatrix[0].length; j++) {
                 if (tmpArr[j] == 1) {
-                    linePainter.paintLine(g, vertices[i], vertices[j], Arrow.NONE);
+                    linePainter.paintLine(g, vertices[i], vertices[j]);
                 }
             }
             k++;
