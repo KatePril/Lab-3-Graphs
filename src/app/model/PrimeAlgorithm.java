@@ -4,8 +4,6 @@ import app.view.PrimeStagePrinter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class PrimeAlgorithm {
     private final Integer[][] edgesMatrix;
