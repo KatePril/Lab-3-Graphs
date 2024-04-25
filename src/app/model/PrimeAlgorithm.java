@@ -1,5 +1,7 @@
 package app.model;
 
+import app.view.PrimeStagePrinter;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,9 +33,9 @@ public class PrimeAlgorithm {
     private void makeStep() {
         if (includedVertices.isEmpty()) {
             includedVertices.add(0);
+            PrimeStagePrinter.printStage(0, includedVertices, includedEdges, totalWeight);
         } else {
             Integer activeVertex = includedVertices.getLast();
-            System.out.println("active vertex: " + activeVertex);
             Integer minWeight = 0;
             Integer vertexTwo = null;
             for (int i = 0; i < edgesMatrix[activeVertex].length; i++) {
@@ -53,12 +55,8 @@ public class PrimeAlgorithm {
                 addEdge(activeVertex, vertexTwo);
             }
             totalWeight += minWeight;
-            System.out.println("minWeight: " + minWeight);
+            PrimeStagePrinter.printStage(minWeight, includedVertices, includedEdges, totalWeight);
         }
-        System.out.println("includedVertices: " + includedVertices);
-        System.out.println("includedEdges: " + includedEdges);
-        System.out.println("totalWeight: " + totalWeight);
-        System.out.println();
     }
 
     private boolean isSpanningTreeCompleted() {

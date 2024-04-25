@@ -24,12 +24,8 @@ public class WeightMatrixCreator {
         Integer[][] matrixD = getMatrixD(matrixC);
         Integer[][] matrixH = getMatrixH(matrixD);
         Integer[][] matrixTr = TrMatrixCreator.getTrMatrix(matrixA.length);
-        Integer[][] matrixW = getMatrixW(matrixC, matrixD, matrixH, matrixTr);
 
-        MatrixPrinter<Integer> matrixPrinter = new MatrixPrinter<>();
-        matrixPrinter.printMatrix(matrixW);
-
-        return matrixW;
+        return getMatrixW(matrixC, matrixD, matrixH, matrixTr);
     }
 
     private Double[][] getMatrixB() {

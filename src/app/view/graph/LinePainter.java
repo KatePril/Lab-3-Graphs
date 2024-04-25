@@ -20,30 +20,22 @@ public class LinePainter {
     public void paintLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, int weight, Arrow arrow) {
         g.setColor(getRandomColor());
 
-        System.out.printf("vertexOne = %d, vertexTwo = %d, weight = %d\n", vertexOne.getValue(), vertexTwo.getValue(), weight);
         if (vertexOne.getValue().equals(vertexTwo.getValue())) {
-            System.out.println("case 1");
             paintCycleLine(g, vertexOne, weight, arrow);
         } else if (Math.abs(vertexOne.getY() - vertexTwo.getY()) == Direction.DOWN.y) {
-            System.out.println("case 2");
             paintLineDistOneY(g, vertexOne, vertexTwo, weight, arrow);
         } else if (Math.abs(vertexOne.getValue() - vertexTwo.getValue()) == middleIndicator) {
-            System.out.println("case 3");
             paintLineAvoidingMiddle(g, vertexOne, vertexTwo, weight, arrow);
         }
         else if (Math.abs(vertexOne.getX() - vertexTwo.getX()) == Direction.RIGHT.x
                 || Math.abs(vertexOne.getX() - vertexTwo.getX()) == Math.abs(Direction.FIRST_LEFT.x)) {
-            System.out.println("case 4");
             paintLineDistOneX(g, vertexOne, vertexTwo, weight, arrow);
         }
         else if (vertexOne.getX().equals(vertexTwo.getX())) {
-            System.out.println("case 5");
             paintSameXLine(g, vertexOne, vertexTwo, weight, arrow);
         } else if (vertexOne.getY().equals(vertexTwo.getY())) {
-            System.out.println("case 6");
             paintSameYLine(g, vertexOne, vertexTwo, weight, arrow);
         } else {
-            System.out.println("case 7");
             paintNoConditionLine(g, vertexOne, vertexTwo, weight, arrow);
         }
     }
@@ -263,7 +255,6 @@ public class LinePainter {
     }
 
     private boolean rotateArrow(Arrow arrow, double angle) {
-        System.out.printf("\tarrow = %s, angle = %f\n", arrow.name(), angle);
         return (arrow.equals(Arrow.VERTEX_TWO) && checkVertexTwoAngle(angle))
                 || (arrow.equals(Arrow.VERTEX_ONE) &&  checkVertexOneAngle(angle));
     }
@@ -301,9 +292,5 @@ public class LinePainter {
 
     private Color getRandomColor() {
         return new Color(colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256), colorGenerator.nextInt(0, 256));
-    }
-
-    private Font getFont() {
-        return  new Font("Calibry", Font.BOLD, 16);
     }
 }

@@ -41,15 +41,5 @@ public class DirectedWeightedGraph extends WeightedGraphFrame {
         for (ArrayList<Integer> edge : edges) {
             linePainter.paintLine(g, vertices[edge.get(0)], vertices[edge.get(1)], weightMatrix[edge.get(0)][edge.get(1)], Arrow.VERTEX_TWO);
         }
-//        int k = 0;
-//        for (int i = 0; i < graphMatrix.length; i++) {
-//            Integer[] tmpArr = graphMatrix[i];
-//            for (int j = k; j < graphMatrix[0].length; j++) {
-//                if (tmpArr[j] == 1) {
-//                    linePainter.paintLine(g, vertices[i], vertices[j], weightMatrix[i][j], Arrow.NONE);
-//                }
-//            }
-//            k++;
-//        }
     }
 }
