@@ -1,6 +1,5 @@
 package app.view.graph;
 
-import app.entity.Vertex;
 import app.enums.Arrow;
 
 import java.awt.*;

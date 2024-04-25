@@ -16,7 +16,6 @@ public class PrimeAlgorithm {
     public PrimeAlgorithm(Integer[][] edgesMatrix, Integer[][] weightMatrix) {
         this.edgesMatrix = edgesMatrix;
         this.edgesList = MatrixToListConverter.convertUndirectedMatrix(edgesMatrix);
-        System.out.println(edgesList);
         this.weightMatrix = weightMatrix;
         this.includedVertices = new LinkedList<>();
         this.includedEdges = new ArrayList<>();

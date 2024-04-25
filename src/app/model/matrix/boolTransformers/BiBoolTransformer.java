@@ -1,7 +1,6 @@
 package app.model.matrix.boolTransformers;
 
 import java.util.function.BiPredicate;
-import java.util.function.Predicate;
 
 public class BiBoolTransformer<T extends Number> {
 
