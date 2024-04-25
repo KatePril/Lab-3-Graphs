@@ -25,10 +25,6 @@ public class PrimeAlgorithm {
             makeStep();
             output = true;
         }
-//        while (includedVertices.size() != 10) {
-//            makeStep();
-//            output = true;
-//        }
         return  output;
     }
 

@@ -1,13 +1,14 @@
 package app.view.graph;
 
 import app.entity.Vertex;
+import app.utils.Constants;
 
 import java.awt.*;
 
 public class VertexPainter {
     public void paintNode(Graphics g, Vertex vertex){
         g.setColor(Color.BLACK);
-        g.drawOval(vertex.getX(), vertex.getY(), vertex.getSIZE(), vertex.getSIZE());
+        g.drawOval(vertex.getX(), vertex.getY(), Constants.DIAMETER, Constants.DIAMETER);
 
         g.setColor(Color.BLACK);
         Font font = new Font("Calibry", Font.BOLD, 18);

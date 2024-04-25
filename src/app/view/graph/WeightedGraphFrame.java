@@ -1,6 +1,7 @@
 package app.view.graph;
 
 import app.entity.Vertex;
+import app.enums.Arrow;
 
 import java.awt.*;
 
@@ -20,7 +21,7 @@ public class WeightedGraphFrame extends UndirectedGraphFrame {
             Integer[] tmpArr = graphMatrix[i];
             for (int j = k; j < graphMatrix[0].length; j++) {
                 if (tmpArr[j] == 1) {
-                    linePainter.paintLine(g, vertices[i], vertices[j], weightMatrix[i][j]);
+                    linePainter.paintLine(g, vertices[i], vertices[j], weightMatrix[i][j], Arrow.NONE);
                 }
             }
             k++;

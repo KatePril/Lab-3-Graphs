@@ -8,6 +8,7 @@ public final class Constants {
 
     public final static int FRAME_WIDTH = 1300;
     public final static int FRAME_HEIGHT = 1000;
-
+    public final static Integer DIAMETER = 50;
+    public final static Integer RADIUS = DIAMETER / 2;
     public final static int DISTANCE = 300;
 }
