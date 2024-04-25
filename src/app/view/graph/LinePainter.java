@@ -2,6 +2,7 @@ package app.view.graph;
 
 import app.enums.Direction;
 import app.entity.Vertex;
+import app.utils.Constants;
 
 import java.awt.*;
 import java.util.Random;
@@ -185,6 +186,12 @@ public class LinePainter {
     private void printWeightOnStraightLine(Graphics g, int weight, int x1, int y1, int x2, int y2) {
         int x = (Math.abs(x1 - x2) / 2) + Math.min(x1, x2);
         int y = (Math.abs(y1 - y2) / 2) + Math.min(y1, y2);
+        System.out.printf("\tx1 = %d, y1 = %d;\n\tx2 = %d, y2 = %d;\n\tx = %d, y = %d;\n", x1, y1, x2, y2, x, y);
+        if (x1 - x2 > 0 && Math.abs(y1 - y2) != (Constants.DISTANCE-50)) {
+            x -= 15;
+            y -= 15;
+        }
+
         System.out.printf("\tx1 = %d, y1 = %d;\n\tx2 = %d, y2 = %d;\n\tx = %d, y = %d;\n", x1, y1, x2, y2, x, y);
 
         g.drawString(String.valueOf(weight), x, y);
