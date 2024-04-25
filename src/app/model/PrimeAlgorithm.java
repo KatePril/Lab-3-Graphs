@@ -21,7 +21,7 @@ public class PrimeAlgorithm {
 
     public boolean buildTree() {
         boolean output = false;
-        while (!isSpanningTreeCompleted()) {
+        if (!isSpanningTreeCompleted()) {
             makeStep();
             output = true;
         }
@@ -79,5 +79,13 @@ public class PrimeAlgorithm {
             }
         }
         return output;
+    }
+
+    public ArrayList<ArrayList<Integer>> getIncludedEdges() {
+        return includedEdges;
+    }
+
+    public int getTotalWeight() {
+        return totalWeight;
     }
 }

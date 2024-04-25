@@ -22,9 +22,6 @@ public class Model {
 
         WeightMatrixCreator weightMatrixCreator = new WeightMatrixCreator(undirectedGraphMatrix);
         weightMatrix = weightMatrixCreator.getWeightMatrix();
-
-        PrimeAlgorithm primeAlgorithm = new PrimeAlgorithm(undirectedGraphMatrix, weightMatrix);
-        primeAlgorithm.buildTree();
     }
 
     private Integer[][] createDirectedGraphMatrix() {

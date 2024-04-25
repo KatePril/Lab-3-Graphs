@@ -1,5 +1,6 @@
 package app.view;
 
+import app.view.graph.DirectedWeightedGraph;
 import app.view.graph.UndirectedGraphFrame;
 import app.view.graph.WeightedGraphFrame;
 import app.view.matrix.MatrixPrinter;
@@ -17,6 +18,10 @@ public class View<T> {
 
     public void drawWeightedGraph(Integer[][] matrix, Integer[][] weightMatrix) {
         new WeightedGraphFrame("Weighted graph", matrix, weightMatrix);
+    }
+
+    public void drawTree(Integer[][] matrix, Integer[][] weightMatrix) {
+        new DirectedWeightedGraph("Prime tree", matrix, weightMatrix);
     }
 
 }

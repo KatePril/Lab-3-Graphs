@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class WeightedGraphFrame extends UndirectedGraphFrame {
 
-    private final Integer[][] weightMatrix;
+    protected final Integer[][] weightMatrix;
 
     public WeightedGraphFrame(String title, Integer[][] graphMatrix, Integer[][] weightMatrix) throws HeadlessException {
         super(title, graphMatrix);
@@ -15,7 +15,7 @@ public class WeightedGraphFrame extends UndirectedGraphFrame {
     }
 
     @Override
-    protected void paintLines(Graphics g, Vertex[] vertices, Integer[][] graphMatrix) {
+    protected void paintLines(Graphics g) {
         int k = 0;
         for (int i = 0; i < graphMatrix.length; i++) {
             Integer[] tmpArr = graphMatrix[i];

@@ -11,5 +11,6 @@ public class Controller {
         view.printMatrix("Undirected graph matrix", model.getUndirectedGraphMatrix());
         view.printMatrix("Weighted graph matrix", model.getWeightMatrix());
         view.drawWeightedGraph(model.getUndirectedGraphMatrix(), model.getWeightMatrix());
+        view.drawTree(model.getUndirectedGraphMatrix(), model.getWeightMatrix());
     }
 }

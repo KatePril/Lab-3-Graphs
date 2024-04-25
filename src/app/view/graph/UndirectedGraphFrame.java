@@ -10,8 +10,9 @@ import java.awt.*;
 
 public class UndirectedGraphFrame extends JFrame {
 
-    private Integer[][] graphMatrix;
-    private VertexPainter vertexPainter = new VertexPainter();
+    protected final Integer[][] graphMatrix;
+    protected final Vertex[] vertices;
+    private final VertexPainter vertexPainter = new VertexPainter();
     protected LinePainter linePainter;
 
 
@@ -19,6 +20,7 @@ public class UndirectedGraphFrame extends JFrame {
         super(title);
 
         this.graphMatrix = graphMatrix;
+        this.vertices = GraphCreator.createVerticesArray(graphMatrix.length);
         linePainter = new LinePainter(graphMatrix.length);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,18 +31,17 @@ public class UndirectedGraphFrame extends JFrame {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        Vertex[] arr = GraphCreator.createVerticesArray(graphMatrix.length);
-        paintNodes(g, arr);
-        paintLines(g, arr, graphMatrix);
+        paintNodes(g);
+        paintLines(g);
     }
 
-    private void paintNodes(Graphics g, Vertex[] vertices) {
+    private void paintNodes(Graphics g) {
         for (Vertex vertex : vertices) {
             vertexPainter.paintNode(g, vertex);
         }
     }
 
-    protected void paintLines(Graphics g, Vertex[] vertices, Integer[][] graphMatrix) {
+    protected void paintLines(Graphics g) {
         int k = 0;
         for (int i = 0; i < graphMatrix.length; i++) {
             Integer[] tmpArr = graphMatrix[i];
