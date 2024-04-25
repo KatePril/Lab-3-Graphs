@@ -5,16 +5,20 @@ import app.view.PrimeStagePrinter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class PrimeAlgorithm {
     private final Integer[][] edgesMatrix;
     private final Integer[][] weightMatrix;
     private final LinkedList<Integer> includedVertices;
+    private final ArrayList<ArrayList<Integer>> edgesList;
     private final ArrayList<ArrayList<Integer>> includedEdges;
     private int totalWeight;
 
     public PrimeAlgorithm(Integer[][] edgesMatrix, Integer[][] weightMatrix) {
         this.edgesMatrix = edgesMatrix;
+        this.edgesList = MatrixToListConverter.convertUndirectedMatrix(edgesMatrix);
+        System.out.println(edgesList);
         this.weightMatrix = weightMatrix;
         this.includedVertices = new LinkedList<>();
         this.includedEdges = new ArrayList<>();
@@ -30,42 +34,50 @@ public class PrimeAlgorithm {
         return  output;
     }
 
+    private boolean isSpanningTreeCompleted() {
+        return edgesMatrix.length == includedVertices.size();
+    }
+
     private void makeStep() {
         if (includedVertices.isEmpty()) {
             includedVertices.add(0);
             PrimeStagePrinter.printStage(0, includedVertices, includedEdges, totalWeight);
         } else {
-            Integer activeVertex = includedVertices.getLast();
+            ArrayList<ArrayList<Integer>> edgesWithActiveVertex = getEdgesWithActiveVertex(includedVertices.getLast());
             Integer minWeight = 0;
-            Integer vertexTwo = null;
-            for (int i = 0; i < edgesMatrix[activeVertex].length; i++) {
-                if (activeVertex != i && edgesMatrix[activeVertex][i] == 1 && !isVertexIncluded(i)) {
+            ArrayList<Integer> minEdge = null;
+
+            for (ArrayList<Integer> edge : edgesWithActiveVertex) {
+                if (!isVertexIncluded(edge.get(1))) {
                     if (minWeight == 0) {
-                        minWeight = weightMatrix[activeVertex][i];
-                        vertexTwo = i;
+                        minWeight = weightMatrix[edge.get(0)][edge.get(1)];
+                        minEdge = edge;
                         continue;
                     }
-                    if (weightMatrix[activeVertex][i] < minWeight) {
-                        minWeight = weightMatrix[activeVertex][i];
-                        vertexTwo = i;
+                    if (weightMatrix[edge.get(0)][edge.get(1)] < minWeight) {
+                        minWeight = weightMatrix[edge.get(0)][edge.get(1)];
+                        minEdge = edge;
                     }
                 }
             }
-            if (vertexTwo != null) {
-                addEdge(activeVertex, vertexTwo);
+
+            if (minEdge != null) {
+                includedVertices.add(minEdge.get(1));
+                includedEdges.add(minEdge);
             }
+
             totalWeight += minWeight;
             PrimeStagePrinter.printStage(minWeight, includedVertices, includedEdges, totalWeight);
         }
     }
 
-    private boolean isSpanningTreeCompleted() {
-        return edgesMatrix.length == includedVertices.size();
-    }
-
-    private void addEdge(Integer vertexOne, Integer vertexTwo) {
-        includedVertices.add(vertexTwo);
-        includedEdges.add(new ArrayList<>(List.of(vertexOne, vertexTwo)));
+    private ArrayList<ArrayList<Integer>> getEdgesWithActiveVertex(Integer activeVertex) {
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        for (ArrayList<Integer> edge : edgesList) {
+            if (edge.get(0).equals(activeVertex))
+                list.add(edge);
+        }
+        return list;
     }
 
     private boolean isVertexIncluded(Integer vertex) {
