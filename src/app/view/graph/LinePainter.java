@@ -108,8 +108,8 @@ public class LinePainter {
             int y2 = vertexTwo.getY() + Constants.RADIUS;
 
             if (arrow != Arrow.BOTH_VERTICES) {
-                if (arrow.equals(Arrow.VERTEX_ONE))
-                    arrow = Arrow.VERTEX_TWO;
+                if (vertexOne.getValue() < vertexTwo.getValue())
+                    arrow = Arrow.VERTEX_ONE;
                 drawStraightLine(g, arrow, x1, y1, x2, y2);
                 printWeightOnStraightLine(g, weight, x1, y1, x2, y2);
             } else {
@@ -165,8 +165,8 @@ public class LinePainter {
     private void paintSameXLine(Graphics g, Vertex vertexOne, Vertex vertexTwo, int weight, Arrow arrow) {
         int x1 = vertexOne.getX() + Constants.RADIUS;
         int x2 = vertexTwo.getX() + Constants.RADIUS;
-        int y1 = vertexOne.getY() + Constants.DIAMETER;
-        int y2 = vertexTwo.getY();
+        int y1 = vertexOne.getY();
+        int y2 = vertexTwo.getY() + Constants.DIAMETER;
 
         int x3 = vertexOne.getX() - Constants.DIAMETER;
         int y3 = calculateY3(y1, y2);
@@ -263,15 +263,15 @@ public class LinePainter {
     }
 
     private boolean rotateArrow(Arrow arrow, double angle) {
-//        System.out.printf("\tarrow = %s, angle = %f\n", arrow.name(), angle);
+        System.out.printf("\tarrow = %s, angle = %f\n", arrow.name(), angle);
         return (arrow.equals(Arrow.VERTEX_TWO) && checkVertexTwoAngle(angle))
                 || (arrow.equals(Arrow.VERTEX_ONE) &&  checkVertexOneAngle(angle));
     }
 
     private boolean checkVertexTwoAngle(double angle) {
-        return (angle < -75 || (angle > -65 && angle < -51) || (angle > -38 && angle < -37)
+        return (angle < -74 || (angle > -65 && angle < -51) || (angle > -40 && angle < -37)
                 || (angle > -30 && angle < -11) || (angle > 0 && angle < 12)
-                || (angle > 16 && angle < 55) || (angle > 60 && angle < 75));
+                || (angle > 16 && angle < 55) || (angle > 60 && angle < 75) || angle > 89);
     }
 
     private boolean checkVertexOneAngle(double angle) {
@@ -283,13 +283,10 @@ public class LinePainter {
     private void printWeightOnStraightLine(Graphics g, int weight, int x1, int y1, int x2, int y2) {
         int x = (Math.abs(x1 - x2) / 2) + Math.min(x1, x2);
         int y = (Math.abs(y1 - y2) / 2) + Math.min(y1, y2);
-        System.out.printf("\tx1 = %d, y1 = %d;\n\tx2 = %d, y2 = %d;\n\tx = %d, y = %d;\n", x1, y1, x2, y2, x, y);
         if (x1 - x2 > 0 && Math.abs(y1 - y2) != (Constants.DISTANCE - 50)) {
             x -= 15;
             y -= 15;
         }
-
-        System.out.printf("\tx1 = %d, y1 = %d;\n\tx2 = %d, y2 = %d;\n\tx = %d, y = %d;\n", x1, y1, x2, y2, x, y);
 
         g.drawString(String.valueOf(weight), x, y);
     }
