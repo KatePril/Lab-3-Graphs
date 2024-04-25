@@ -37,7 +37,7 @@ public class PrimeAlgorithm {
 
     private void makeStep() {
         if (includedVertices.isEmpty()) {
-            includedVertices.add(0);
+            includedVertices.add(edgesList.get(0).get(0));
             PrimeStagePrinter.printStage(0, includedVertices, includedEdges, totalWeight);
         } else {
             ArrayList<ArrayList<Integer>> edgesWithActiveVertex = getEdgesWithActiveVertex(includedVertices.getLast());
