@@ -40,20 +40,23 @@ public class PrimeAlgorithm {
             includedVertices.add(edgesList.get(0).get(0));
             PrimeStagePrinter.printStage(0, includedVertices, includedEdges, totalWeight);
         } else {
-            ArrayList<ArrayList<Integer>> edgesWithActiveVertex = getEdgesWithActiveVertex(includedVertices.getLast());
             Integer minWeight = 0;
             ArrayList<Integer> minEdge = null;
+            for (Integer vertex: includedVertices) {
+                ArrayList<ArrayList<Integer>> edgesWithActiveVertex = getEdgesWithActiveVertex(vertex);
 
-            for (ArrayList<Integer> edge : edgesWithActiveVertex) {
-                if (!isVertexIncluded(edge.get(1))) {
-                    if (minWeight == 0) {
-                        minWeight = weightMatrix[edge.get(0)][edge.get(1)];
-                        minEdge = edge;
-                        continue;
-                    }
-                    if (weightMatrix[edge.get(0)][edge.get(1)] < minWeight) {
-                        minWeight = weightMatrix[edge.get(0)][edge.get(1)];
-                        minEdge = edge;
+
+                for (ArrayList<Integer> edge : edgesWithActiveVertex) {
+                    if (!isVertexIncluded(edge.get(1))) {
+                        if (minWeight == 0) {
+                            minWeight = weightMatrix[edge.get(0)][edge.get(1)];
+                            minEdge = edge;
+                            continue;
+                        }
+                        if (weightMatrix[edge.get(0)][edge.get(1)] < minWeight) {
+                            minWeight = weightMatrix[edge.get(0)][edge.get(1)];
+                            minEdge = edge;
+                        }
                     }
                 }
             }
