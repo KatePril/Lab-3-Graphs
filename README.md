@@ -1,1 +1,1 @@
-Lab 3 for subject "Algorithms and data structures. Part 2"
+Lab 6 for subject "Algorithms and data structures. Part 2"
